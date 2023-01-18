@@ -5,6 +5,7 @@ import { loginWithGithub, onAuthStateChange } from '@/firebase/client'
 import AppLayout from '@/components/app/AppLayout'
 import Button from '@/components/app/Button'
 import Hero from '@/components/pages/index/Hero'
+import Avatar from '@/components/app/Avatar'
 
 export default function Home () {
   const [user, setUser] = useState(undefined)
@@ -15,11 +16,10 @@ export default function Home () {
 
   const handleLogin = () => {
     loginWithGithub()
-      .then(user => {
-        setUser(user)
-      })
       .catch(err => console.log(err))
   }
+
+  console.log(user)
 
   return (
     <AppLayout>
@@ -29,10 +29,7 @@ export default function Home () {
           <Button onClick={handleLogin}>Join us with GitHub</Button>
         )}
         {user && (
-          <div className="flex gap-1 items-center">
-            <img src={user.photo} className="w-8 rounded-full" />
-            <strong>{user.name}</strong>
-          </div>
+          <Avatar src={user.photo} alt={user.name} name={user.name} withText />
         )}
       </main>
     </AppLayout>

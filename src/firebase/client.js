@@ -35,7 +35,7 @@ export const loginWithGithub = () => {
 
 export const onAuthStateChange = onChange => {
   return auth.onAuthStateChanged(user => {
-    const normalizeUser = mapUserFromFirebaseAuth(user)
+    const normalizeUser = user ? mapUserFromFirebaseAuth(user) : null
 
     onChange(normalizeUser)
   })

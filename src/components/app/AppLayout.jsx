@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function AppLayout({ children }) {
+export default function AppLayout ({ children }) {
   return (
     <>
       <Head>

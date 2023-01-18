@@ -6,7 +6,7 @@ import AppLayout from '@/components/app/AppLayout'
 import Button from '@/components/app/Button'
 import Hero from '@/components/pages/index/Hero'
 
-export default function Home() {
+export default function Home () {
   const [user, setUser] = useState(undefined)
 
   useEffect(() => {
@@ -29,9 +29,9 @@ export default function Home() {
           <Button onClick={handleLogin}>Join us with GitHub</Button>
         )}
         {user && (
-          <div>
-            <img src={user.photo} />
-            <p>{user.name}</p>
+          <div className="flex gap-1 items-center">
+            <img src={user.photo} className="w-8 rounded-full" />
+            <strong>{user.name}</strong>
           </div>
         )}
       </main>

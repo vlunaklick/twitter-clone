@@ -7,7 +7,7 @@ const firebaseConfig = {
   projectId: 'concers-30991',
   storageBucket: 'concers-30991.appspot.com',
   messagingSenderId: '22020402225',
-  appId: '1:22020402225:web:d00921e038db1b10117910',
+  appId: '1:22020402225:web:d00921e038db1b10117910'
 }
 
 // TODO: Agregar límite de dominios
@@ -24,7 +24,7 @@ const mapUserFromFirebaseAuth = user => {
     username: screenName,
     name: displayName,
     email,
-    photo: photoURL,
+    photo: photoURL
   }
 }
 

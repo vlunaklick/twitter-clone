@@ -19,7 +19,29 @@ export default function Home () {
   return (
     <AppLayout>
       <Header />
-      <section className='py-[50px]'>
+      <section>
+      {
+        timeline.map(litty => (
+          <Litty
+            key={litty.id}
+            username={litty.username}
+            name={litty.name}
+            avatar={litty.avatar}
+            message={litty.message}
+          />
+        ))
+      }
+      {
+        timeline.map(litty => (
+          <Litty
+            key={litty.id}
+            username={litty.username}
+            name={litty.name}
+            avatar={litty.avatar}
+            message={litty.message}
+          />
+        ))
+      }
       {
         timeline.map(litty => (
           <Litty

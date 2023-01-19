@@ -2,7 +2,7 @@ import Avatar from '../app/Avatar'
 
 export default function Litty ({ name, username, avatar, message }) {
   return (
-    <article className='px-3 py-3 flex gap-2 border-b border-slate-200'>
+    <article className='px-3 py-2 flex gap-2 border-b border-slate-200'>
       <Avatar src={avatar} alt={username} />
       <section>
         <div className='flex gap-1 items-center'>

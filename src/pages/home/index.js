@@ -19,40 +19,7 @@ export default function Home () {
   return (
     <AppLayout>
       <Header />
-      <section className='pb-[50px]'>
-      {
-        timeline.map(litty => (
-          <Litty
-            key={litty.id}
-            username={litty.username}
-            name={litty.name}
-            avatar={litty.avatar}
-            message={litty.message}
-          />
-        ))
-      }
-      {
-        timeline.map(litty => (
-          <Litty
-            key={litty.id}
-            username={litty.username}
-            name={litty.name}
-            avatar={litty.avatar}
-            message={litty.message}
-          />
-        ))
-      }
-      {
-        timeline.map(litty => (
-          <Litty
-            key={litty.id}
-            username={litty.username}
-            name={litty.name}
-            avatar={litty.avatar}
-            message={litty.message}
-          />
-        ))
-      }
+      <section className='min-[520px]:min-h-[calc(90vh-100px)] min-h-[calc(100vh-100px)]'>
       {
         timeline.map(litty => (
           <Litty

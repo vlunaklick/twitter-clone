@@ -1,25 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { loginWithGithub, onAuthStateChange } from '@/firebase/client'
+import { loginWithGithub } from '@/firebase/client'
 
-import AppLayout from '@/components/app/AppLayout'
 import Button from '@/components/app/Button'
 import Hero from '@/components/pages/index/Hero'
 import Spinner from '@/components/addons/Spinner'
-
-const USER_STATES = {
-  NOT_LOGGED: null,
-  NOT_KNOWN: undefined
-}
+import useUser from '@/hooks/useUser'
 
 export default function Home () {
-  const [user, setUser] = useState(USER_STATES.NOT_KNOWN)
+  const { user, USER_STATES } = useUser()
   const router = useRouter()
-
-  useEffect(() => {
-    onAuthStateChange(setUser)
-  }, [])
 
   const handleLogin = () => {
     loginWithGithub()
@@ -33,7 +24,7 @@ export default function Home () {
   }, [user, router])
 
   return (
-    <AppLayout>
+    <>
       <main className="flex items-center flex-col justify-center p-3 gap-7">
         <Hero />
         {
@@ -47,6 +38,6 @@ export default function Home () {
           )
         }
       </main>
-    </AppLayout>
+    </>
   )
 }

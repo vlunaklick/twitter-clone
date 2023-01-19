@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 
-import AppLayout from '@/components/app/AppLayout'
 import Header from '@/components/app/Header'
 import Navbar from '@/components/app/Navbar'
 import Litty from '@/components/pages/Litty'
@@ -17,7 +16,7 @@ export default function Home () {
 
   console.log(timeline)
   return (
-    <AppLayout>
+    <>
       <Header />
       <section className='min-[520px]:min-h-[calc(90vh-100px)] min-h-[calc(100vh-100px)]'>
       {
@@ -33,6 +32,6 @@ export default function Home () {
       }
       </section>
       <Navbar />
-    </AppLayout>
+    </>
   )
 }

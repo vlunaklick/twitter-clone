@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import { getLittys } from '@/firebase/client'
+
 import Header from '@/components/app/Header'
 import Navbar from '@/components/app/Navbar'
 import Litty from '@/components/pages/Litty'
@@ -8,13 +10,13 @@ export default function Home () {
   const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
-    fetch('/api/statuses/home_timeline')
-      .then(data => data.json())
-      .then(res => setTimeline(res))
+    getLittys()
+      .then(setTimeline)
       .catch(err => console.log(err))
   }, [])
 
   console.log(timeline)
+
   return (
     <>
       <Header />
@@ -23,10 +25,11 @@ export default function Home () {
         timeline.map(litty => (
           <Litty
             key={litty.id}
-            username={litty.username}
+            userName={litty.userName}
             name={litty.name}
             avatar={litty.avatar}
-            message={litty.message}
+            content={litty.content}
+            createdAt={litty.createdAt}
           />
         ))
       }

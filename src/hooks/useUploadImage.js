@@ -25,7 +25,6 @@ export default function useUploadImage () {
 
   const handleDragDrop = (e) => {
     e.preventDefault()
-    // TODO: Evitar que se suban cosas que no sean image/files (e.dataTransfer.files[0])
     setDrag(DRAG_IMAGE_STATES.NONE)
     const file = e.dataTransfer.files[0]
     setFile(file)
@@ -45,7 +44,6 @@ export default function useUploadImage () {
   }
 
   const uploadAndGetUrl = (file) => {
-    console.log(file.type)
     if (file.type.match(/image\//)) {
       const src = URL.createObjectURL(file)
       setImgUrl(src)

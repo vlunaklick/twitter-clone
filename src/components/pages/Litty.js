@@ -21,10 +21,12 @@ export default function Litty ({ name, userName, avatar, content, createdAt, lik
           {content}
         </p>
         {img && (
-          <img
-            className='w-full rounded-md mt-2'
-            src={img} alt='Litty image'
-          />
+          <picture className='flex items-centr justify-center max-h-[334px] max-w-[334px] mt-2'>
+            <img
+              className='rounded-md object-contain'
+              src={img} alt='Litty image'
+            />
+          </picture>
         )}
         <footer className='flex gap-8 mt-1'>
           <div className='flex items-center justify-center'>

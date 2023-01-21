@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 import useUser from '@/hooks/useUser'
 import useUploadImage from '@/hooks/useUploadImage'
@@ -7,8 +8,8 @@ import { addLitty } from '@/firebase/client'
 
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
-import Head from 'next/head'
 import UploadImage from '@/components/svg/UploadImage'
+import Avatar from '@/components/app/Avatar'
 
 const COMPOSE_STATES = {
   USER_NOT_KNOW: 0,
@@ -74,28 +75,35 @@ export default function ComposeTweet () {
         </Button>
         <Button onClick={handleSubmit} maxWidth={false} className='ml-auto mr-2' variant={'rounded'} disabled={isButtonDisabbled}>Littiar</Button>
       </header>
-      <form onSubmit={handleSubmit} className={'border-b border-slate-200 p-2'}>
-        <textarea className={'w-full resize-none p-2 outline-none min-h-[140px] border rounded-sm ' +
-        (dragged ? 'border-sky-500 border-dashed' : 'border-transparent')}
-          value={message}
-          onChange={handleChange}
-          maxLength={140}
-          placeholder="¿Qué está pasando?"
-          onDragEnter={handerDragEnter}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDragDrop}
+      <section className='flex gap-1 p-2 border-b border-slate-200'>
+        {
+          user && (
+            <Avatar src={user.avatar} />
+          )
+        }
+        <form onSubmit={handleSubmit} className='w-full'>
+          <textarea className={'w-full resize-none p-2 outline-none min-h-[140px] border rounded-sm ' +
+            (dragged ? 'border-sky-500 border-dashed' : 'border-transparent')}
+              value={message}
+              onChange={handleChange}
+              maxLength={140}
+              placeholder="¿Qué está pasando?"
+              onDragEnter={handerDragEnter}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDragDrop}
           ></textarea>
           {
             imgURL && (
-              <picture className='relative'>
+              <picture className='relative flex items-centr justify-center max-h-[334px] max-w-[334px]'>
                 <button
                   onClick={() => handleRemoveImage()}
-                  className='absolute right-1 top-7 rounded-full text-white bg-slate-900 w-6 h-6 text-xs hover:bg-slate-800 bg-opacity-30 transition-colors'>✖</button>
-                <img src={imgURL} className='rounded' />
+                  className='absolute right-1 top-1 rounded-full text-white bg-slate-900 w-6 h-6 text-xs hover:bg-slate-800 bg-opacity-30 hover:bg-opacity-60 transition-colors'>✖</button>
+                <img src={imgURL} className='rounded object-contain' />
               </picture>
             )
           }
-      </form>
+        </form>
+      </section>
       <section className='flex w-full items-center border-b border-slate-200 p-1 px-4 max-h-[50px] h-full'>
         <input
           type={'file'}

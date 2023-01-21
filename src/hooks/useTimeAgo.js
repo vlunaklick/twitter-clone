@@ -14,24 +14,36 @@ const getDateDiffs = timestamp => {
   for (const [unit, secondsInUnit] of DATE_UNITS) {
     if (Math.abs(elapsed) > secondsInUnit || unit === 'seconds') {
       const value = Math.floor(elapsed / secondsInUnit)
+
       return { value, unit }
     }
   }
 }
 
 export default function useTimeAgo (createdAt) {
-  const [timeAgo, setTimeAgo] = useState(() => getDateDiffs(createdAt))
+  const [timeAgo] = useState(() => getDateDiffs(createdAt))
   const rtf = new Intl.RelativeTimeFormat('es-AR', { style: 'narrow' })
 
-  /* useEffect(() => {
+  /**
+  useEffect(() => {
     const timeOut = setTimeout(() => {
       const newTimeAgo = getDateDiffs(createdAt)
       setTimeAgo(newTimeAgo)
     }, 15000)
 
     return () => clearTimeout(timeOut)
-  }) */
+  })
+  */
+
+  let value = -1
+  let unit = 'seconds'
+
+  if (timeAgo) {
+    value = timeAgo.value
+    unit = timeAgo.unit
+  }
+
   return {
-    timeAgo: rtf.format(timeAgo.value, timeAgo.unit)
+    timeAgo: rtf.format(value, unit)
   }
 }

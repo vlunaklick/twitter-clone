@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 import useUser from '@/hooks/useUser'
 import useUploadImage from '@/hooks/useUploadImage'
-import { addLitty } from '@/firebase/client'
+import { addLitty, uploadImageAndGetURL } from '@/firebase/client'
 
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
@@ -23,7 +23,7 @@ export default function ComposeTweet () {
   const [status, setStatus] = useState(COMPOSE_STATES.USER_NOT_KNOW)
   const [message, setMessage] = useState('')
   const router = useRouter()
-  const { imgURL, dragged, handerDragEnter, handleDragLeave, handleDragDrop, handleRemoveImage, handleUploadImage } = useUploadImage()
+  const { imgURL, file, dragged, handerDragEnter, handleDragLeave, handleDragDrop, handleRemoveImage, handleUploadImage } = useUploadImage()
 
   useEffect(() => {
     if (user === USER_STATES.NOT_LOGGED) {
@@ -43,13 +43,18 @@ export default function ComposeTweet () {
     e.preventDefault()
     setStatus(COMPOSE_STATES.LOADING)
     if (message.length <= 141 && message.length > 0) {
+      let imgUploadedSrc = null
+      if (file) {
+        imgUploadedSrc = await uploadImageAndGetURL(file)
+      }
+
       addLitty({
         userId: user.userId,
         userName: user.userName,
         name: user.name,
         avatar: user.avatar,
         content: message,
-        img: imgURL
+        img: imgUploadedSrc
       })
         .then(data => {
           setMessage('')
@@ -94,7 +99,7 @@ export default function ComposeTweet () {
           ></textarea>
           {
             imgURL && (
-              <picture className='relative flex items-centr justify-center max-h-[334px] max-w-[334px]'>
+              <picture className='relative flex items-centr justify-center max-h-[334px] max-w-[334px] shadow-inner rounded-md bg-slate-50'>
                 <button
                   onClick={() => handleRemoveImage()}
                   className='absolute right-1 top-1 rounded-full text-white bg-slate-900 w-6 h-6 text-xs hover:bg-slate-800 bg-opacity-30 hover:bg-opacity-60 transition-colors'>✖</button>

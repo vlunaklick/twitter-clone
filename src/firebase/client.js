@@ -76,10 +76,10 @@ export const addLitty = async ({ userId, userName, name, avatar, content, img })
       name,
       avatar,
       content,
-      img,
       likesCount: 0,
       sharedCount: 0,
-      createdAt: Timestamp.fromDate(new Date())
+      createdAt: Timestamp.fromDate(new Date()),
+      img
     })
   } catch (e) {
     console.error('Error adding document: ', e)
@@ -102,4 +102,23 @@ export const uploadImage = (file) => {
 export const getImage = async (fileName) => {
   const imgRef = ref(storage, `${fileName}`)
   return await getDownloadURL(imgRef)
+}
+
+export const uploadImageAndGetURL = async (file) => {
+  const task = uploadImage(file)
+  return new Promise((resolve, reject) => {
+    task.on('state_changed', snapshot => {
+      /**
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      console.log(`Upload is ${progress}% done`)
+      */
+    },
+    error => {
+      reject(error)
+    },
+    () => {
+      const imgURL = getImage(`images/${file.name}`)
+      resolve(imgURL)
+    })
+  })
 }

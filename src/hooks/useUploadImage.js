@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react'
-
-import { uploadImage, getImage } from '@/firebase/client'
+import { useState } from 'react'
 
 const DRAG_IMAGE_STATES = {
   ERROR: -1,
@@ -12,21 +10,8 @@ const DRAG_IMAGE_STATES = {
 
 export default function useUploadImage () {
   const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE)
-  const [task, setTask] = useState(null)
+  const [file, setFile] = useState(null)
   const [imgURL, setImgUrl] = useState(null)
-
-  useEffect(() => {
-    if (task) {
-      const onProgress = () => {}
-      const onError = () => {}
-      const onComplete = async () => {
-        const url = await getImage(task.snapshot.metadata.fullPath)
-        setImgUrl(url)
-      }
-
-      task.on('state_changed', onProgress, onError, onComplete)
-    }
-  }, [task])
 
   const handerDragEnter = e => {
     e.preventDefault()
@@ -42,28 +27,33 @@ export default function useUploadImage () {
     e.preventDefault()
     // TODO: Evitar que se suban cosas que no sean image/files (e.dataTransfer.files[0])
     setDrag(DRAG_IMAGE_STATES.NONE)
-
-    const task = uploadImage(e.dataTransfer.files[0])
-
-    setTask(task)
+    const file = e.dataTransfer.files[0]
+    setFile(file)
+    uploadAndGetUrl(file)
   }
 
   const handleRemoveImage = () => {
+    setFile(null)
     setImgUrl(null)
   }
 
   const handleUploadImage = (e) => {
     if (e.target.files[0]) {
-      const task = uploadImage(e.target.files[0])
-      setTask(task)
+      uploadAndGetUrl(e.target.files[0])
+      setFile(e.target.files[0])
     }
+  }
+
+  const uploadAndGetUrl = (file) => {
+    const src = URL.createObjectURL(file)
+    setImgUrl(src)
   }
 
   const dragged = drag === DRAG_IMAGE_STATES.DRAG_OVER
 
   return {
-    drag,
     imgURL,
+    file,
     dragged,
     handerDragEnter,
     handleDragLeave,

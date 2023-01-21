@@ -1,6 +1,12 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, GithubAuthProvider, signInWithPopup } from 'firebase/auth'
-import { getFirestore, collection, addDoc, Timestamp, getDocs } from 'firebase/firestore'
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  Timestamp,
+  getDocs
+} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDRbXsOqf6DC3vvWkTCbMIzqmcvFxtN8iE',
@@ -33,16 +39,14 @@ const mapUserFromFirebaseAuth = user => {
 }
 
 const mapLittys = snapshot => {
-  return snapshot.docs.map((doc) => {
+  return snapshot.docs.map(doc => {
     const data = doc.data()
     const { createdAt } = data
-    const intl = new Intl.DateTimeFormat('es-AR')
-    const normalizeCreatedAt = intl.format(new Date(createdAt.seconds * 1000))
 
     return {
       ...data,
       id: doc.id,
-      createdAt: normalizeCreatedAt
+      createdAt: +createdAt.toDate()
     }
   })
 }
@@ -79,5 +83,7 @@ export const addLitty = async ({ userId, userName, name, avatar, content }) => {
 
 export const getLittys = async () => {
   const querySnapshot = await getDocs(collection(db, 'littys'))
-  return mapLittys(querySnapshot)
+  const unorderedLittys = mapLittys(querySnapshot)
+  const orderedLittys = unorderedLittys.sort((a, b) => b.createdAt - a.createdAt)
+  return orderedLittys
 }

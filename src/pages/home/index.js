@@ -29,6 +29,7 @@ export default function Home () {
         timeline.map(({ id, userName, name, avatar, content, createdAt, likesCount, sharedCount, img }) => (
           <Litty
             key={id}
+            id={id}
             userName={userName}
             name={name}
             avatar={avatar}

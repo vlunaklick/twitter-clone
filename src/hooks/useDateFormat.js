@@ -1,6 +1,6 @@
 export default function useDateFormat (timepstamp) {
   const date = new Date(timepstamp)
-  const language = navigator.language || 'es-AR'
+  const language = 'es-AR'
 
   const options = {
     year: 'numeric',

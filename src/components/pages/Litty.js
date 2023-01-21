@@ -3,9 +3,11 @@ import useTimeAgo from '@/hooks/useTimeAgo'
 import Avatar from '../app/Avatar'
 import Reuse from '../svg/Reuse'
 import Like from '../svg/Like'
+import useDateFormat from '@/hooks/useDateFormat'
 
 export default function Litty ({ name, userName, avatar, content, createdAt, likesCount, sharedCount, img }) {
   const { timeAgo } = useTimeAgo(createdAt)
+  const { formattedDate } = useDateFormat(createdAt)
 
   return (
     <article className='px-3 py-2 flex gap-2 border-b border-slate-200'>
@@ -15,7 +17,7 @@ export default function Litty ({ name, userName, avatar, content, createdAt, lik
           <strong className='text-xs min-[340px]:text-sm'>{name}</strong>
           <small className='text-slate-600 text-xs min-[340px]:block hidden'>@{userName}</small>
           <small className='text-slate-600 text-xs'>·</small>
-          <time className='text-slate-600 text-xs'>{timeAgo}</time>
+          <time dateTime={formattedDate} title={formattedDate} className='text-slate-600 text-xs'>{timeAgo}</time>
         </header>
         <p className='leading-snug text-sm'>
           {content}

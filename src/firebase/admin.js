@@ -14,6 +14,11 @@ export const firestore = getFirestore()
 
 export const getLitBySlug = async (slug) => {
   const doc = await firestore.collection('littys').doc(slug).get()
+
+  if (!doc.exists) {
+    return null
+  }
+
   const data = doc.data()
   const { createdAt } = data
 

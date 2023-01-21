@@ -107,6 +107,12 @@ export async function getServerSideProps (context) {
 
   const litty = await getLitBySlug(id)
 
+  if (!litty) {
+    return {
+      notFound: true
+    }
+  }
+
   return {
     props: {
       ...litty

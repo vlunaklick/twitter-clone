@@ -21,7 +21,9 @@ export default function Home () {
       <Head>
         <title>Inicio / Littera</title>
       </Head>
-      <Header />
+      <Header>
+        <h2 className="font-semibold pl-3">Inicio</h2>
+      </Header>
       <section className='min-[520px]:min-h-[calc(90vh-100px)] min-h-[calc(100vh-100px)]'>
       {
         timeline.map(({ id, userName, name, avatar, content, createdAt, likesCount, sharedCount, img }) => (

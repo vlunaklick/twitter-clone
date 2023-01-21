@@ -45,8 +45,11 @@ export default function useUploadImage () {
   }
 
   const uploadAndGetUrl = (file) => {
-    const src = URL.createObjectURL(file)
-    setImgUrl(src)
+    console.log(file.type)
+    if (file.type.match(/image\//)) {
+      const src = URL.createObjectURL(file)
+      setImgUrl(src)
+    }
   }
 
   const dragged = drag === DRAG_IMAGE_STATES.DRAG_OVER

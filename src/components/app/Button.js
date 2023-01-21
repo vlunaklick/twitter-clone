@@ -8,7 +8,7 @@ const VARIANTS = {
 export default function Button ({ children, onClick, maxWidth = true, className, variant = 'normal', disabled = false }) {
   return (
     <button
-      className={'py-2 w-full font-medium text-xs transition-colors' +
+      className={(variant !== 'none' && 'py-2 w-full font-medium text-xs transition-colors') +
         ' ' +
         (maxWidth ? 'w-full' : 'w-fit') +
         ' ' +

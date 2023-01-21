@@ -67,7 +67,9 @@ export default function ComposeTweet () {
     }
   }
 
-  const isButtonDisabbled = message.length === 0 || status === COMPOSE_STATES.LOADING
+  const isButtonDisabled = message.length === 0 || status === COMPOSE_STATES.LOADING
+
+  const isRemoveImageDisabled = status === COMPOSE_STATES.LOADING
 
   return (
     <>
@@ -78,7 +80,7 @@ export default function ComposeTweet () {
         <Button onClick={handleBack} maxWidth={false} className='font-bold ml-2' variant={'none'}>
           <LeftArrow className={'fill-slate-900 w-8'} />
         </Button>
-        <Button onClick={handleSubmit} maxWidth={false} className='ml-auto mr-2' variant={'rounded'} disabled={isButtonDisabbled}>Littiar</Button>
+        <Button onClick={handleSubmit} maxWidth={false} className='ml-auto mr-2' variant={'rounded'} disabled={isButtonDisabled}>Littiar</Button>
       </header>
       <section className='flex gap-1 p-2 border-b border-slate-200'>
         {
@@ -100,9 +102,12 @@ export default function ComposeTweet () {
           {
             imgURL && (
               <picture className='relative flex items-centr justify-center max-h-[334px] max-w-[334px] shadow-inner rounded-md bg-slate-50'>
-                <button
+                <Button
                   onClick={() => handleRemoveImage()}
-                  className='absolute right-1 top-1 rounded-full text-white bg-slate-900 w-6 h-6 text-xs hover:bg-slate-800 bg-opacity-30 hover:bg-opacity-60 transition-colors'>✖</button>
+                  variant={'none'}
+                  maxWidth={false}
+                  disabled={isRemoveImageDisabled}
+                  className='absolute right-1 top-1 rounded-full text-white bg-slate-900 w-6 h-6 text-xs hover:bg-slate-800 bg-opacity-30 hover:bg-opacity-60 transition-colors'>✖</Button>
                 <img src={imgURL} className='rounded object-contain' />
               </picture>
             )

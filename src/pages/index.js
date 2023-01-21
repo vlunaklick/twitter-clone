@@ -5,7 +5,7 @@ import { loginWithGithub } from '@/firebase/client'
 
 import Button from '@/components/app/Button'
 import Hero from '@/components/pages/index/Hero'
-import Spinner from '@/components/addons/Spinner'
+import Spinner from '@/components/svg/Spinner'
 import useUser from '@/hooks/useUser'
 
 export default function Home () {

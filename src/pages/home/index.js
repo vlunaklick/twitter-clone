@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useState, useEffect } from 'react'
 
 import { getLittys } from '@/firebase/client'
@@ -15,10 +16,11 @@ export default function Home () {
       .catch(err => console.log(err))
   }, [])
 
-  console.log(timeline)
-
   return (
     <>
+      <Head>
+        <title>Inicio / Littera</title>
+      </Head>
       <Header />
       <section className='min-[520px]:min-h-[calc(90vh-100px)] min-h-[calc(100vh-100px)]'>
       {

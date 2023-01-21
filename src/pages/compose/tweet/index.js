@@ -5,7 +5,8 @@ import useUser from '@/hooks/useUser'
 import { addLitty } from '@/firebase/client'
 
 import Button from '@/components/app/Button'
-import LeftArrow from '@/components/addons/LeftArrow'
+import LeftArrow from '@/components/svg/LeftArrow'
+import Head from 'next/head'
 
 const COMPOSE_STATES = {
   USER_NOT_KNOW: 0,
@@ -60,6 +61,9 @@ export default function ComposeTweet () {
 
   return (
     <>
+      <Head>
+        <title>Crear Litty / Littera</title>
+      </Head>
       <header className="sticky top-0 w-full border-b border-slate-200 h-[50px] backdrop-blur flex items-center">
         <Button onClick={handleBack} maxWidth={false} className='font-bold ml-2' variant={'none'}>
           <LeftArrow className={'fill-slate-900 w-8'} />

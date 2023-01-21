@@ -21,7 +21,7 @@ export default function Litty ({ name, userName, avatar, content, createdAt, lik
           {content}
         </p>
         {img && (
-          <picture className='flex items-centr justify-center max-h-[334px] max-w-[334px] mt-2'>
+          <picture className='flex items-centr justify-center max-h-[334px] max-w-[334px] mt-2 shadow-inner rounded-md bg-slate-50'>
             <img
               className='rounded-md object-contain'
               src={img} alt='Litty image'

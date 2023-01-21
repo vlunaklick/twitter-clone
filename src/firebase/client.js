@@ -8,6 +8,8 @@ import {
   getDocs
 } from 'firebase/firestore'
 
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+
 const firebaseConfig = {
   apiKey: 'AIzaSyDRbXsOqf6DC3vvWkTCbMIzqmcvFxtN8iE',
   authDomain: 'concers-30991.firebaseapp.com',
@@ -24,6 +26,8 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 
 const db = getFirestore(app)
+
+const storage = getStorage(app)
 
 const mapUserFromFirebaseAuth = user => {
   const { displayName, email, photoURL, uid, reloadUserInfo } = user
@@ -64,7 +68,7 @@ export const onAuthStateChange = onChange => {
   })
 }
 
-export const addLitty = async ({ userId, userName, name, avatar, content }) => {
+export const addLitty = async ({ userId, userName, name, avatar, content, img }) => {
   try {
     await addDoc(collection(db, 'littys'), {
       userId,
@@ -72,6 +76,7 @@ export const addLitty = async ({ userId, userName, name, avatar, content }) => {
       name,
       avatar,
       content,
+      img,
       likesCount: 0,
       sharedCount: 0,
       createdAt: Timestamp.fromDate(new Date())
@@ -86,4 +91,15 @@ export const getLittys = async () => {
   const unorderedLittys = mapLittys(querySnapshot)
   const orderedLittys = unorderedLittys.sort((a, b) => b.createdAt - a.createdAt)
   return orderedLittys
+}
+
+export const uploadImage = (file) => {
+  const imgRef = ref(storage, `images/${file.name}`)
+  const task = uploadBytesResumable(imgRef, file)
+  return task
+}
+
+export const getImage = async (fileName) => {
+  const imgRef = ref(storage, `${fileName}`)
+  return await getDownloadURL(imgRef)
 }

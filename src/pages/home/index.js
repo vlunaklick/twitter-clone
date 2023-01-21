@@ -24,16 +24,17 @@ export default function Home () {
       <Header />
       <section className='min-[520px]:min-h-[calc(90vh-100px)] min-h-[calc(100vh-100px)]'>
       {
-        timeline.map(litty => (
+        timeline.map(({ id, userName, name, avatar, content, createdAt, likesCount, sharedCount, img }) => (
           <Litty
-            key={litty.id}
-            userName={litty.userName}
-            name={litty.name}
-            avatar={litty.avatar}
-            content={litty.content}
-            createdAt={litty.createdAt}
-            likesCount={litty.likesCount}
-            sharedCount={litty.sharedCount}
+            key={id}
+            userName={userName}
+            name={name}
+            avatar={avatar}
+            content={content}
+            createdAt={createdAt}
+            likesCount={likesCount}
+            sharedCount={sharedCount}
+            img={img}
           />
         ))
       }

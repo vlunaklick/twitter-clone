@@ -4,7 +4,7 @@ import Avatar from '../app/Avatar'
 import Reuse from '../svg/Reuse'
 import Like from '../svg/Like'
 
-export default function Litty ({ name, userName, avatar, content, createdAt, likesCount, sharedCount }) {
+export default function Litty ({ name, userName, avatar, content, createdAt, likesCount, sharedCount, img }) {
   const { timeAgo } = useTimeAgo(createdAt)
 
   return (
@@ -20,16 +20,22 @@ export default function Litty ({ name, userName, avatar, content, createdAt, lik
         <p className='leading-snug text-sm'>
           {content}
         </p>
-        <footer className='flex gap-8 mt-2'>
+        {img && (
+          <img
+            className='w-full rounded-md mt-2'
+            src={img} alt='Litty image'
+          />
+        )}
+        <footer className='flex gap-8 mt-1'>
           <div className='flex items-center justify-center'>
             <button className='hover:bg-slate-50 transition-colors p-1 rounded-full'>
-              <Reuse width={21} heigth={21} />
+              <Reuse width={14} heigth={14} />
             </button>
             {likesCount > 0 ? likesCount : ''}
           </div>
           <div className='flex items-center justify-center'>
             <button className='hover:bg-slate-50 transition-colors p-1 rounded-full'>
-              <Like width={21} heigth={21} />
+              <Like width={14} heigth={14} />
             </button>
             {sharedCount > 0 ? sharedCount : ''}
           </div>

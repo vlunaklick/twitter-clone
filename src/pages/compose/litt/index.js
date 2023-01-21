@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 import useUser from '@/hooks/useUser'
 import useUploadImage from '@/hooks/useUploadImage'
-import { addLitty, uploadImageAndGetURL } from '@/firebase/client'
+import { addLitt, uploadImageAndGetURL } from '@/firebase/client'
 
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
@@ -49,7 +49,7 @@ export default function ComposeTweet () {
         imgUploadedSrc = await uploadImageAndGetURL(file)
       }
 
-      addLitty({
+      addLitt({
         userId: user.userId,
         userName: user.userName,
         name: user.name,
@@ -75,7 +75,7 @@ export default function ComposeTweet () {
   return (
     <>
       <Head>
-        <title>Crear Litty / Littera</title>
+        <title>Crear Litt / Littera</title>
       </Head>
       <Header>
         <Button onClick={handleBack} maxWidth={false} className='font-bold ml-2' variant={'none'}>

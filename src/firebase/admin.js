@@ -13,7 +13,7 @@ try {
 export const firestore = getFirestore()
 
 export const getLitBySlug = async (slug) => {
-  const doc = await firestore.collection('littys').doc(slug).get()
+  const doc = await firestore.collection('litts').doc(slug).get()
 
   if (!doc.exists) {
     return null

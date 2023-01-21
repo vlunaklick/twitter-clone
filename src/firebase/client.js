@@ -5,7 +5,8 @@ import {
   collection,
   addDoc,
   Timestamp,
-  getDocs
+  getDocs,
+  orderBy
 } from 'firebase/firestore'
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
@@ -42,17 +43,15 @@ const mapUserFromFirebaseAuth = user => {
   }
 }
 
-const mapLittys = snapshot => {
-  return snapshot.docs.map(doc => {
-    const data = doc.data()
-    const { createdAt } = data
+const mapLittFromFirebase = doc => {
+  const data = doc.data()
+  const { createdAt } = data
 
-    return {
-      ...data,
-      id: doc.id,
-      createdAt: +createdAt.toDate()
-    }
-  })
+  return {
+    ...data,
+    id: doc.id,
+    createdAt: +createdAt.toDate()
+  }
 }
 
 export const loginWithGithub = () => {
@@ -68,9 +67,9 @@ export const onAuthStateChange = onChange => {
   })
 }
 
-export const addLitty = async ({ userId, userName, name, avatar, content, img }) => {
+export const addLitt = async ({ userId, userName, name, avatar, content, img }) => {
   try {
-    await addDoc(collection(db, 'littys'), {
+    await addDoc(collection(db, 'litts'), {
       userId,
       userName,
       name,
@@ -86,11 +85,9 @@ export const addLitty = async ({ userId, userName, name, avatar, content, img })
   }
 }
 
-export const getLittys = async () => {
-  const querySnapshot = await getDocs(collection(db, 'littys'))
-  const unorderedLittys = mapLittys(querySnapshot)
-  const orderedLittys = unorderedLittys.sort((a, b) => b.createdAt - a.createdAt)
-  return orderedLittys
+export const getLitts = async () => {
+  const querySnapshot = await getDocs(collection(db, 'litts'), orderBy('createdAt', 'desc'))
+  return querySnapshot.docs.map(mapLittFromFirebase)
 }
 
 export const uploadImage = (file) => {

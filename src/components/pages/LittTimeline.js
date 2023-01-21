@@ -7,7 +7,7 @@ import Reuse from '../svg/Reuse'
 import Like from '../svg/Like'
 import useDateFormat from '@/hooks/useDateFormat'
 
-export default function Litty ({ id, name, userName, avatar, content, createdAt, likesCount, sharedCount, img }) {
+export default function LittTimeline ({ id, name, userName, avatar, content, createdAt, likesCount, sharedCount, img }) {
   const { timeAgo } = useTimeAgo(createdAt)
   const { formattedDate } = useDateFormat(createdAt)
   const router = useRouter()
@@ -33,7 +33,7 @@ export default function Litty ({ id, name, userName, avatar, content, createdAt,
           <picture className='flex items-center justify-center max-h-[334px] max-w-[334px] mt-2 shadow-inner rounded-md bg-slate-50'>
             <img
               className='rounded-md object-contain'
-              src={img} alt='Litty image'
+              src={img} alt='Litt image'
             />
           </picture>
         )}

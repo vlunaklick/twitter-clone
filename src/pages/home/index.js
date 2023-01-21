@@ -1,17 +1,17 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
 
-import { getLittys } from '@/firebase/client'
+import { getLitts } from '@/firebase/client'
 
 import Header from '@/components/app/Header'
 import Navbar from '@/components/app/Navbar'
-import Litty from '@/components/pages/Litty'
+import LittTimeline from '@/components/pages/LittTimeline'
 
 export default function Home () {
   const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
-    getLittys()
+    getLitts()
       .then(setTimeline)
       .catch(err => console.log(err))
   }, [])
@@ -27,7 +27,7 @@ export default function Home () {
       <section className='min-[520px]:min-h-[calc(90vh-100px)] min-h-[calc(100vh-100px)]'>
       {
         timeline.map(({ id, userName, name, avatar, content, createdAt, likesCount, sharedCount, img }) => (
-          <Litty
+          <LittTimeline
             key={id}
             id={id}
             userName={userName}

@@ -10,7 +10,7 @@ import Avatar from '@/components/app/Avatar'
 import Reuse from '@/components/svg/Reuse'
 import Like from '@/components/svg/Like'
 
-export default function LittyPage ({ id, name, userName, avatar, content, createdAt, likesCount, sharedCount, img }) {
+export default function LittPage ({ id, name, userName, avatar, content, createdAt, likesCount, sharedCount, img }) {
   const { formattedDate } = useDateFormat(createdAt)
 
   const router = useRouter()
@@ -25,7 +25,7 @@ export default function LittyPage ({ id, name, userName, avatar, content, create
         <Button onClick={handleBack} maxWidth={false} className='font-bold ml-2' variant={'none'}>
           <LeftArrow className={'fill-slate-900 w-8'} />
         </Button>
-        <h2 className='font-semibold pl-3'>Litty</h2>
+        <h2 className='font-semibold pl-3'>Litt</h2>
       </Header>
       <article className='p-3'>
         <header className='flex gap-2 items-center'>
@@ -105,9 +105,9 @@ export default function LittyPage ({ id, name, userName, avatar, content, create
 export async function getServerSideProps (context) {
   const { id } = context.params
 
-  const litty = await getLitBySlug(id)
+  const litt = await getLitBySlug(id)
 
-  if (!litty) {
+  if (!litt) {
     return {
       notFound: true
     }
@@ -115,7 +115,7 @@ export async function getServerSideProps (context) {
 
   return {
     props: {
-      ...litty
+      ...litt
     }
   }
 }

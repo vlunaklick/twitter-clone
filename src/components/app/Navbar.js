@@ -13,7 +13,7 @@ export default function Navbar () {
       <Link href='/home' className='flex items-center justify-center hover:bg-slate-50 transition-colors p-1 rounded-full'>
         <Search className='fill-sky-500' width={27} heigth={27} />
       </Link>
-      <Link href='/compose/litty' className='flex items-center justify-center hover:bg-slate-50 transition-colors p-1 rounded-full'>
+      <Link href='/compose/litt' className='flex items-center justify-center hover:bg-slate-50 transition-colors p-1 rounded-full'>
         <Create className='fill-sky-500' width={27} heigth={27} />
       </Link>
     </nav>

@@ -5,7 +5,7 @@ export default (req, res) => {
   const { query } = req
   const { id } = query
 
-  firestore.collection('littys')
+  firestore.collection('litts')
     .doc(id)
     .get()
     .then(doc => {

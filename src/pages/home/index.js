@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
 
-import { getLitts } from '@/firebase/client'
+import { getLitts, listenLitts } from '@/firebase/client'
 
 import Header from '@/components/app/Header'
 import Navbar from '@/components/app/Navbar'
@@ -14,6 +14,11 @@ export default function Home () {
     getLitts()
       .then(setTimeline)
       .catch(err => console.log(err))
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe = listenLitts(setTimeline)
+    return unsubscribe
   }, [])
 
   return (

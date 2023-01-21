@@ -6,7 +6,8 @@ import {
   addDoc,
   Timestamp,
   getDocs,
-  orderBy
+  orderBy,
+  onSnapshot
 } from 'firebase/firestore'
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
@@ -86,8 +87,17 @@ export const addLitt = async ({ userId, userName, name, avatar, content, img }) 
 }
 
 export const getLitts = async () => {
-  const querySnapshot = await getDocs(collection(db, 'litts'), orderBy('createdAt', 'desc'))
-  return querySnapshot.docs.map(mapLittFromFirebase)
+  const querySnapshot = await getDocs(collection(db, 'litts'), orderBy('createdAt', 'asc'))
+  const orderedLitts = querySnapshot.docs.map(mapLittFromFirebase)
+  return orderedLitts.sort((a, b) => b.createdAt - a.createdAt)
+}
+
+export const listenLitts = (callback) => {
+  return onSnapshot(collection(db, 'litts'), orderBy('createdAt', 'desc'), snapshot => {
+    const litts = snapshot.docs.map(mapLittFromFirebase)
+    const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
+    callback(orderedLitts)
+  })
 }
 
 export const uploadImage = (file) => {

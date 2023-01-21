@@ -32,6 +32,8 @@ export default function Home () {
             avatar={litty.avatar}
             content={litty.content}
             createdAt={litty.createdAt}
+            likesCount={litty.likesCount}
+            sharedCount={litty.sharedCount}
           />
         ))
       }

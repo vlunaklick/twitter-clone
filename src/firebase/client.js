@@ -73,7 +73,7 @@ export const addLitty = async ({ userId, userName, name, avatar, content }) => {
       avatar,
       content,
       likesCount: 0,
-      shardeCount: 0,
+      sharedCount: 0,
       createdAt: Timestamp.fromDate(new Date())
     })
   } catch (e) {

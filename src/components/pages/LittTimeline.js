@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import useTimeAgo from '@/hooks/useTimeAgo'
 
@@ -23,6 +24,7 @@ export default function LittTimeline({
   const router = useRouter()
 
   const handleArticleClick = e => {
+    if (e.target.nodeName === 'BUTTON' || e.target.nodeName === 'IMG') return
     router.push(`/status/${id}`)
   }
 
@@ -31,7 +33,9 @@ export default function LittTimeline({
       onClick={handleArticleClick}
       className="flex cursor-pointer gap-2 border-b border-slate-200 px-3 py-2 transition-colors hover:bg-slate-50 dark:border-slate-800 hover:dark:bg-slate-800"
     >
-      <Avatar src={avatar} alt={userName} />
+      <Link href={`/profile/${userName}`} className="h-min">
+        <Avatar src={avatar} alt={userName} />
+      </Link>
       <section>
         <header className="flex items-center gap-1">
           <strong className="text-xs min-[340px]:text-sm">{name}</strong>

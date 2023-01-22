@@ -42,7 +42,7 @@ export default function ComposeTweet() {
   }, [user, router, USER_STATES])
 
   const handleBack = () => {
-    router.push('/home')
+    router.back()
   }
 
   const handleChange = e => {

@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import { getLitBySlug } from '@/firebase/admin'
 import useDateFormat from '@/hooks/useDateFormat'
@@ -44,7 +45,9 @@ export default function LittPage({
       </Header>
       <article className="p-3">
         <header className="flex items-center gap-2">
-          <Avatar src={avatar} />
+          <Link href={`/profile/${userName}`}>
+            <Avatar src={avatar} />
+          </Link>
           <div className="flex flex-col">
             <strong className="text-sm text-slate-900 dark:text-white">
               {name}

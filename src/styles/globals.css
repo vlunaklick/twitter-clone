@@ -6,7 +6,7 @@
   --background-color-ligth: #f8fafc;
   --font-color-ligth: #0f172a;
 
-  --background-color-dark: #121827;
+  --background-color-dark: hsl(210deg, 30%, 8%);
   --font-color-dark: #fff;
 }
 

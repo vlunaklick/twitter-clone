@@ -1,24 +1,26 @@
 import Head from 'next/head'
-import { useState, useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 
-import { fetchAllLitts, listenLitts } from '@/firebase/client'
+import { fetchAllLitts } from '@/firebase/client'
 
 import Header from '@/components/app/Header'
 import LittTimeline from '@/components/pages/LittTimeline'
 import NavLayout from '@/components/app/NavLayout'
+import { UserContext } from '@/context/userContext'
+import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useTimeline } from '@/hooks/useTimeline'
 
-export default function Home() {
-  const [timeline, setTimeline] = useState([])
+export default function Home({ timelineInitial }) {
+  const { user } = useContext(UserContext)
+  const { timeline, setTimeline, handleShared, handleLiked } =
+    useTimeline(timelineInitial)
+
+  const { router } = useNavigateLink()
 
   useEffect(() => {
     fetchAllLitts()
       .then(setTimeline)
       .catch(err => console.log(err))
-  }, [])
-
-  useEffect(() => {
-    const unsubscribe = listenLitts(setTimeline)
-    return unsubscribe
   }, [])
 
   return (
@@ -30,7 +32,7 @@ export default function Home() {
         <Header>
           <h2 className="pl-3 font-semibold">Inicio</h2>
         </Header>
-        <section className="min-h-[calc(100vh-100px)] min-[520px]:min-h-[calc(90vh-100px)]">
+        <section>
           {timeline.map(
             ({
               id,
@@ -39,7 +41,9 @@ export default function Home() {
               avatar,
               content,
               createdAt,
+              likes,
               likesCount,
+              shared,
               sharedCount,
               img,
             }) => (
@@ -51,9 +55,14 @@ export default function Home() {
                 avatar={avatar}
                 content={content}
                 createdAt={createdAt}
+                likes={likes}
                 likesCount={likesCount}
+                shared={shared}
                 sharedCount={sharedCount}
                 img={img}
+                handleShared={handleShared}
+                handleLiked={handleLiked}
+                mainUser_id={user?.id || ''}
               />
             )
           )}
@@ -61,4 +70,14 @@ export default function Home() {
       </NavLayout>
     </>
   )
+}
+
+export async function getServerSideProps() {
+  const timelineInitial = await fetchAllLitts()
+
+  return {
+    props: {
+      timelineInitial,
+    },
+  }
 }

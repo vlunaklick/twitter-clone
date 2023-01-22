@@ -15,23 +15,20 @@ export default function Button({
   variant = 'normal',
   disabled = false,
 }) {
+  const classNameBtn =
+    (variant !== 'none' &&
+      'w-full py-2 text-xs font-medium transition-colors') +
+    ' ' +
+    (maxWidth ? 'w-full' : 'w-fit') +
+    ' ' +
+    className +
+    ' ' +
+    VARIANTS[variant] +
+    ' ' +
+    (disabled ? VARIANTS.disabled : '')
+
   return (
-    <button
-      className={
-        (variant !== 'none' &&
-          'w-full py-2 text-xs font-medium transition-colors') +
-        ' ' +
-        (maxWidth ? 'w-full' : 'w-fit') +
-        ' ' +
-        className +
-        ' ' +
-        VARIANTS[variant] +
-        ' ' +
-        (disabled ? VARIANTS.disabled : '')
-      }
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <button className={classNameBtn} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   )

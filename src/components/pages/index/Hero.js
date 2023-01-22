@@ -1,7 +1,7 @@
-export default function Hero () {
+export default function Hero() {
   return (
-    <div className="bg-gradient-to-r from-[#0f091b] to-slate-900 flex flex-col gap-1 items-center pt-4 px-8 pb-9 rounded-md mt-36 w-full text-white">
-      <h1 className="font-bold text-6xl">Littera</h1>
+    <div className="mt-36 flex w-full flex-col items-center gap-1 rounded-md bg-gradient-to-r from-[#2A5470] to-[#4C4177] px-8 pt-4 pb-9 text-white">
+      <h1 className="text-6xl font-bold">littera</h1>
       <p className="text-xs">Start meeting people, start your community.</p>
     </div>
   )

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function AppLayout ({ children }) {
+export default function AppLayout({ children }) {
   return (
     <>
       <Head>
@@ -12,8 +12,8 @@ export default function AppLayout ({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className='grid place-items-center h-screen'>
-        <div className="min-[520px]:max-w-[414px] h-screen min-[520px]:h-[90vh] w-full shadow-2xl min-[520px]:rounded-md bg-white mx-auto overflow-auto relative">
+      <div className="grid h-screen place-items-center">
+        <div className="relative mx-auto h-screen w-full overflow-auto bg-white shadow-2xl dark:bg-slate-900 min-[520px]:h-[90vh] min-[520px]:max-w-[414px] min-[520px]:rounded-md">
           {children}
         </div>
       </div>

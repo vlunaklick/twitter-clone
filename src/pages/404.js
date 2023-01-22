@@ -5,7 +5,7 @@ import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
 import Navbar from '@/components/app/Navbar'
 
-export default function Error404 () {
+export default function Error404() {
   const router = useRouter()
 
   const handleBack = () => {
@@ -15,14 +15,23 @@ export default function Error404 () {
   return (
     <>
       <Header>
-        <Button onClick={handleBack} maxWidth={false} className='font-bold ml-2' variant={'none'}>
-          <LeftArrow className={'fill-slate-900 w-8'} />
+        <Button
+          onClick={handleBack}
+          maxWidth={false}
+          className="ml-2 font-bold"
+          variant={'none'}
+        >
+          <LeftArrow className="w-8 fill-slate-900 dark:fill-slate-100" />
         </Button>
-        <h2 className='font-semibold pl-3'>Inicio</h2>
+        <h2 className="pl-3 font-semibold dark:text-white">Inicio</h2>
       </Header>
-      <section className='min-[520px]:min-h-[calc(90vh-100px)] min-h-[calc(100vh-100px)] p-2 text-slate-600 flex items-center justify-center flex-col'>
-        <h3 className='text-4xl font-bold text-center text-slate-900'>404</h3>
-        <p className='text-2xl font-semibold text-center mt-2'>Esta página no existe. Intente hacer otra busqueda.</p>
+      <section className="flex min-h-[calc(100vh-100px)] flex-col items-center justify-center p-2 text-slate-600 dark:text-slate-300 min-[520px]:min-h-[calc(90vh-100px)]">
+        <h3 className="text-center text-4xl font-bold text-slate-900 dark:text-white">
+          404
+        </h3>
+        <p className="mt-2 text-center text-2xl font-semibold">
+          Esta página no existe. Intente hacer otra busqueda.
+        </p>
       </section>
       <Navbar />
     </>

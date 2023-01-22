@@ -7,7 +7,17 @@ import Reuse from '../svg/Reuse'
 import Like from '../svg/Like'
 import useDateFormat from '@/hooks/useDateFormat'
 
-export default function LittTimeline ({ id, name, userName, avatar, content, createdAt, likesCount, sharedCount, img }) {
+export default function LittTimeline({
+  id,
+  name,
+  userName,
+  avatar,
+  content,
+  createdAt,
+  likesCount,
+  sharedCount,
+  img,
+}) {
   const { timeAgo } = useTimeAgo(createdAt)
   const { formattedDate } = useDateFormat(createdAt)
   const router = useRouter()
@@ -17,46 +27,56 @@ export default function LittTimeline ({ id, name, userName, avatar, content, cre
   }
 
   return (
-    <article onClick={handleArticleClick} className='px-3 py-2 flex gap-2 border-b border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer'>
+    <article
+      onClick={handleArticleClick}
+      className="flex cursor-pointer gap-2 border-b border-slate-200 px-3 py-2 transition-colors hover:bg-slate-50 dark:border-slate-800 hover:dark:bg-slate-800"
+    >
       <Avatar src={avatar} alt={userName} />
       <section>
-        <header className='flex gap-1 items-center'>
-          <strong className='text-xs min-[340px]:text-sm'>{name}</strong>
-          <small className='text-slate-600 text-xs min-[340px]:block hidden'>@{userName}</small>
-          <small className='text-slate-600 text-xs'>·</small>
-          <time dateTime={formattedDate} title={formattedDate} className='text-slate-600 text-xs'>{timeAgo}</time>
+        <header className="flex items-center gap-1">
+          <strong className="text-xs min-[340px]:text-sm">{name}</strong>
+          <small className="hidden text-xs text-slate-600 dark:text-slate-500 min-[340px]:block">
+            @{userName}
+          </small>
+          <small className="text-xs text-slate-600 dark:text-slate-500">
+            ·
+          </small>
+          <time
+            dateTime={formattedDate}
+            title={formattedDate}
+            className="text-xs text-slate-600 dark:text-slate-500"
+          >
+            {timeAgo}
+          </time>
         </header>
-        <p className='leading-snug text-sm'>
-          {content}
-        </p>
+        <p className="text-sm leading-snug">{content}</p>
         {img && (
-          <picture className='flex items-center justify-center max-h-[334px] max-w-[334px] mt-2 shadow-inner rounded-md bg-slate-50'>
+          <picture className="mt-2 flex max-h-[334px] max-w-[334px] items-center justify-center rounded-md bg-slate-50 shadow-inner dark:bg-slate-800">
             <img
-              className='rounded-md object-contain'
-              src={img} alt='Litt image'
+              className="rounded-md object-contain"
+              src={img}
+              alt="Litt image"
             />
           </picture>
         )}
-        <footer className='flex gap-8 mt-1'>
-
-          <div className='flex items-center group justify-center gap-1'>
-            <button className='transition-colors p-1 rounded-full group-hover:bg-sky-50 group-hover:fill-sky-500'>
+        <footer className="mt-1 flex gap-8">
+          <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
+            <button className="rounded-full p-1 transition-colors group-hover:bg-yellow-50 group-hover:fill-yellow-800">
               <Reuse width={14} heigth={14} />
             </button>
-            <span className='group-hover:text-sky-500 text-[9px] transition-colors'>
+            <span className="text-[9px] transition-colors group-hover:text-yellow-800">
               {likesCount > 0 ? likesCount : ''}
             </span>
           </div>
 
-          <div className='flex items-center group justify-center gap-1'>
-            <button className='transition-colors p-1 rounded-full group-hover:bg-red-50 group-hover:fill-red-500'>
+          <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
+            <button className="rounded-full p-1 transition-colors group-hover:bg-red-50 group-hover:fill-red-500">
               <Like width={14} heigth={14} />
             </button>
-            <span className='group-hover:text-red-500 text-[9px] transition-colors'>
+            <span className="text-[9px] transition-colors group-hover:text-red-500">
               {sharedCount > 0 ? sharedCount : ''}
             </span>
           </div>
-
         </footer>
       </section>
     </article>

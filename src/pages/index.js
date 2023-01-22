@@ -12,9 +12,8 @@ export default function Home () {
   const { user, USER_STATES } = useUser()
   const router = useRouter()
 
-  const handleLogin = () => {
-    loginWithGithub()
-      .catch(err => console.log(err))
+  const handleLogin = async () => {
+    await loginWithGithub()
   }
 
   useEffect(() => {

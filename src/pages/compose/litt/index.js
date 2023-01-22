@@ -16,15 +16,24 @@ const COMPOSE_STATES = {
   USER_NOT_KNOW: 0,
   LOADING: 1,
   SUCCESS: 2,
-  ERROR: -1
+  ERROR: -1,
 }
 
-export default function ComposeTweet () {
+export default function ComposeTweet() {
   const { user, USER_STATES } = useUser()
   const [status, setStatus] = useState(COMPOSE_STATES.USER_NOT_KNOW)
   const [message, setMessage] = useState('')
   const router = useRouter()
-  const { imgURL, file, dragged, handerDragEnter, handleDragLeave, handleDragDrop, handleRemoveImage, handleUploadImage } = useUploadImage()
+  const {
+    imgURL,
+    file,
+    dragged,
+    handerDragEnter,
+    handleDragLeave,
+    handleDragDrop,
+    handleRemoveImage,
+    handleUploadImage,
+  } = useUploadImage()
 
   useEffect(() => {
     if (user === USER_STATES.NOT_LOGGED) {
@@ -36,11 +45,11 @@ export default function ComposeTweet () {
     router.push('/home')
   }
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setMessage(e.target.value)
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
     setStatus(COMPOSE_STATES.LOADING)
     if (message.length <= 141 && message.length > 0) {
@@ -55,7 +64,7 @@ export default function ComposeTweet () {
         name: user.name,
         avatar: user.avatar,
         content: message,
-        img: imgUploadedSrc
+        img: imgUploadedSrc,
       })
         .then(data => {
           setMessage('')
@@ -68,7 +77,8 @@ export default function ComposeTweet () {
     }
   }
 
-  const isButtonDisabled = message.length === 0 || status === COMPOSE_STATES.LOADING
+  const isButtonDisabled =
+    message.length === 0 || status === COMPOSE_STATES.LOADING
 
   const isRemoveImageDisabled = status === COMPOSE_STATES.LOADING
 
@@ -78,56 +88,72 @@ export default function ComposeTweet () {
         <title>Crear Litt / Littera</title>
       </Head>
       <Header>
-        <Button onClick={handleBack} maxWidth={false} className='font-bold ml-2' variant={'none'}>
-          <LeftArrow className={'fill-slate-900 w-8'} />
+        <Button
+          onClick={handleBack}
+          maxWidth={false}
+          className="ml-2 font-bold"
+          variant={'none'}
+        >
+          <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
         </Button>
-        <Button onClick={handleSubmit} maxWidth={false} className='ml-auto mr-2' variant={'rounded'} disabled={isButtonDisabled}>Littiar</Button>
+        <Button
+          onClick={handleSubmit}
+          maxWidth={false}
+          className="ml-auto mr-2"
+          variant={'rounded'}
+          disabled={isButtonDisabled}
+        >
+          Littiar
+        </Button>
       </Header>
-      <section className='flex gap-1 p-2 border-b border-slate-200'>
-        {
-          user && (
-            <Avatar src={user.avatar} />
-          )
-        }
-        <form onSubmit={handleSubmit} className='w-full'>
-          <textarea className={'w-full resize-none p-2 outline-none min-h-[140px] border rounded-sm ' +
-            (dragged ? 'border-sky-500 border-dashed' : 'border-transparent')}
-              value={message}
-              onChange={handleChange}
-              maxLength={140}
-              placeholder="¿Qué está pasando?"
-              onDragEnter={handerDragEnter}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDragDrop}
+      <section className="flex gap-1 border-b border-slate-200 p-2 dark:border-slate-700">
+        {user && <Avatar src={user.avatar} />}
+        <form onSubmit={handleSubmit} className="w-full">
+          <textarea
+            className={
+              'min-h-[140px] w-full resize-none rounded-sm border p-2 outline-none dark:bg-slate-900 ' +
+              (dragged ? 'border-dashed border-sky-500' : 'border-transparent')
+            }
+            value={message}
+            onChange={handleChange}
+            maxLength={140}
+            placeholder="¿Qué está pasando?"
+            onDragEnter={handerDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDragDrop}
           ></textarea>
-          {
-            imgURL && (
-              <picture className='relative flex items-centr justify-center max-h-[334px] max-w-[334px] shadow-inner rounded-md bg-slate-50'>
-                <Button
-                  onClick={() => handleRemoveImage()}
-                  variant={'none'}
-                  maxWidth={false}
-                  disabled={isRemoveImageDisabled}
-                  className='absolute right-1 top-1 rounded-full text-white bg-slate-900 w-6 h-6 text-xs hover:bg-slate-800 bg-opacity-30 hover:bg-opacity-60 transition-colors'>✖</Button>
-                <img src={imgURL} className='rounded object-contain' />
-              </picture>
-            )
-          }
+          {imgURL && (
+            <picture className="relative flex max-h-[334px] max-w-[334px] items-center justify-center rounded-md bg-slate-50 shadow-inner dark:bg-slate-800">
+              <Button
+                onClick={() => handleRemoveImage()}
+                variant={'none'}
+                maxWidth={false}
+                disabled={isRemoveImageDisabled}
+                className="absolute right-1 top-1 h-6 w-6 rounded-full bg-slate-900 bg-opacity-30 text-xs text-white transition-colors hover:bg-slate-800 hover:bg-opacity-60 dark:bg-slate-400 dark:bg-opacity-30 hover:dark:bg-slate-200 hover:dark:bg-opacity-30"
+              >
+                ✖
+              </Button>
+              <img src={imgURL} className="rounded object-contain" />
+            </picture>
+          )}
         </form>
       </section>
-      <section className='flex w-full items-center border-b border-slate-200 p-1 px-4 max-h-[50px] h-full'>
+      <section className="flex h-full max-h-[50px] w-full items-center border-b border-slate-200 p-1 px-4 dark:border-slate-700">
         <input
           type={'file'}
           id={'file'}
           onChange={handleUploadImage}
-          accept='image/*'
-          className='hidden'
+          accept="image/*"
+          className="hidden"
         />
-        <label htmlFor={'file'} className='flex items-center justify-center'>
-          <UploadImage className='fill-sky-500 w-8 cursor-pointer' width={28} height={28} />
+        <label htmlFor={'file'} className="flex items-center justify-center">
+          <UploadImage
+            className="w-8 cursor-pointer fill-sky-500"
+            width={28}
+            height={28}
+          />
         </label>
       </section>
-
     </>
   )
 }

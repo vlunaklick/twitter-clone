@@ -5,16 +5,16 @@ export default (req, res) => {
   const { query } = req
   const { id } = query
 
-  firestore.collection('litts')
+  firestore
+    .collection('litts')
     .doc(id)
     .get()
     .then(doc => {
-      console.log(doc)
       const data = doc.data()
 
       res.json({
         ...data,
-        id
+        id,
       })
     })
     .catch(err => {

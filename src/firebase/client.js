@@ -1,5 +1,7 @@
 import { initializeApp } from 'firebase/app'
+
 import { getAuth, GithubAuthProvider, signInWithPopup } from 'firebase/auth'
+
 import {
   getFirestore,
   collection,
@@ -7,7 +9,9 @@ import {
   Timestamp,
   getDocs,
   orderBy,
-  onSnapshot
+  onSnapshot,
+  doc,
+  getDoc
 } from 'firebase/firestore'
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
@@ -55,9 +59,17 @@ const mapLittFromFirebase = doc => {
   }
 }
 
-export const loginWithGithub = () => {
+export const loginWithGithub = async () => {
   const provider = new GithubAuthProvider()
-  return signInWithPopup(auth, provider)
+  signInWithPopup(auth, provider).then(async (data) => {
+    const { user } = data
+
+    const userInDb = await getUserById(user.uid)
+
+    if (userInDb === null) {
+      saveUser(mapUserFromFirebaseAuth(user))
+    }
+  })
 }
 
 export const onAuthStateChange = onChange => {
@@ -128,4 +140,31 @@ export const uploadImageAndGetURL = async (file) => {
       resolve(imgURL)
     })
   })
+}
+
+export const saveUser = async (user) => {
+  const { userId, userName, name, email, avatar } = user
+  const colecRef = collection(db, 'users')
+
+  await addDoc(colecRef, {
+    userId,
+    userName,
+    name,
+    email,
+    avatar,
+    followers: [],
+    following: [],
+    header: '',
+    createdAt: Timestamp.fromDate(new Date())
+  })
+}
+
+export const getUserById = async (id) => {
+  const docRef = doc(db, 'users', id)
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    return docSnap.data()
+  }
+  return null
 }

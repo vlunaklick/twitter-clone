@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --background-color: #f8fafc;
-  --font-color: #0f172a;
+  --background-color-ligth: #f8fafc;
+  --font-color-ligth: #0f172a;
+
+  --background-color-dark: #121827;
+  --font-color-dark: #fff;
 }
 
 * {
@@ -19,11 +22,20 @@ body {
 }
 
 body {
-  color: var(--font-color);
   background-color: var(--background-color);
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+html.dark {
+  background-color: var(--background-color-dark);
+  color: var(--font-color-dark);
+}
+
+html.light {
+  background-color: var(--background-color-ligth);
+  color: var(--font-color-ligth);
 }

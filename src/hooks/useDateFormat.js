@@ -28,6 +28,5 @@ export const formatDate = (timestamp) => {
 }
 
 export default function useDateFormat (timestamp) {
-  console.log(formatDate(timestamp))
   return { formattedDate: formatDate(timestamp) }
 }

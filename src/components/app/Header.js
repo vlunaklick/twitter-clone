@@ -1,6 +1,6 @@
-export default function Header ({ children }) {
+export default function Header({ children }) {
   return (
-    <header className="sticky top-0 w-full border-b border-slate-200 h-[50px] backdrop-blur flex items-center">
+    <header className="sticky top-0 flex h-[50px] w-full items-center border-b border-slate-200 backdrop-blur dark:border-slate-700">
       {children}
     </header>
   )

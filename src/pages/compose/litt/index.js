@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import Head from 'next/head'
 
-import { saveLitt, saveImageAndGetURL } from '@/firebase/client'
+import { saveImageAndGetURL, saveLittWithId } from '@/firebase/client'
 import useUploadImage from '@/hooks/useUploadImage'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 import { UserContext } from '@/context/userContext'
@@ -55,7 +55,8 @@ export default function ComposeTweet() {
         imgUploadedSrc = await saveImageAndGetURL(file)
       }
 
-      saveLitt({
+      saveLittWithId({
+        user_id: user.id,
         userId: user.userId,
         userName: user.userName,
         name: user.name,

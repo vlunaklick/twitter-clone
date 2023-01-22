@@ -1,4 +1,4 @@
-import { useState } from 'react'
+const isRelativeTimeFormatSupported = false
 
 const DATE_UNITS = [
   ['day', 86400],
@@ -6,6 +6,13 @@ const DATE_UNITS = [
   ['minute', 60],
   ['second', 1]
 ]
+
+const DATE_AR = {
+  day: 'día',
+  hour: 'hora',
+  minute: 'minuto',
+  second: 'segundo'
+}
 
 const getDateDiffs = timestamp => {
   const now = Date.now()
@@ -20,30 +27,22 @@ const getDateDiffs = timestamp => {
   }
 }
 
-export default function useTimeAgo (createdAt) {
-  const [timeAgo] = useState(() => getDateDiffs(createdAt))
-  const rtf = new Intl.RelativeTimeFormat('es-AR', { style: 'narrow' })
+export const formatTimeAgo = (timestamp) => {
+  const dateDiffs = getDateDiffs(timestamp)
 
-  /**
-  useEffect(() => {
-    const timeOut = setTimeout(() => {
-      const newTimeAgo = getDateDiffs(createdAt)
-      setTimeAgo(newTimeAgo)
-    }, 15000)
+  if (!isRelativeTimeFormatSupported) {
+    const { value, unit } = dateDiffs
 
-    return () => clearTimeout(timeOut)
-  })
-  */
-
-  let value = -1
-  let unit = 'seconds'
-
-  if (timeAgo) {
-    value = timeAgo.value
-    unit = timeAgo.unit
+    return `Hace ${value * -1} ${DATE_AR[unit]}${value !== 1 ? 's' : ''}`
   }
 
+  const rtf = new Intl.RelativeTimeFormat('es-AR', { style: 'narrow' })
+
+  return rtf.format(dateDiffs.value, dateDiffs.unit)
+}
+
+export default function useTimeAgo (createdAt) {
   return {
-    timeAgo: rtf.format(value, unit)
+    timeAgo: formatTimeAgo(createdAt)
   }
 }

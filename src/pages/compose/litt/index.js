@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useContext, useEffect, useState } from 'react'
 import Head from 'next/head'
 
-import useUser from '@/hooks/useUser'
-import useUploadImage from '@/hooks/useUploadImage'
 import { addLitt, uploadImageAndGetURL } from '@/firebase/client'
+import useUploadImage from '@/hooks/useUploadImage'
+import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { UserContext } from '@/context/userContext'
 
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
@@ -20,10 +20,11 @@ const COMPOSE_STATES = {
 }
 
 export default function ComposeTweet() {
-  const { user, USER_STATES } = useUser()
+  const { user, USER_STATES } = useContext(UserContext)
+  const { router, handleBack } = useNavigateLink()
   const [status, setStatus] = useState(COMPOSE_STATES.USER_NOT_KNOW)
   const [message, setMessage] = useState('')
-  const router = useRouter()
+
   const {
     imgURL,
     file,
@@ -40,10 +41,6 @@ export default function ComposeTweet() {
       router.replace('/home')
     }
   }, [user, router, USER_STATES])
-
-  const handleBack = () => {
-    router.back()
-  }
 
   const handleChange = e => {
     setMessage(e.target.value)

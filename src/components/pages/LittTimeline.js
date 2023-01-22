@@ -24,8 +24,9 @@ export default function LittTimeline({
   const router = useRouter()
 
   const handleArticleClick = e => {
-    if (e.target.nodeName === 'BUTTON' || e.target.nodeName === 'IMG') return
-    router.push(`/status/${id}`)
+    if (e.target.nodeName === 'ARTICLE' || e.target.nodeName === 'P') {
+      router.push(`/status/${id}`)
+    }
   }
 
   return (

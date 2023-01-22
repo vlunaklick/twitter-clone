@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { getUserById, getLittsById } from '@/firebase/client'
+import { useNavigateLink } from '@/hooks/useNavigateLink'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -20,12 +20,9 @@ export default function UserPage({
   litts,
 }) {
   const [timeline, setTimeline] = useState(litts)
-
-  const router = useRouter()
-
-  const handleBack = () => {
-    router.back()
-  }
+  const { handleBack, handleClick } = useNavigateLink(
+    `/profile/${userName}/edit`
+  )
 
   return (
     <>
@@ -39,7 +36,7 @@ export default function UserPage({
           <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
         </Button>
       </Header>
-      <div className="relative flex w-full flex-col items-center justify-center border-y border-slate-200 object-cover dark:border-slate-700">
+      <div className="relative flex w-full flex-col items-center justify-center border-y border-slate-200 object-cover dark:border-slate-900">
         <img
           className="object-cover"
           src={
@@ -54,6 +51,7 @@ export default function UserPage({
           alt={name + ' avatar'}
         />
         <Button
+          onClick={handleClick}
           className={
             'absolute right-4 -bottom-6 rounded-full border border-slate-800 bg-slate-800 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-slate-900 dark:border-slate-50 dark:bg-slate-50 dark:text-black hover:dark:border-slate-100 hover:dark:bg-slate-100'
           }

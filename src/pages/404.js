@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useNavigateLink } from '@/hooks/useNavigateLink'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -6,11 +6,7 @@ import LeftArrow from '@/components/svg/LeftArrow'
 import Navbar from '@/components/app/Navbar'
 
 export default function Error404() {
-  const router = useRouter()
-
-  const handleBack = () => {
-    router.push('/home')
-  }
+  const { handleBack } = useNavigateLink()
 
   return (
     <>

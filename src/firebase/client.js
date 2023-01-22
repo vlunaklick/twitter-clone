@@ -10,10 +10,10 @@ import {
   getDocs,
   orderBy,
   onSnapshot,
-  doc,
-  getDoc,
   query,
   where,
+  updateDoc,
+  doc,
 } from 'firebase/firestore'
 
 import {
@@ -22,6 +22,12 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage'
+
+import {
+  mapUserFromFirebaseAuth,
+  mapUserFromFirebase,
+  DEFAULT_INFO,
+} from './utils'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDRbXsOqf6DC3vvWkTCbMIzqmcvFxtN8iE',
@@ -42,36 +48,14 @@ const db = getFirestore(app)
 
 const storage = getStorage(app)
 
-const mapUserFromFirebaseAuth = user => {
-  const { displayName, email, photoURL, uid, reloadUserInfo } = user
-  const { screenName } = reloadUserInfo
-
-  return {
-    userId: uid,
-    userName: screenName,
-    name: displayName,
-    email,
-    avatar: photoURL,
-  }
-}
-
-const mapLittFromFirebase = doc => {
-  const data = doc.data()
-  const { createdAt } = data
-
-  return {
-    ...data,
-    id: doc.id,
-    createdAt: +createdAt.toDate(),
-  }
-}
+/* AUTH */
 
 export const loginWithGithub = async () => {
   const provider = new GithubAuthProvider()
   signInWithPopup(auth, provider).then(async data => {
     const { user } = data
 
-    const userInDb = await getUserById('userId', user.uid)
+    const userInDb = await fetchUserByField('userId', user.uid)
 
     if (userInDb === null) {
       await saveUser(mapUserFromFirebaseAuth(user))
@@ -80,14 +64,32 @@ export const loginWithGithub = async () => {
 }
 
 export const onAuthStateChange = onChange => {
-  return auth.onAuthStateChanged(user => {
-    const normalizeUser = user ? mapUserFromFirebaseAuth(user) : null
+  return auth.onAuthStateChanged(async user => {
+    const userFirebase = user
+      ? await fetchUserByField('userId', user.uid)
+      : null
 
-    onChange(normalizeUser)
+    onChange(userFirebase)
   })
 }
 
-export const addLitt = async ({
+/* SUBSCRIPTIONS */
+
+export const listenLitts = callback => {
+  return onSnapshot(
+    collection(db, 'litts'),
+    orderBy('createdAt', 'desc'),
+    snapshot => {
+      const litts = snapshot.docs.map(mapUserFromFirebase)
+      const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
+      callback(orderedLitts)
+    }
+  )
+}
+
+/* SAVE */
+
+export const saveLitt = async ({
   userId,
   userName,
   name,
@@ -112,54 +114,23 @@ export const addLitt = async ({
   }
 }
 
-export const getLitts = async () => {
-  const querySnapshot = await getDocs(
-    collection(db, 'litts'),
-    orderBy('createdAt', 'asc')
-  )
-  const orderedLitts = querySnapshot.docs.map(mapLittFromFirebase)
-  return orderedLitts.sort((a, b) => b.createdAt - a.createdAt)
-}
-
-export const listenLitts = callback => {
-  return onSnapshot(
-    collection(db, 'litts'),
-    orderBy('createdAt', 'desc'),
-    snapshot => {
-      const litts = snapshot.docs.map(mapLittFromFirebase)
-      const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
-      callback(orderedLitts)
-    }
-  )
-}
-
-export const uploadImage = file => {
+export const saveImage = file => {
   const imgRef = ref(storage, `images/${file.name}`)
   const task = uploadBytesResumable(imgRef, file)
   return task
 }
 
-export const getImage = async fileName => {
-  const imgRef = ref(storage, `${fileName}`)
-  return await getDownloadURL(imgRef)
-}
-
-export const uploadImageAndGetURL = async file => {
-  const task = uploadImage(file)
+export const saveImageAndGetURL = async file => {
+  const task = saveImage(file)
   return new Promise((resolve, reject) => {
     task.on(
       'state_changed',
-      snapshot => {
-        /**
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      console.log(`Upload is ${progress}% done`)
-      */
-      },
+      snapshot => {},
       error => {
         reject(error)
       },
       () => {
-        const imgURL = getImage(`images/${file.name}`)
+        const imgURL = fetchImageURL(`images/${file.name}`)
         resolve(imgURL)
       }
     )
@@ -178,12 +149,20 @@ export const saveUser = async user => {
     avatar,
     followers: [],
     following: [],
-    header: '',
+    header: DEFAULT_INFO.header,
+    biography: '',
     createdAt: Timestamp.fromDate(new Date()),
   })
 }
 
-export const getUserById = async (search, expect) => {
+/* GET */
+
+export const fetchImageURL = async fileName => {
+  const imgRef = ref(storage, `${fileName}`)
+  return await getDownloadURL(imgRef)
+}
+
+export const fetchUserByField = async (search, expect) => {
   const q = query(collection(db, 'users'), where(search, '==', expect))
 
   const querySnapshot = await getDocs(q)
@@ -194,10 +173,10 @@ export const getUserById = async (search, expect) => {
 
   const user = querySnapshot.docs[0]
 
-  return mapLittFromFirebase(user)
+  return mapUserFromFirebase(user)
 }
 
-export const getLittsById = async (search, expect) => {
+export const fetchLittsByField = async (search, expect) => {
   const q = query(collection(db, 'litts'), where(search, '==', expect))
 
   const querySnapshot = await getDocs(q)
@@ -206,9 +185,25 @@ export const getLittsById = async (search, expect) => {
     return null
   }
 
-  const litts = querySnapshot.docs.map(mapLittFromFirebase)
+  const litts = querySnapshot.docs.map(mapUserFromFirebase)
 
   const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
 
   return orderedLitts
+}
+
+export const fetchAllLitts = async () => {
+  const querySnapshot = await getDocs(
+    collection(db, 'litts'),
+    orderBy('createdAt', 'asc')
+  )
+  const orderedLitts = querySnapshot.docs.map(mapUserFromFirebase)
+  return orderedLitts.sort((a, b) => b.createdAt - a.createdAt)
+}
+
+/* UPDATE */
+
+export const updateUserById = async (id, data) => {
+  const docRef = doc(db, 'users', id)
+  await updateDoc(docRef, data)
 }

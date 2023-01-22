@@ -1,17 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const DRAG_IMAGE_STATES = {
   ERROR: -1,
   NONE: 0,
   DRAG_OVER: 1,
   UPLODAING: 2,
-  COMPLETE: 3
+  COMPLETE: 3,
 }
 
-export default function useUploadImage () {
+export default function useUploadImage(img) {
   const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE)
   const [file, setFile] = useState(null)
   const [imgURL, setImgUrl] = useState(null)
+
+  useEffect(() => {
+    if (img) {
+      setImgUrl(img)
+    }
+  }, [img])
 
   const handerDragEnter = e => {
     e.preventDefault()
@@ -23,7 +29,7 @@ export default function useUploadImage () {
     setDrag(DRAG_IMAGE_STATES.NONE)
   }
 
-  const handleDragDrop = (e) => {
+  const handleDragDrop = e => {
     e.preventDefault()
     setDrag(DRAG_IMAGE_STATES.NONE)
     const file = e.dataTransfer.files[0]
@@ -36,14 +42,14 @@ export default function useUploadImage () {
     setImgUrl(null)
   }
 
-  const handleUploadImage = (e) => {
+  const handleUploadImage = e => {
     if (e.target.files[0]) {
       uploadAndGetUrl(e.target.files[0])
       setFile(e.target.files[0])
     }
   }
 
-  const uploadAndGetUrl = (file) => {
+  const uploadAndGetUrl = file => {
     if (file.type.match(/image\//)) {
       const src = URL.createObjectURL(file)
       setImgUrl(src)
@@ -60,6 +66,6 @@ export default function useUploadImage () {
     handleDragLeave,
     handleDragDrop,
     handleRemoveImage,
-    handleUploadImage
+    handleUploadImage,
   }
 }

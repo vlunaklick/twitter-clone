@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
 
-import { getLitts, listenLitts } from '@/firebase/client'
+import { fetchAllLitts, listenLitts } from '@/firebase/client'
 
 import Header from '@/components/app/Header'
 import Navbar from '@/components/app/Navbar'
@@ -11,7 +11,7 @@ export default function Home() {
   const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
-    getLitts()
+    fetchAllLitts()
       .then(setTimeline)
       .catch(err => console.log(err))
   }, [])

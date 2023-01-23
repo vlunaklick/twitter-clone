@@ -7,6 +7,7 @@ import {
   fetchUserByField,
   saveImageAndGetURL,
   updateUserById,
+  updateAllLittsByUserId,
 } from '@/firebase/client'
 
 import Header from '@/components/app/Header'
@@ -23,7 +24,7 @@ export default function ProfileEdit({
   header,
   biography,
 }) {
-  const { user, USER_STATES } = useContext(UserContext)
+  const { user, USER_STATES, updateData } = useContext(UserContext)
   const { router, handleBack } = useNavigateLink()
 
   const {
@@ -70,7 +71,10 @@ export default function ProfileEdit({
 
     updateUserById(id, data)
       .then(() => {
-        router.replace(`/profile/${userName}`)
+        updateData(data)
+        updateAllLittsByUserId(id, data).then(() => {
+          router.replace(`/profile/${userName}`)
+        })
       })
       .catch(err => {
         console.log(err)
@@ -88,7 +92,7 @@ export default function ProfileEdit({
         >
           <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
         </Button>
-        <h2 className="pl-3 font-semibold">Profile editor</h2>
+        <h2 className="pl-3 font-semibold">Editar perfil</h2>
         <Button
           className="ml-auto mr-4 w-fit text-xs"
           variant="none"

@@ -18,10 +18,10 @@ export default function LittTimeline({
   avatar,
   content,
   createdAt,
-  likes = [],
+  likes,
   likesCount,
-  shared = [],
-  sharedCount,
+  shares,
+  sharesCount,
   img,
   mainUser_id,
   handleShared,
@@ -36,8 +36,8 @@ export default function LittTimeline({
 
   useEffect(() => {
     setIsLiked(likes.includes(mainUser_id))
-    setIsShared(shared.includes(mainUser_id))
-  }, [likes, shared, mainUser_id])
+    setIsShared(shares.includes(mainUser_id))
+  }, [likes, shares, mainUser_id])
 
   const handleArticleClick = e => {
     if (e.target.nodeName === 'ARTICLE' || e.target.nodeName === 'P') {
@@ -86,7 +86,7 @@ export default function LittTimeline({
               <Reuse width={14} heigth={14} />
             </Button>
             <span className="text-[9px] transition-colors group-hover:text-yellow-800">
-              {sharedCount > 0 ? sharedCount : ''}
+              {sharesCount > 0 ? sharesCount : ''}
             </span>
           </div>
 

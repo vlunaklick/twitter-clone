@@ -18,6 +18,19 @@ export const mapUserFromFirebaseAuth = user => {
 
 export const mapUserFromFirebase = doc => {
   const data = doc.data()
+
+  const { createdAt } = data
+
+  return {
+    ...data,
+    id: doc.id,
+    createdAt: +createdAt.toDate(),
+  }
+}
+
+export const mapLittFromFirebase = doc => {
+  const data = doc.data()
+
   const { createdAt } = data
 
   return {

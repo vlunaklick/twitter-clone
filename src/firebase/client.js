@@ -14,6 +14,9 @@ import {
   where,
   updateDoc,
   doc,
+  arrayRemove,
+  arrayUnion,
+  increment,
 } from 'firebase/firestore'
 
 import {
@@ -27,6 +30,7 @@ import {
   mapUserFromFirebaseAuth,
   mapUserFromFirebase,
   DEFAULT_INFO,
+  mapLittFromFirebase,
 } from './utils'
 
 const firebaseConfig = {
@@ -73,15 +77,23 @@ export const onAuthStateChange = onChange => {
   })
 }
 
+export const refetchUser = async uid => {
+  const user = await fetchUserByField('userId', uid)
+  return user
+}
+
 /* SUBSCRIPTIONS */
 
 export const listenLitts = callback => {
+  // make onsnapshot every 5 minutes
   return onSnapshot(
     collection(db, 'litts'),
-    orderBy('createdAt', 'desc'),
-    snapshot => {
-      const litts = snapshot.docs.map(mapUserFromFirebase)
+    { includeMetadataChanges: true },
+    querySnapshot => {
+      const litts = querySnapshot.docs.map(mapLittFromFirebase)
+
       const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
+
       callback(orderedLitts)
     }
   )
@@ -89,7 +101,8 @@ export const listenLitts = callback => {
 
 /* SAVE */
 
-export const saveLitt = async ({
+export const saveLittWithId = async ({
+  user_id,
   userId,
   userName,
   name,
@@ -99,13 +112,16 @@ export const saveLitt = async ({
 }) => {
   try {
     await addDoc(collection(db, 'litts'), {
+      user_id,
       userId,
       userName,
       name,
       avatar,
       content,
+      likes: [],
       likesCount: 0,
-      sharedCount: 0,
+      shares: [],
+      sharesCount: 0,
       createdAt: Timestamp.fromDate(new Date()),
       img,
     })
@@ -185,7 +201,7 @@ export const fetchLittsByField = async (search, expect) => {
     return null
   }
 
-  const litts = querySnapshot.docs.map(mapUserFromFirebase)
+  const litts = querySnapshot.docs.map(mapLittFromFirebase)
 
   const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
 
@@ -197,8 +213,12 @@ export const fetchAllLitts = async () => {
     collection(db, 'litts'),
     orderBy('createdAt', 'asc')
   )
-  const orderedLitts = querySnapshot.docs.map(mapUserFromFirebase)
-  return orderedLitts.sort((a, b) => b.createdAt - a.createdAt)
+
+  const litts = querySnapshot.docs.map(mapLittFromFirebase)
+
+  const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
+
+  return orderedLitts
 }
 
 /* UPDATE */
@@ -206,4 +226,59 @@ export const fetchAllLitts = async () => {
 export const updateUserById = async (id, data) => {
   const docRef = doc(db, 'users', id)
   await updateDoc(docRef, data)
+}
+
+export const updateAllLittsByUserId = async (user_id, data) => {
+  const q = query(collection(db, 'litts'), where('user_id', '==', user_id))
+
+  const querySnapshot = await getDocs(q)
+
+  if (querySnapshot.empty) {
+    return null
+  }
+
+  const litts = querySnapshot.docs.map(mapLittFromFirebase)
+
+  const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
+
+  orderedLitts.forEach(async litt => {
+    const docRef = doc(db, 'litts', litt.id)
+    await updateDoc(docRef, data)
+  })
+}
+
+export const addLikeToLitt = async (litt_id, user_id) => {
+  const docRef = doc(db, 'litts', litt_id)
+
+  await updateDoc(docRef, {
+    likes: arrayUnion(user_id),
+    likesCount: increment(1),
+  })
+}
+
+export const removeLikeFromLitt = async (litt_id, user_id) => {
+  const docRef = doc(db, 'litts', litt_id)
+
+  await updateDoc(docRef, {
+    likes: arrayRemove(user_id),
+    likesCount: increment(-1),
+  })
+}
+
+export const addSharedToLitt = async (litt_id, user_id) => {
+  const docRef = doc(db, 'litts', litt_id)
+
+  await updateDoc(docRef, {
+    shares: arrayUnion(user_id),
+    sharesCount: increment(1),
+  })
+}
+
+export const removeSharedFromLitt = async (litt_id, user_id) => {
+  const docRef = doc(db, 'litts', litt_id)
+
+  await updateDoc(docRef, {
+    shares: arrayRemove(user_id),
+    sharesCount: increment(-1),
+  })
 }

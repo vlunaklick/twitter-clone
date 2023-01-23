@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 import { fetchUserByField, fetchLittsByField } from '@/firebase/client'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
 import { UserContext } from '@/context/userContext'
-import { useTimeline } from '@/hooks/useTimeline'
+import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useFollow } from '@/hooks/useFollow'
+import { useButtonStates } from '@/hooks/useButtonStates'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -15,6 +16,7 @@ import Information from '@/components/pages/profile/Information'
 import BannerAndIcon from '@/components/pages/profile/BannerAndIcon'
 
 export default function UserPage({
+  id,
   userName,
   name,
   avatar,
@@ -25,16 +27,40 @@ export default function UserPage({
   litts,
 }) {
   const { user } = useContext(UserContext)
+  const { followersArray, followingArray, handleFollow, handleUnfollow } =
+    useFollow(followers, following)
+
+  const { status, handleLoadingState, handleSuccessState, COMPOSE_STATES } =
+    useButtonStates()
 
   const { handleBack, handlePush } = useNavigateLink(
     `/profile/${userName}/edit`
   )
 
-  const handleFollow = () => {
-    console.log('follow')
+  const [youFollowing, setYouFollowing] = useState(false)
+
+  useEffect(() => {
+    if (user) {
+      const areYouFollowing = followersArray.some(
+        follower => follower === user.id
+      )
+      setYouFollowing(areYouFollowing)
+    }
+  }, [user, followersArray])
+
+  const handleClick = async () => {
+    handleLoadingState()
+    if (youFollowing) {
+      await handleUnfollow(id, user.id)
+    } else {
+      await handleFollow(id, user.id)
+    }
+    handleSuccessState()
   }
 
-  const areYouFollowing = following?.includes(user?.user_id)
+  const isButtonDisabled = status === COMPOSE_STATES.LOADING
+
+  console.log(youFollowing)
 
   return (
     <>
@@ -52,15 +78,17 @@ export default function UserPage({
           userName={userName}
           user={user}
           handlePush={handlePush}
-          areYouFollowing={areYouFollowing}
+          handleFollow={handleClick}
+          areYouFollowing={youFollowing}
+          isButtonDisabled={isButtonDisabled}
         />
 
         <Information
           name={name}
           userName={userName}
           biography={biography}
-          followers={followers}
-          following={following}
+          followers={followersArray}
+          following={followingArray}
         />
 
         <Timeline litts={litts} mainUser_id={user?.id || ''} />

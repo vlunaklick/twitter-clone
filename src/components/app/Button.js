@@ -12,7 +12,7 @@ const VARIANTS = {
   edit_profile:
     'absolute right-4 -bottom-6 rounded-full border border-slate-800 bg-slate-800 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-slate-900 dark:border-slate-50 dark:bg-slate-50 dark:text-black hover:dark:border-slate-100 hover:dark:bg-slate-100',
   none: '',
-  disabled: 'opacity-30',
+  disabled: 'opacity-30 transition-colors',
 }
 
 const NONE_DEFAULT = [

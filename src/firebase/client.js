@@ -282,3 +282,35 @@ export const removeSharedFromLitt = async (litt_id, user_id) => {
     sharesCount: increment(-1),
   })
 }
+
+export const addFollowerToUser = async (user_id, follower_id) => {
+  const docRef = doc(db, 'users', user_id)
+
+  await updateDoc(docRef, {
+    followers: arrayUnion(follower_id),
+  })
+}
+
+export const removeFollowerFromUser = async (user_id, follower_id) => {
+  const docRef = doc(db, 'users', user_id)
+
+  await updateDoc(docRef, {
+    followers: arrayRemove(follower_id),
+  })
+}
+
+export const addFollowingToUser = async (user_id, following_id) => {
+  const docRef = doc(db, 'users', user_id)
+
+  await updateDoc(docRef, {
+    following: arrayUnion(following_id),
+  })
+}
+
+export const removeFollowingFromUser = async (user_id, following_id) => {
+  const docRef = doc(db, 'users', user_id)
+
+  await updateDoc(docRef, {
+    following: arrayRemove(following_id),
+  })
+}

@@ -9,6 +9,8 @@ export default function BannerAndIcon({
   user,
   handlePush,
   areYouFollowing,
+  handleFollow,
+  isButtonDisabled,
 }) {
   return (
     <div className="relative flex h-[131px] w-full flex-col items-center justify-center border-y border-slate-200 object-cover dark:border-slate-900">
@@ -31,7 +33,11 @@ export default function BannerAndIcon({
         </Button>
       )}
       {user && user.userName !== userName && (
-        <Button onClick={handlePush} variant="edit_profile">
+        <Button
+          onClick={handleFollow}
+          variant="edit_profile"
+          disabled={isButtonDisabled}
+        >
           {areYouFollowing ? 'Siguiendo' : 'Seguir'}
         </Button>
       )}

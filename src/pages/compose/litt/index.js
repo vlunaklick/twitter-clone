@@ -11,18 +11,12 @@ import LeftArrow from '@/components/svg/LeftArrow'
 import UploadImage from '@/components/svg/UploadImage'
 import Avatar from '@/components/app/Avatar'
 import Header from '@/components/app/Header'
-
-const COMPOSE_STATES = {
-  USER_NOT_KNOW: 0,
-  LOADING: 1,
-  SUCCESS: 2,
-  ERROR: -1,
-}
+import { useButtonStates } from '@/hooks/useButtonStates'
 
 export default function ComposeTweet() {
   const { user, USER_STATES } = useContext(UserContext)
   const { router, handleBack } = useNavigateLink()
-  const [status, setStatus] = useState(COMPOSE_STATES.USER_NOT_KNOW)
+  const { status, handleLoadingState, COMPOSE_STATES } = useButtonStates()
   const [message, setMessage] = useState('')
 
   const {
@@ -48,7 +42,7 @@ export default function ComposeTweet() {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    setStatus(COMPOSE_STATES.LOADING)
+    handleLoadingState()
     if (message.length <= 141 && message.length > 0) {
       let imgUploadedSrc = null
       if (file) {
@@ -70,7 +64,6 @@ export default function ComposeTweet() {
         })
         .catch(err => {
           console.log(err)
-          setStatus(COMPOSE_STATES.ERROR)
         })
     }
   }

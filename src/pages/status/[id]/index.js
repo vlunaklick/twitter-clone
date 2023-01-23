@@ -1,8 +1,17 @@
-import { useRouter } from 'next/router'
+import { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import { getLitBySlug } from '@/firebase/admin'
+import { UserContext } from '@/context/userContext'
 import useDateFormat from '@/hooks/useDateFormat'
+import { useNavigateLink } from '@/hooks/useNavigateLink'
+import {
+  addSharedToLitt,
+  removeSharedFromLitt,
+  addLikeToLitt,
+  removeLikeFromLitt,
+} from '@/firebase/client'
+import { useButtonStates } from '@/hooks/useButtonStates'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -11,6 +20,8 @@ import Avatar from '@/components/app/Avatar'
 import Reuse from '@/components/svg/Reuse'
 import Like from '@/components/svg/Like'
 import NavLayout from '@/components/app/NavLayout'
+import LittImage from '@/components/pages/LittImage'
+import Counters from '@/components/pages/status/Counters'
 
 export default function LittPage({
   id,
@@ -19,17 +30,76 @@ export default function LittPage({
   avatar,
   content,
   createdAt,
+  likes,
   likesCount,
-  sharedCount,
+  shares,
+  sharesCount,
   img,
 }) {
+  const { user } = useContext(UserContext)
+  const { handleBack } = useNavigateLink()
   const { formattedDate } = useDateFormat(createdAt)
+  const {
+    state: likeState,
+    handleLoadingState: handleLoadingLikeState,
+    handleSuccessState: handleSuccessLikeState,
+    COMPOSE_STATES,
+  } = useButtonStates()
 
-  const router = useRouter()
+  const {
+    state: shareState,
+    handleLoadingState: handleLoadingShareState,
+    handleSuccessState: handleSuccessShareState,
+  } = useButtonStates()
 
-  const handleBack = () => {
-    router.push('/home')
+  const [liked, setLiked] = useState(false)
+  const [shared, setShared] = useState(false)
+  const [likedCount, setLikedCount] = useState(likesCount)
+  const [sharedCount, setSharedCount] = useState(sharesCount)
+
+  useEffect(() => {
+    if (user && likes && likes.includes(user.id)) {
+      setLiked(true)
+    }
+  }, [likes, user])
+
+  useEffect(() => {
+    if (user && shares && shares.includes(user.id)) {
+      setShared(true)
+    }
+  }, [shares, user])
+
+  const handleLiked = async () => {
+    handleLoadingLikeState()
+    if (liked) {
+      setLiked(false)
+      setLikedCount(likedCount - 1)
+      await removeLikeFromLitt(id, user.id)
+    } else {
+      setLiked(true)
+      setLikedCount(likedCount + 1)
+      await addLikeToLitt(id, user.id)
+    }
+    handleSuccessLikeState()
   }
+
+  const handleShared = async () => {
+    handleLoadingShareState()
+    if (shared) {
+      setShared(false)
+      setSharedCount(sharedCount - 1)
+      await removeSharedFromLitt(id, user.id)
+    } else {
+      setShared(true)
+      setSharedCount(sharedCount + 1)
+      await addSharedToLitt(id, user.id)
+    }
+    handleSuccessShareState()
+  }
+
+  const isLikeLoading = likeState === COMPOSE_STATES.LOADING
+
+  const isShareLoading = shareState === COMPOSE_STATES.LOADING
 
   return (
     <>
@@ -59,56 +129,58 @@ export default function LittPage({
               </small>
             </div>
           </header>
-          <section className="flex flex-col gap-2 border-b border-slate-200 pb-2 dark:border-slate-700">
+          <footer className="flex flex-col gap-2 border-b border-slate-200 pb-2 dark:border-slate-700">
             {content && <p className="mt-2">{content}</p>}
-            {img && (
-              <picture className="mt-2 flex items-center justify-center rounded-md bg-slate-50 shadow-inner">
-                <img
-                  src={img}
-                  alt={content}
-                  className="rounded-lg object-contain"
-                />
-              </picture>
-            )}
+            <LittImage src={img} alt={content} />
             <time title={formattedDate} className="text-xs text-slate-600">
               {formattedDate}
             </time>
-          </section>
-          {(likesCount > 0 || sharedCount > 0) && (
+          </footer>
+
+          {(likedCount > 0 || sharedCount > 0) && (
             <section className="flex gap-3 border-b border-slate-200 py-2 text-xs font-medium text-slate-900 dark:border-slate-700">
-              {likesCount > 0 && (
-                <p>
-                  {likesCount}{' '}
-                  <span className="font-normal text-slate-500">Me gustas</span>
-                </p>
-              )}
-              {sharedCount > 0 && (
-                <p>
-                  {sharedCount}{' '}
-                  <span className="font-normal text-slate-500">Relittls</span>
-                </p>
-              )}
+              <Counters count={sharedCount} text={'Relitt'} />
+              <Counters count={likedCount} text={'Me gustas'} />
             </section>
           )}
-          <footer className="just flex items-center gap-8 border-b border-slate-200 py-2 dark:border-slate-700">
+
+          <section className="just flex items-center gap-8 border-b border-slate-200 py-2 dark:border-slate-700">
             <div className="group flex cursor-pointer items-center justify-center gap-1">
-              <button className="rounded-full fill-slate-800 p-1 transition-colors group-hover:bg-yellow-50 group-hover:fill-yellow-600 dark:fill-slate-100">
+              <Button
+                variant="none"
+                maxWidth={false}
+                className={
+                  'rounded-full p-1 transition-colors group-hover:bg-yellow-50 group-hover:fill-yellow-800 ' +
+                  (shared ? 'fill-yellow-800' : '')
+                }
+                disabled={isShareLoading}
+                onClick={() => handleShared()}
+              >
                 <Reuse width={20} heigth={20} />
-              </button>
+              </Button>
               <span className="text-xs transition-colors group-hover:text-yellow-600">
-                {likesCount > 0 ? likesCount : ''}
+                {sharedCount > 0 ? sharedCount : ''}
               </span>
             </div>
 
             <div className="group flex cursor-pointer items-center justify-center gap-1">
-              <button className="rounded-full fill-slate-800 p-1 transition-colors group-hover:bg-red-50 group-hover:fill-red-500 dark:fill-slate-100">
+              <Button
+                variant="none"
+                maxWidth={false}
+                className={
+                  'rounded-full p-1 transition-colors group-hover:bg-red-50 group-hover:fill-red-500 ' +
+                  (liked ? 'fill-red-500' : '')
+                }
+                disabled={isLikeLoading}
+                onClick={() => handleLiked()}
+              >
                 <Like width={25} heigth={25} />
-              </button>
+              </Button>
               <span className="text-xs transition-colors group-hover:text-red-500">
-                {sharedCount > 0 ? sharedCount : ''}
+                {likedCount > 0 ? likedCount : ''}
               </span>
             </div>
-          </footer>
+          </section>
         </article>
       </NavLayout>
     </>

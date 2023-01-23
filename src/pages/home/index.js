@@ -43,8 +43,8 @@ export default function Home({ timelineInitial }) {
               createdAt,
               likes,
               likesCount,
-              shared,
-              sharedCount,
+              shares,
+              sharesCount,
               img,
             }) => (
               <LittTimeline
@@ -57,8 +57,8 @@ export default function Home({ timelineInitial }) {
                 createdAt={createdAt}
                 likes={likes}
                 likesCount={likesCount}
-                shared={shared}
-                sharedCount={sharedCount}
+                shares={shares}
+                sharesCount={sharesCount}
                 img={img}
                 handleShared={handleShared}
                 handleLiked={handleLiked}

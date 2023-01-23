@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Button from '@/components/app/Button'
+import FollowButton from './FollowButton'
 
 export default function BannerAndIcon({
   header,
@@ -33,13 +34,12 @@ export default function BannerAndIcon({
         </Button>
       )}
       {user && user.userName !== userName && (
-        <Button
-          onClick={handleFollow}
-          variant="edit_profile"
+        <FollowButton
+          isFollowing={areYouFollowing}
+          handleClick={handleFollow}
           disabled={isButtonDisabled}
-        >
-          {areYouFollowing ? 'Siguiendo' : 'Seguir'}
-        </Button>
+          className={'absolute right-4 -bottom-6'}
+        />
       )}
     </div>
   )

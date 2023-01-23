@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Information({
   name,
   userName,
@@ -17,18 +19,24 @@ export default function Information({
       </div>
       <p className="text-xs text-slate-900 dark:text-white">{biography}</p>
       <div className="flex gap-2 text-xs">
-        <p className="text-slate-600 dark:text-slate-400">
+        <Link
+          href={`/profile/${userName}/following`}
+          className="text-slate-600 hover:underline dark:text-slate-400"
+        >
           <span className="font-semibold text-black dark:text-white">
             {following ? following.length : 0}
           </span>{' '}
           siguiendo
-        </p>
-        <p className="text-slate-600 dark:text-slate-400">
+        </Link>
+        <Link
+          href={`/profile/${userName}/followers`}
+          className="text-slate-600 hover:underline dark:text-slate-400"
+        >
           <span className="font-semibold text-black dark:text-white">
             {followers ? followers.length : 0}
           </span>{' '}
           seguidores
-        </p>
+        </Link>
       </div>
     </div>
   )

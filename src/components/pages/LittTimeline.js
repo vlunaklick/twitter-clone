@@ -41,7 +41,7 @@ export default function LittTimeline({
 
   const handleArticleClick = e => {
     if (e.target.nodeName === 'ARTICLE' || e.target.nodeName === 'P') {
-      handlePush(`/status/${id}`)
+      handlePush()
     }
   }
 
@@ -53,6 +53,7 @@ export default function LittTimeline({
       <Link href={`/profile/${userName}`} className="h-min">
         <Avatar src={avatar} alt={userName} />
       </Link>
+
       <section>
         <header className="flex items-center gap-1">
           <strong className="text-xs min-[340px]:text-sm">{name}</strong>

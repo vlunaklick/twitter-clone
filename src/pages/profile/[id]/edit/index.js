@@ -117,7 +117,7 @@ export default function ProfileEdit({
             <Camara width={30} height={30} className={'fill-white'} />
           </label>
           <img
-            className="h-full w-full object-fill"
+            className="h-full w-full object-cover"
             src={headerURL}
             alt={userName + ' header'}
           />
@@ -137,7 +137,7 @@ export default function ProfileEdit({
             <Camara width={30} height={30} className={'fill-white'} />
           </label>
           <img
-            className="aspect-square bg-slate-900 object-contain dark:bg-white"
+            className="aspect-square bg-slate-900 object-cover dark:bg-white"
             src={avatarURL}
             alt={name + ' avatar'}
           />

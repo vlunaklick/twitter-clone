@@ -19,7 +19,7 @@ export default function ImagePreview({
           ✖
         </Button>
 
-        <img src={imgURL} className="rounded object-contain" />
+        <img src={imgURL} className="rounded object-cover" />
       </picture>
     </>
   )

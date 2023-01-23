@@ -15,7 +15,7 @@ export default function BannerAndIcon({
   return (
     <div className="relative flex h-[131px] w-full flex-col items-center justify-center border-y border-slate-200 object-cover dark:border-slate-900">
       <img
-        className="h-full w-full object-fill"
+        className="h-full w-full object-cover"
         src={
           header ||
           'https://i.pinimg.com/736x/10/82/a1/1082a1628e396e67143a8bbf31513b16.jpg'
@@ -23,7 +23,7 @@ export default function BannerAndIcon({
         alt={name + ' header'}
       />
       <img
-        className="absolute left-4 -bottom-10 aspect-square h-20 w-20 rounded-full border-4 border-white bg-slate-900 object-contain dark:border-slate-900 dark:bg-white"
+        className="absolute left-4 -bottom-10 aspect-square h-20 w-20 rounded-full border-4 border-white bg-slate-900 object-cover dark:border-slate-900 dark:bg-white"
         src={avatar || 'https://i.pravatar.cc/300'}
         alt={name + ' avatar'}
       />

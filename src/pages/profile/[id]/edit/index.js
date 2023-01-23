@@ -43,7 +43,7 @@ export default function ProfileEdit({
   } = useUploadImage(header)
 
   useEffect(() => {
-    if (user === USER_STATES.NOT_LOGGED) {
+    if (user === USER_STATES.NOT_LOGGED || user?.id !== id) {
       router.replace('/home')
     }
   }, [user, router, USER_STATES])

@@ -1,27 +1,15 @@
 import Head from 'next/head'
-import { useEffect, useContext } from 'react'
+import { useContext } from 'react'
 
 import { fetchAllLitts } from '@/firebase/client'
+import { UserContext } from '@/context/userContext'
 
 import Header from '@/components/app/Header'
-import LittTimeline from '@/components/pages/LittTimeline'
 import NavLayout from '@/components/app/NavLayout'
-import { UserContext } from '@/context/userContext'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
-import { useTimeline } from '@/hooks/useTimeline'
+import Timeline from '@/components/pages/Timeline'
 
 export default function Home({ timelineInitial }) {
   const { user } = useContext(UserContext)
-  const { timeline, setTimeline, handleShared, handleLiked } =
-    useTimeline(timelineInitial)
-
-  const { router } = useNavigateLink()
-
-  useEffect(() => {
-    fetchAllLitts()
-      .then(setTimeline)
-      .catch(err => console.log(err))
-  }, [])
 
   return (
     <>
@@ -29,44 +17,12 @@ export default function Home({ timelineInitial }) {
         <Head>
           <title>Inicio / Littera</title>
         </Head>
+
         <Header>
           <h2 className="pl-3 font-semibold">Inicio</h2>
         </Header>
-        <section>
-          {timeline.map(
-            ({
-              id,
-              userName,
-              name,
-              avatar,
-              content,
-              createdAt,
-              likes,
-              likesCount,
-              shares,
-              sharesCount,
-              img,
-            }) => (
-              <LittTimeline
-                key={id}
-                id={id}
-                userName={userName}
-                name={name}
-                avatar={avatar}
-                content={content}
-                createdAt={createdAt}
-                likes={likes}
-                likesCount={likesCount}
-                shares={shares}
-                sharesCount={sharesCount}
-                img={img}
-                handleShared={handleShared}
-                handleLiked={handleLiked}
-                mainUser_id={user?.id || ''}
-              />
-            )
-          )}
-        </section>
+
+        <Timeline litts={timelineInitial} mainUser_id={user?.id || ''} />
       </NavLayout>
     </>
   )

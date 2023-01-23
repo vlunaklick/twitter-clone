@@ -26,11 +26,13 @@ export default function Home() {
     <>
       <main className="flex flex-col items-center justify-center gap-7 p-3">
         <Hero />
+
         {user === USER_STATES.NOT_LOGGED && (
           <Button onClick={handleLogin} maxWidth={true}>
             Join us with GitHub
           </Button>
         )}
+
         {user === USER_STATES.NOT_KNOWN && <Spinner />}
       </main>
     </>

@@ -9,12 +9,13 @@ import {
   updateUserById,
   updateAllLittsByUserId,
 } from '@/firebase/client'
+import { useInput } from '@/hooks/useInput'
+import useUploadImage from '@/hooks/useUploadImage'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
 import Camara from '@/components/svg/Camara'
-import useUploadImage from '@/hooks/useUploadImage'
 
 export default function ProfileEdit({
   id,
@@ -26,6 +27,8 @@ export default function ProfileEdit({
 }) {
   const { user, USER_STATES, updateData } = useContext(UserContext)
   const { router, handleBack } = useNavigateLink()
+  const { value: newName, onChange: setNewName } = useInput(name)
+  const { value: newBiography, onChange: setNewBiography } = useInput(biography)
 
   const {
     imgURL: avatarURL,
@@ -38,9 +41,6 @@ export default function ProfileEdit({
     file: headerFile,
     handleUploadImage: handleHeader,
   } = useUploadImage(header)
-
-  const [newName, setNewName] = useState(name)
-  const [newBiography, setNewBiography] = useState(biography)
 
   useEffect(() => {
     if (user === USER_STATES.NOT_LOGGED) {
@@ -100,6 +100,7 @@ export default function ProfileEdit({
           Guardar
         </Button>
       </Header>
+
       <div className="relative flex h-[138px] w-full flex-col items-center justify-center border-y border-slate-200 object-cover dark:border-slate-900">
         <button className="h-full w-full overflow-hidden">
           <input
@@ -142,6 +143,7 @@ export default function ProfileEdit({
           />
         </button>
       </div>
+
       <form className="mt-8 flex w-full flex-col p-4" onSubmit={handleSubmit}>
         <label className="text-xs font-medium text-slate-900 dark:text-slate-400">
           Nombre
@@ -151,7 +153,7 @@ export default function ProfileEdit({
           type="text"
           name="name"
           value={newName}
-          onChange={e => setNewName(e.target.value)}
+          onChange={setNewName}
         />
         <label className="mt-4 text-xs font-medium text-slate-900 dark:text-slate-400">
           Biografía
@@ -161,7 +163,7 @@ export default function ProfileEdit({
           name="biography"
           maxLength={100}
           value={newBiography}
-          onChange={e => setNewBiography(e.target.value)}
+          onChange={setNewBiography}
         />
       </form>
     </>

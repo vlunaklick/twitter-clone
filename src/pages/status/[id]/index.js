@@ -108,8 +108,10 @@ export default function LittPage({
           <Button onClick={handleBack} variant={'header_icon'}>
             <LeftArrow className="w-8 fill-slate-900 dark:fill-slate-100" />
           </Button>
+
           <h2 className="pl-3 font-semibold">Litt</h2>
         </Header>
+
         <article className="p-3">
           <header className="flex items-center gap-2">
             <Link href={`/profile/${userName}`}>
@@ -124,6 +126,7 @@ export default function LittPage({
               </small>
             </div>
           </header>
+
           <footer className="flex flex-col gap-2 border-b border-slate-200 pb-2 dark:border-slate-700">
             {content && <p className="mt-2">{content}</p>}
             <LittImage src={img} alt={content} />

@@ -1,23 +1,25 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import Head from 'next/head'
 
 import { saveImageAndGetURL, saveLittWithId } from '@/firebase/client'
+import { UserContext } from '@/context/userContext'
 import useUploadImage from '@/hooks/useUploadImage'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
-import { UserContext } from '@/context/userContext'
+import { useInput } from '@/hooks/useInput'
+import { useButtonStates } from '@/hooks/useButtonStates'
 
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
-import UploadImage from '@/components/svg/UploadImage'
 import Avatar from '@/components/app/Avatar'
 import Header from '@/components/app/Header'
-import { useButtonStates } from '@/hooks/useButtonStates'
+import Options from '@/components/pages/compose/Options'
+import ImagePreview from '@/components/pages/compose/ImagePreview'
 
 export default function ComposeTweet() {
   const { user, USER_STATES } = useContext(UserContext)
   const { router, handleBack } = useNavigateLink()
   const { status, handleLoadingState, COMPOSE_STATES } = useButtonStates()
-  const [message, setMessage] = useState('')
+  const { value: content, onChange: onContentChange } = useInput('')
 
   const {
     imgURL,
@@ -36,10 +38,6 @@ export default function ComposeTweet() {
     }
   }, [user, router, USER_STATES])
 
-  const handleChange = e => {
-    setMessage(e.target.value)
-  }
-
   const handleSubmit = async e => {
     e.preventDefault()
     handleLoadingState()
@@ -55,7 +53,7 @@ export default function ComposeTweet() {
         userName: user.userName,
         name: user.name,
         avatar: user.avatar,
-        content: message,
+        content: content,
         img: imgUploadedSrc,
       })
         .then(data => {
@@ -69,7 +67,7 @@ export default function ComposeTweet() {
   }
 
   const isButtonDisabled =
-    message.length === 0 || status === COMPOSE_STATES.LOADING
+    content.length === 0 || status === COMPOSE_STATES.LOADING
 
   const isRemoveImageDisabled = status === COMPOSE_STATES.LOADING
 
@@ -91,6 +89,7 @@ export default function ComposeTweet() {
           Littiar
         </Button>
       </Header>
+
       <section className="flex gap-1 border-b border-slate-200 p-2 dark:border-slate-700">
         {user && <Avatar src={user.avatar} />}
         <form onSubmit={handleSubmit} className="w-full">
@@ -99,44 +98,24 @@ export default function ComposeTweet() {
               'min-h-[140px] w-full resize-none rounded-sm border p-2 outline-none dark:bg-slate-900 ' +
               (dragged ? 'border-dashed border-sky-500' : 'border-transparent')
             }
-            value={message}
-            onChange={handleChange}
+            value={content}
+            onChange={onContentChange}
             maxLength={140}
             placeholder="¿Qué está pasando?"
             onDragEnter={handerDragEnter}
             onDragLeave={handleDragLeave}
             onDrop={handleDragDrop}
           ></textarea>
-          {imgURL && (
-            <picture className="relative flex max-h-[334px] max-w-[334px] items-center justify-center rounded-md bg-slate-50 shadow-inner dark:bg-slate-800">
-              <Button
-                onClick={() => handleRemoveImage()}
-                variant={'img_cancel'}
-                disabled={isRemoveImageDisabled}
-              >
-                ✖
-              </Button>
-              <img src={imgURL} className="rounded object-contain" />
-            </picture>
-          )}
+
+          <ImagePreview
+            imgURL={imgURL}
+            handleRemoveImage={handleRemoveImage}
+            isRemoveImageDisabled={isRemoveImageDisabled}
+          />
         </form>
       </section>
-      <section className="flex h-full max-h-[50px] w-full items-center border-b border-slate-200 p-1 px-4 dark:border-slate-700">
-        <input
-          type={'file'}
-          id={'file'}
-          onChange={handleUploadImage}
-          accept="image/*"
-          className="hidden"
-        />
-        <label htmlFor={'file'} className="flex items-center justify-center">
-          <UploadImage
-            className="w-8 cursor-pointer fill-sky-500"
-            width={28}
-            height={28}
-          />
-        </label>
-      </section>
+
+      <Options handleUploadImage={handleUploadImage} />
     </>
   )
 }

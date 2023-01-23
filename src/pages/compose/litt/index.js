@@ -79,17 +79,11 @@ export default function ComposeTweet() {
         <title>Crear Litt / Littera</title>
       </Head>
       <Header>
-        <Button
-          onClick={handleBack}
-          maxWidth={false}
-          className="ml-2 font-bold"
-          variant={'none'}
-        >
+        <Button onClick={handleBack} variant={'header_icon'}>
           <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
         </Button>
         <Button
           onClick={handleSubmit}
-          maxWidth={false}
           className="ml-auto mr-2"
           variant={'rounded'}
           disabled={isButtonDisabled}
@@ -117,10 +111,8 @@ export default function ComposeTweet() {
             <picture className="relative flex max-h-[334px] max-w-[334px] items-center justify-center rounded-md bg-slate-50 shadow-inner dark:bg-slate-800">
               <Button
                 onClick={() => handleRemoveImage()}
-                variant={'none'}
-                maxWidth={false}
+                variant={'img_cancel'}
                 disabled={isRemoveImageDisabled}
-                className="absolute right-1 top-1 h-6 w-6 rounded-full bg-slate-900 bg-opacity-30 text-xs text-white transition-colors hover:bg-slate-800 hover:bg-opacity-60 dark:bg-slate-400 dark:bg-opacity-30 hover:dark:bg-slate-200 hover:dark:bg-opacity-30"
               >
                 ✖
               </Button>

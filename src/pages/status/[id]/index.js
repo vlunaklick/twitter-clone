@@ -105,12 +105,7 @@ export default function LittPage({
     <>
       <NavLayout>
         <Header>
-          <Button
-            onClick={handleBack}
-            maxWidth={false}
-            className="ml-2 font-bold"
-            variant={'none'}
-          >
+          <Button onClick={handleBack} variant={'header_icon'}>
             <LeftArrow className="w-8 fill-slate-900 dark:fill-slate-100" />
           </Button>
           <h2 className="pl-3 font-semibold">Litt</h2>
@@ -147,10 +142,9 @@ export default function LittPage({
           <section className="just flex items-center gap-8 border-b border-slate-200 py-2 dark:border-slate-700">
             <div className="group flex cursor-pointer items-center justify-center gap-1">
               <Button
-                variant="none"
-                maxWidth={false}
+                variant="icon"
                 className={
-                  'rounded-full p-1 transition-colors group-hover:bg-yellow-50 group-hover:fill-yellow-800 ' +
+                  'group-hover:bg-yellow-50 group-hover:fill-yellow-800 ' +
                   (shared ? 'fill-yellow-800' : '')
                 }
                 disabled={isShareLoading}
@@ -165,10 +159,9 @@ export default function LittPage({
 
             <div className="group flex cursor-pointer items-center justify-center gap-1">
               <Button
-                variant="none"
-                maxWidth={false}
+                variant="icon"
                 className={
-                  'rounded-full p-1 transition-colors group-hover:bg-red-50 group-hover:fill-red-500 ' +
+                  'group-hover:bg-red-50 group-hover:fill-red-500 ' +
                   (liked ? 'fill-red-500' : '')
                 }
                 disabled={isLikeLoading}

@@ -10,6 +10,7 @@ import Search from '../svg/Search'
 import Sun from '../svg/Sun'
 import Moon from '../svg/Moon'
 import Person from '../svg/Person'
+import Button from './Button'
 
 export default function Navbar() {
   const [userProfile, setUserProfile] = useState('/')
@@ -20,7 +21,7 @@ export default function Navbar() {
 
   useEffect(() => {
     if (user) {
-      setUserProfile(`/profile/${user.username}`)
+      setUserProfile(`/profile/${user.userName}`)
     }
   }, [user])
 
@@ -54,16 +55,14 @@ export default function Navbar() {
       >
         <Create className="fill-sky-500" width={27} heigth={27} />
       </Link>
-      <button
-        onClick={toggleTheme}
-        className="flex items-center justify-center rounded-full p-1 transition-colors hover:bg-slate-50 hover:dark:bg-slate-800"
-      >
+
+      <Button variant="nav_icon" onClick={toggleTheme}>
         {theme === 'light' ? (
           <Sun className="fill-sky-500" width={27} heigth={27} />
         ) : (
           <Moon className="fill-sky-500" width={27} heigth={27} />
         )}
-      </button>
+      </Button>
     </nav>
   )
 }

@@ -75,10 +75,9 @@ export default function LittTimeline({
         <footer className="mt-1 flex gap-8">
           <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
             <Button
-              variant="none"
-              maxWidth={false}
+              variant="icon"
               className={
-                'rounded-full p-1 transition-colors group-hover:bg-yellow-50 group-hover:fill-yellow-800 ' +
+                'group-hover:bg-yellow-50 group-hover:fill-yellow-800 ' +
                 (isShared ? 'fill-yellow-800' : '')
               }
               onClick={() => handleShared(id, mainUser_id)}
@@ -92,10 +91,9 @@ export default function LittTimeline({
 
           <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
             <Button
-              variant="none"
-              maxWidth={false}
+              variant="icon"
               className={
-                'rounded-full p-1 transition-colors group-hover:bg-red-50 group-hover:fill-red-500 ' +
+                'group-hover:bg-red-50 group-hover:fill-red-500 ' +
                 (isLiked ? 'fill-red-500' : '')
               }
               onClick={() => handleLiked(id, mainUser_id)}

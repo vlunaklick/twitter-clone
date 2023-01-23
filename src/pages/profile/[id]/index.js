@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react'
+import { useContext } from 'react'
 
 import { fetchUserByField, fetchLittsByField } from '@/firebase/client'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { UserContext } from '@/context/userContext'
+import { useTimeline } from '@/hooks/useTimeline'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -20,21 +22,26 @@ export default function UserPage({
   header,
   litts,
 }) {
-  const [timeline, setTimeline] = useState(litts)
+  const { user } = useContext(UserContext)
+
+  const { timeline, setTimeline, handleShared, handleLiked } =
+    useTimeline(litts)
+
   const { handleBack, handlePush } = useNavigateLink(
     `/profile/${userName}/edit`
   )
+
+  const handleFollow = () => {
+    console.log('follow')
+  }
+
+  const areYouFollowing = following?.includes(user?.user_id)
 
   return (
     <>
       <NavLayout className="w-full">
         <Header>
-          <Button
-            onClick={handleBack}
-            maxWidth={false}
-            className="ml-2 font-bold"
-            variant={'none'}
-          >
+          <Button onClick={handleBack} variant="header_icon">
             <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
           </Button>
         </Header>
@@ -52,16 +59,16 @@ export default function UserPage({
             src={avatar || 'https://i.pravatar.cc/300'}
             alt={name + ' avatar'}
           />
-          <Button
-            onClick={handlePush}
-            className={
-              'absolute right-4 -bottom-6 rounded-full border border-slate-800 bg-slate-800 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-slate-900 dark:border-slate-50 dark:bg-slate-50 dark:text-black hover:dark:border-slate-100 hover:dark:bg-slate-100'
-            }
-            variant="none"
-            maxWidth={false}
-          >
-            Editar perfil
-          </Button>
+          {user && user.userName === userName && (
+            <Button onClick={handlePush} variant="edit_profile">
+              Editar perfil
+            </Button>
+          )}
+          {user && user.userName !== userName && (
+            <Button onClick={handlePush} variant="edit_profile">
+              {areYouFollowing ? 'Siguiendo' : 'Seguir'}
+            </Button>
+          )}
         </div>
         <div className="mt-6 flex w-full flex-col gap-2 border-b border-slate-200 p-4 dark:border-slate-800">
           <div>
@@ -97,8 +104,10 @@ export default function UserPage({
               avatar,
               content,
               createdAt,
+              likes,
               likesCount,
-              sharedCount,
+              shares,
+              sharesCount,
               img,
             }) => (
               <LittTimeline
@@ -109,9 +118,14 @@ export default function UserPage({
                 avatar={avatar}
                 content={content}
                 createdAt={createdAt}
+                likes={likes}
                 likesCount={likesCount}
-                sharedCount={sharedCount}
+                shares={shares}
+                sharesCount={sharesCount}
                 img={img}
+                handleShared={handleShared}
+                handleLiked={handleLiked}
+                mainUser_id={user?.id || ''}
               />
             )
           )}

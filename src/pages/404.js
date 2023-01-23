@@ -12,12 +12,7 @@ export default function Error404() {
     <>
       <NavLayout>
         <Header>
-          <Button
-            onClick={handleBack}
-            maxWidth={false}
-            className="ml-2 font-bold"
-            variant={'none'}
-          >
+          <Button onClick={handleBack} variant="header_icon">
             <LeftArrow className="w-8 fill-slate-900 dark:fill-slate-100" />
           </Button>
           <h2 className="pl-3 font-semibold dark:text-white">Inicio</h2>

@@ -86,7 +86,6 @@ export default function ProfileEdit({
       <Header>
         <Button
           onClick={handleBack}
-          maxWidth={false}
           className="ml-2 font-bold"
           variant={'none'}
         >

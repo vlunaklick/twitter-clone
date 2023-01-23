@@ -19,7 +19,11 @@ export default function ComposeTweet() {
   const { user, USER_STATES } = useContext(UserContext)
   const { router, handleBack } = useNavigateLink()
   const { status, handleLoadingState, COMPOSE_STATES } = useButtonStates()
-  const { value: content, onChange: onContentChange } = useInput('')
+  const {
+    value: content,
+    onChange: onContentChange,
+    reset: resetContent,
+  } = useInput('')
 
   const {
     imgURL,
@@ -41,7 +45,7 @@ export default function ComposeTweet() {
   const handleSubmit = async e => {
     e.preventDefault()
     handleLoadingState()
-    if (message.length <= 141 && message.length > 0) {
+    if (content.length <= 141 && content.length > 0) {
       let imgUploadedSrc = null
       if (file) {
         imgUploadedSrc = await saveImageAndGetURL(file)
@@ -57,7 +61,7 @@ export default function ComposeTweet() {
         img: imgUploadedSrc,
       })
         .then(data => {
-          setMessage('')
+          resetContent()
           router.push('/home')
         })
         .catch(err => {

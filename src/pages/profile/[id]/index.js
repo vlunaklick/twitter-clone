@@ -60,8 +60,6 @@ export default function UserPage({
 
   const isButtonDisabled = status === COMPOSE_STATES.LOADING
 
-  console.log(youFollowing)
-
   return (
     <>
       <NavLayout className="w-full">

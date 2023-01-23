@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
 
-import { getLitBySlug } from '@/firebase/admin'
 import { UserContext } from '@/context/userContext'
 import useDateFormat from '@/hooks/useDateFormat'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
@@ -10,6 +9,7 @@ import {
   removeSharedFromLitt,
   addLikeToLitt,
   removeLikeFromLitt,
+  fetchLittById,
 } from '@/firebase/client'
 import { useButtonStates } from '@/hooks/useButtonStates'
 
@@ -186,7 +186,7 @@ export default function LittPage({
 export async function getServerSideProps(context) {
   const { id } = context.params
 
-  const litt = await getLitBySlug(id)
+  const litt = await fetchLittById(id)
 
   if (!litt) {
     return {

@@ -17,6 +17,7 @@ import {
   arrayRemove,
   arrayUnion,
   increment,
+  getDoc,
 } from 'firebase/firestore'
 
 import {
@@ -219,6 +220,51 @@ export const fetchAllLitts = async () => {
   const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
 
   return orderedLitts
+}
+
+export const fetchFollowers = async user_id => {
+  const q = query(
+    collection(db, 'users'),
+    where('following', 'array-contains', user_id)
+  )
+
+  const querySnapshot = await getDocs(q)
+
+  if (querySnapshot.empty) {
+    return null
+  }
+
+  const users = querySnapshot.docs.map(mapUserFromFirebase)
+
+  return users
+}
+
+export const fetchFollowing = async user_id => {
+  const q = query(
+    collection(db, 'users'),
+    where('followers', 'array-contains', user_id)
+  )
+
+  const querySnapshot = await getDocs(q)
+
+  if (querySnapshot.empty) {
+    return null
+  }
+
+  const users = querySnapshot.docs.map(mapUserFromFirebase)
+
+  return users
+}
+
+export const fetchLittById = async litt_id => {
+  const docRef = doc(db, 'litts', litt_id)
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    return mapLittFromFirebase(docSnap)
+  }
+
+  return null
 }
 
 /* UPDATE */

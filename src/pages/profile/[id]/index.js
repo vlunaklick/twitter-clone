@@ -102,9 +102,9 @@ export default function UserPage({
         <nav className="flex border-b border-slate-200 font-medium dark:border-slate-800">
           <button
             className={
-              'w-full border-r border-slate-200 p-2 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800 ' +
+              'w-full border-r border-slate-200 p-2 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-[#192335] ' +
               (littsShown === LITTS_OPTIONS.LITTS &&
-                'bg-slate-50 dark:bg-slate-800')
+                'bg-slate-50 dark:bg-[#141d30]')
             }
             onClick={showLitts}
           >
@@ -112,9 +112,9 @@ export default function UserPage({
           </button>
           <button
             className={
-              'w-full p-2 hover:bg-slate-50 dark:hover:bg-slate-800 ' +
+              'w-full p-2 hover:bg-slate-50 dark:hover:bg-[#192335] ' +
               (littsShown === LITTS_OPTIONS.LIKED_LITTS &&
-                'bg-slate-50 dark:bg-slate-800')
+                'bg-slate-50 dark:bg-[#141d30]')
             }
             onClick={showLikedLitts}
           >

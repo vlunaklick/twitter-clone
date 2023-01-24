@@ -38,7 +38,7 @@ export default function ComposeTweet() {
 
   useEffect(() => {
     if (user === USER_STATES.NOT_LOGGED) {
-      router.replace('/home')
+      router.replace('/')
     }
   }, [user, router, USER_STATES])
 

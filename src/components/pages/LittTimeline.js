@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import useTimeAgo from '@/hooks/useTimeAgo'
+import { useNavigateLink } from '@/hooks/useNavigateLink'
+import useDateFormat from '@/hooks/useDateFormat'
 
 import Avatar from '../app/Avatar'
-import Reuse from '../svg/Reuse'
-import Like from '../svg/Like'
-import useDateFormat from '@/hooks/useDateFormat'
 import Button from '../app/Button'
 import LittImage from './LittImage'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import Reuse from '../svg/Reuse'
+import Like from '../svg/Like'
 
 export default function LittTimeline({
   id,
@@ -48,7 +48,7 @@ export default function LittTimeline({
   return (
     <article
       onClick={handleArticleClick}
-      className="flex cursor-pointer gap-2 border-b border-slate-200 px-3 py-2 transition-colors hover:bg-slate-50 dark:border-slate-800 hover:dark:bg-slate-800"
+      className="flex cursor-pointer gap-2 border-b border-slate-200 px-3 py-2 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-[#141d30]"
     >
       <Link href={`/profile/${userName}`} className="h-min">
         <Avatar src={avatar} alt={userName} />

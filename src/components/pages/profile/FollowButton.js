@@ -9,10 +9,10 @@ export default function FollowButton({
   return (
     <button
       className={
-        'hover:bg-[#2r63eb group w-28 cursor-pointer rounded-[2rem] border py-2 px-1 text-xs  outline-none transition-colors hover:border-[#2r63eb]' +
+        'group w-28 cursor-pointer rounded-[2rem] border py-2 px-1 text-xs font-medium outline-none transition-colors' +
         (isFollowing
-          ? ' w-32 border-[#bbb] bg-black bg-opacity-30 text-white hover:border-red-600 hover:bg-red-600 hover:bg-opacity-30 hover:text-red-500'
-          : ' bg-white text-black') +
+          ? ' w-32 border-slate-800 bg-slate-900 text-white hover:border-red-900 hover:bg-red-900 hover:text-red-500'
+          : ' border-black bg-black text-white hover:border-slate-900 hover:bg-gray-900') +
         ' ' +
         className +
         ' ' +

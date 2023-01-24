@@ -10,11 +10,12 @@ export default function ImagePreview({
 
   return (
     <>
-      <picture className="relative mx-auto flex max-h-[334px] max-w-[334px] items-center justify-center rounded-md bg-slate-50 shadow-inner dark:bg-slate-800">
+      <picture className="relative flex max-h-[334px] max-w-[334px] items-center justify-center overflow-hidden rounded-md border-2 border-slate-200 shadow-inner dark:border-slate-600">
         <Button
           onClick={() => handleRemoveImage()}
           variant={'img_cancel'}
           disabled={isRemoveImageDisabled}
+          maxWidth
         >
           ✖
         </Button>

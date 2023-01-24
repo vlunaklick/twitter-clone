@@ -143,24 +143,24 @@ export default function LittPage({
           )}
 
           <section className="just flex items-center gap-8 border-b border-slate-200 py-2 dark:border-slate-700">
-            <div className="group flex cursor-pointer items-center justify-center gap-1">
+            <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
               <Button
                 variant="icon"
                 className={
-                  'group-hover:bg-yellow-50 group-hover:fill-yellow-800 ' +
-                  (shared ? 'fill-yellow-800' : '')
+                  'group-hover:bg-yellow-50 group-hover:fill-yellow-500 ' +
+                  (shared ? 'fill-yellow-500' : '')
                 }
                 disabled={isShareLoading}
                 onClick={() => handleShared()}
               >
                 <Reuse width={20} heigth={20} />
               </Button>
-              <span className="text-xs transition-colors group-hover:text-yellow-600">
+              <span className="text-xs transition-colors group-hover:text-yellow-500">
                 {sharedCount > 0 ? sharedCount : ''}
               </span>
             </div>
 
-            <div className="group flex cursor-pointer items-center justify-center gap-1">
+            <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
               <Button
                 variant="icon"
                 className={

@@ -71,21 +71,21 @@ export default function LittTimeline({
             {timeAgo}
           </time>
         </header>
-        <p className="text-sm leading-snug">{content}</p>
+        <p className="mt-1 text-sm leading-snug">{content}</p>
         <LittImage src={img} alt={content} />
         <footer className="mt-1 flex gap-8">
           <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
             <Button
               variant="icon"
               className={
-                'group-hover:bg-yellow-50 group-hover:fill-yellow-800 ' +
-                (isShared ? 'fill-yellow-800' : '')
+                'group-hover:bg-yellow-50 group-hover:fill-yellow-500 ' +
+                (isShared ? 'fill-yellow-500' : '')
               }
               onClick={() => handleShared(id, mainUser_id)}
             >
               <Reuse width={14} heigth={14} />
             </Button>
-            <span className="text-[9px] transition-colors group-hover:text-yellow-800">
+            <span className="text-[9px] transition-colors group-hover:text-yellow-500">
               {sharesCount > 0 ? sharesCount : ''}
             </span>
           </div>

@@ -101,13 +101,21 @@ export default function UserPage({
 
         <nav className="flex border-b border-slate-200 font-medium dark:border-slate-800">
           <button
-            className="w-full border-r border-slate-200 p-2 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800"
+            className={
+              'w-full border-r border-slate-200 p-2 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800 ' +
+              (littsShown === LITTS_OPTIONS.LITTS &&
+                'bg-slate-50 dark:bg-slate-800')
+            }
             onClick={showLitts}
           >
             Litts
           </button>
           <button
-            className="w-full p-2 hover:bg-slate-50 dark:hover:bg-slate-800"
+            className={
+              'w-full p-2 hover:bg-slate-50 dark:hover:bg-slate-800 ' +
+              (littsShown === LITTS_OPTIONS.LIKED_LITTS &&
+                'bg-slate-50 dark:bg-slate-800')
+            }
             onClick={showLikedLitts}
           >
             Me gustas

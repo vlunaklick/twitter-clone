@@ -38,7 +38,7 @@ export default function BannerAndIcon({
           isFollowing={areYouFollowing}
           handleClick={handleFollow}
           disabled={isButtonDisabled}
-          className={'absolute right-4 -bottom-6'}
+          className={'absolute right-4 -bottom-5'}
         />
       )}
     </div>

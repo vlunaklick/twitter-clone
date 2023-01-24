@@ -267,6 +267,25 @@ export const fetchLittById = async litt_id => {
   return null
 }
 
+export const fetchLikedLitts = async user_id => {
+  const q = query(
+    collection(db, 'litts'),
+    where('likes', 'array-contains', user_id)
+  )
+
+  const querySnapshot = await getDocs(q)
+
+  if (querySnapshot.empty) {
+    return null
+  }
+
+  const litts = querySnapshot.docs.map(mapLittFromFirebase)
+
+  const orderedLitts = litts.sort((a, b) => b.createdAt - a.createdAt)
+
+  return orderedLitts
+}
+
 /* UPDATE */
 
 export const updateUserById = async (id, data) => {

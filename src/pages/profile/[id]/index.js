@@ -1,7 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { useContext, useState, useEffect } from 'react'
 
-import { fetchUserByField, fetchLittsByField } from '@/firebase/client'
+import {
+  fetchUserByField,
+  fetchLittsByField,
+  fetchLikedLitts,
+} from '@/firebase/client'
 import { UserContext } from '@/context/userContext'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 import { useFollow } from '@/hooks/useFollow'
@@ -14,6 +18,7 @@ import NavLayout from '@/components/app/NavLayout'
 import Timeline from '@/components/pages/Timeline'
 import Information from '@/components/pages/profile/Information'
 import BannerAndIcon from '@/components/pages/profile/BannerAndIcon'
+import { useProfileLitts } from '@/hooks/useProfileLitts'
 
 export default function UserPage({
   id,
@@ -25,10 +30,15 @@ export default function UserPage({
   following,
   header,
   litts,
+  likedLitts,
 }) {
   const { user } = useContext(UserContext)
+
   const { followersArray, followingArray, handleFollow, handleUnfollow } =
     useFollow(followers, following)
+
+  const { littsShown, showLikedLitts, showLitts, LITTS_OPTIONS } =
+    useProfileLitts()
 
   const { status, handleLoadingState, handleSuccessState, COMPOSE_STATES } =
     useButtonStates()
@@ -89,7 +99,28 @@ export default function UserPage({
           following={followingArray}
         />
 
-        <Timeline litts={litts} mainUser_id={user?.id || ''} />
+        <nav className="flex border-b border-slate-200 font-medium dark:border-slate-800">
+          <button
+            className="w-full border-r border-slate-200 p-2 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800"
+            onClick={showLitts}
+          >
+            Litts
+          </button>
+          <button
+            className="w-full p-2 hover:bg-slate-50 dark:hover:bg-slate-800"
+            onClick={showLikedLitts}
+          >
+            Me gustas
+          </button>
+        </nav>
+
+        {littsShown === LITTS_OPTIONS.LIKED_LITTS && (
+          <Timeline litts={likedLitts} mainUser_id={user?.id || ''} />
+        )}
+
+        {littsShown === LITTS_OPTIONS.LITTS && (
+          <Timeline litts={litts} mainUser_id={user?.id || ''} />
+        )}
       </NavLayout>
     </>
   )
@@ -108,10 +139,13 @@ export async function getServerSideProps(context) {
 
   const littsFromUser = await fetchLittsByField('userId', user.userId)
 
+  const likedLitts = await fetchLikedLitts(user.id)
+
   return {
     props: {
       ...user,
       litts: littsFromUser || [],
+      likedLitts: likedLitts || [],
     },
   }
 }

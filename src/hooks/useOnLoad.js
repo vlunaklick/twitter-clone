@@ -6,7 +6,7 @@ export const useOnLoad = () => {
   const handleLoad = () => {
     setTimeout(() => {
       setLoaded(() => true)
-    }, 100)
+    }, 200)
   }
 
   return { loaded, handleLoad }

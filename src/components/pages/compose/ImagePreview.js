@@ -10,7 +10,7 @@ export default function ImagePreview({
 
   return (
     <>
-      <picture className="relative flex h-min max-h-[334px] w-max max-w-[334px] items-center justify-center overflow-hidden rounded-md border-2 border-slate-200 shadow-inner dark:border-slate-600">
+      <picture className="relative flex h-min max-h-[334px] w-max max-w-[334px] items-center justify-center overflow-hidden rounded-md border-2 border-gray-200 shadow-inner dark:border-gray-600">
         <Button
           onClick={() => handleRemoveImage()}
           variant={'img_cancel'}

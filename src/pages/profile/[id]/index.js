@@ -10,6 +10,7 @@ import { UserContext } from '@/context/userContext'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 import { useFollow } from '@/hooks/useFollow'
 import { useButtonStates } from '@/hooks/useButtonStates'
+import { useDropdown } from '@/hooks/useDropdown'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -19,6 +20,8 @@ import Timeline from '@/components/pages/Timeline'
 import Information from '@/components/pages/profile/Information'
 import BannerAndIcon from '@/components/pages/profile/BannerAndIcon'
 import { useProfileLitts } from '@/hooks/useProfileLitts'
+import ThreeDots from '@/components/svg/ThreeDots'
+import Dropdown from '@/components/pages/profile/Dropdown'
 
 export default function UserPage({
   id,
@@ -34,6 +37,7 @@ export default function UserPage({
 }) {
   const { user } = useContext(UserContext)
 
+  const { isOpen, toggle, dropdownRef } = useDropdown()
   const { followersArray, followingArray, handleFollow, handleUnfollow } =
     useFollow(followers, following)
 
@@ -77,6 +81,23 @@ export default function UserPage({
           <Button onClick={handleBack} variant="header_icon">
             <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
           </Button>
+
+          <div
+            ref={dropdownRef}
+            className={'relative ml-auto mr-3 flex items-center justify-center'}
+          >
+            {user?.id === id && (
+              <Button onClick={toggle} variant="header_icon">
+                <ThreeDots
+                  className={
+                    'w-8 fill-slate-900 stroke-slate-900 dark:fill-slate-100 dark:stroke-slate-100'
+                  }
+                />
+              </Button>
+            )}
+
+            {isOpen && <Dropdown />}
+          </div>
         </Header>
 
         <BannerAndIcon

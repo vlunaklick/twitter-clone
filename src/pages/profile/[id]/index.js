@@ -10,7 +10,6 @@ import { UserContext } from '@/context/userContext'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 import { useFollow } from '@/hooks/useFollow'
 import { useButtonStates } from '@/hooks/useButtonStates'
-import { useDropdown } from '@/hooks/useDropdown'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -20,7 +19,6 @@ import Timeline from '@/components/pages/Timeline'
 import Information from '@/components/pages/profile/Information'
 import BannerAndIcon from '@/components/pages/profile/BannerAndIcon'
 import { useProfileLitts } from '@/hooks/useProfileLitts'
-import ThreeDots from '@/components/svg/ThreeDots'
 import Dropdown from '@/components/pages/profile/Dropdown'
 
 export default function UserPage({
@@ -37,7 +35,6 @@ export default function UserPage({
 }) {
   const { user } = useContext(UserContext)
 
-  const { isOpen, toggle, dropdownRef } = useDropdown()
   const { followersArray, followingArray, handleFollow, handleUnfollow } =
     useFollow(followers, following)
 
@@ -79,25 +76,10 @@ export default function UserPage({
       <NavLayout className="w-full">
         <Header>
           <Button onClick={handleBack} variant="header_icon">
-            <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
+            <LeftArrow className={'w-8 fill-gray-900 dark:fill-gray-100'} />
           </Button>
 
-          <div
-            ref={dropdownRef}
-            className={'relative ml-auto mr-3 flex items-center justify-center'}
-          >
-            {user?.id === id && (
-              <Button onClick={toggle} variant="header_icon">
-                <ThreeDots
-                  className={
-                    'w-8 fill-slate-900 stroke-slate-900 dark:fill-slate-100 dark:stroke-slate-100'
-                  }
-                />
-              </Button>
-            )}
-
-            {isOpen && <Dropdown />}
-          </div>
+          {user && <Dropdown />}
         </Header>
 
         <BannerAndIcon
@@ -120,12 +102,12 @@ export default function UserPage({
           following={followingArray}
         />
 
-        <nav className="flex border-b border-slate-200 font-medium dark:border-slate-800">
+        <nav className="flex border-b border-gray-200 font-medium dark:border-gray-800">
           <button
             className={
-              'w-full border-r border-slate-200 p-2 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-[#192335] ' +
+              'w-full border-r border-gray-200 p-2 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-[#192335] ' +
               (littsShown === LITTS_OPTIONS.LITTS &&
-                'bg-slate-50 dark:bg-[#141d30]')
+                'bg-gray-50 dark:bg-[#141d30]')
             }
             onClick={showLitts}
           >
@@ -133,9 +115,9 @@ export default function UserPage({
           </button>
           <button
             className={
-              'w-full p-2 hover:bg-slate-50 dark:hover:bg-[#192335] ' +
+              'w-full p-2 hover:bg-gray-50 dark:hover:bg-[#192335] ' +
               (littsShown === LITTS_OPTIONS.LIKED_LITTS &&
-                'bg-slate-50 dark:bg-[#141d30]')
+                'bg-gray-50 dark:bg-[#141d30]')
             }
             onClick={showLikedLitts}
           >

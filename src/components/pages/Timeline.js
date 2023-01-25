@@ -20,10 +20,12 @@ export default function Timeline({ litts, mainUser_id }) {
           shares,
           sharesCount,
           img,
+          user_id,
         }) => (
           <LittTimeline
             key={id}
             id={id}
+            user_id={user_id}
             userName={userName}
             name={name}
             avatar={avatar}

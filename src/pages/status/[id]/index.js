@@ -22,6 +22,7 @@ import Like from '@/components/svg/Like'
 import NavLayout from '@/components/app/NavLayout'
 import LittImage from '@/components/pages/LittImage'
 import Counters from '@/components/pages/status/Counters'
+import DropdownLitt from '@/components/pages/DropdownLitt'
 
 export default function LittPage({
   id,
@@ -106,7 +107,7 @@ export default function LittPage({
       <NavLayout>
         <Header>
           <Button onClick={handleBack} variant={'header_icon'}>
-            <LeftArrow className="w-8 fill-slate-900 dark:fill-slate-100" />
+            <LeftArrow className="w-8 fill-gray-900 dark:fill-gray-100" />
           </Button>
 
           <h2 className="pl-3 font-semibold">Litt</h2>
@@ -118,32 +119,33 @@ export default function LittPage({
               <Avatar src={avatar} />
             </Link>
             <div className="flex flex-col">
-              <strong className="text-sm text-slate-900 dark:text-white">
+              <strong className="text-sm text-gray-900 dark:text-white">
                 {name}
               </strong>
-              <small className="text-xs text-slate-600 dark:text-slate-500">
+              <small className="text-xs text-gray-600 dark:text-gray-500">
                 @{userName}
               </small>
             </div>
+            <DropdownLitt littId={id} />
           </header>
 
-          <footer className="flex flex-col gap-2 border-b border-slate-200 pb-2 dark:border-slate-700">
+          <footer className="flex flex-col gap-2 border-b border-gray-200 pb-2 dark:border-gray-700">
             {content && <p className="mt-2">{content}</p>}
             <LittImage src={img} alt={content} />
-            <time title={formattedDate} className="text-xs text-slate-600">
+            <time title={formattedDate} className="text-xs text-gray-600">
               {formattedDate}
             </time>
           </footer>
 
           {(likedCount > 0 || sharedCount > 0) && (
-            <section className="flex gap-3 border-b border-slate-200 py-2 text-xs font-medium text-slate-900 dark:border-slate-700">
+            <section className="flex gap-3 border-b border-gray-200 py-2 text-xs font-medium text-gray-900 dark:border-gray-700">
               <Counters count={sharedCount} text={'Relitt'} />
               <Counters count={likedCount} text={'Me gustas'} />
             </section>
           )}
 
-          <section className="just flex items-center gap-8 border-b border-slate-200 py-2 dark:border-slate-700">
-            <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
+          <section className="just flex items-center gap-8 border-b border-gray-200 py-2 dark:border-gray-700">
+            <div className="group flex items-center justify-center gap-1 fill-gray-800 dark:fill-gray-100">
               <Button
                 variant="icon"
                 className={
@@ -160,7 +162,7 @@ export default function LittPage({
               </span>
             </div>
 
-            <div className="group flex items-center justify-center gap-1 fill-slate-800 dark:fill-slate-100">
+            <div className="group flex items-center justify-center gap-1 fill-gray-800 dark:fill-gray-100">
               <Button
                 variant="icon"
                 className={

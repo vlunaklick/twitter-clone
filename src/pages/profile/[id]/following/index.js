@@ -20,15 +20,15 @@ export default function Following({ id, following }) {
       <NavLayout className="w-full">
         <Header>
           <Button onClick={handleBack} variant="header_icon">
-            <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
+            <LeftArrow className={'w-8 fill-gray-900 dark:fill-gray-100'} />
           </Button>
 
           <div className="ml-5">
-            <h1 className="text-base font-bold text-slate-900 dark:text-slate-100">
+            <h1 className="text-base font-bold text-gray-900 dark:text-gray-100">
               Siguiendo
             </h1>
 
-            <p className="text-xs text-slate-600 dark:text-slate-400">
+            <p className="text-xs text-gray-600 dark:text-gray-400">
               {following?.length || 0} seguidos
             </p>
           </div>

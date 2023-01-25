@@ -82,7 +82,7 @@ export default function ComposeTweet() {
       </Head>
       <Header>
         <Button onClick={handleBack} variant={'header_icon'}>
-          <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
+          <LeftArrow className={'w-8 fill-gray-900 dark:fill-gray-100'} />
         </Button>
         <Button
           onClick={handleSubmit}
@@ -94,12 +94,12 @@ export default function ComposeTweet() {
         </Button>
       </Header>
 
-      <section className="flex gap-1 border-b border-slate-200 p-2 dark:border-slate-700">
+      <section className="flex gap-1 border-b border-gray-200 p-2 dark:border-gray-700">
         {user && <Avatar src={user.avatar} />}
         <form onSubmit={handleSubmit} className="w-full">
           <textarea
             className={
-              'min-h-[140px] w-full resize-none rounded-sm border p-2 outline-none dark:bg-slate-900 ' +
+              'min-h-[140px] w-full resize-none rounded-sm border p-2 outline-none dark:bg-gray-900 ' +
               (dragged ? 'border-dashed border-sky-500' : 'border-transparent')
             }
             value={content}

@@ -7,6 +7,7 @@ import { UserContext } from '@/context/userContext'
 import Header from '@/components/app/Header'
 import NavLayout from '@/components/app/NavLayout'
 import Timeline from '@/components/pages/Timeline'
+import Dropdown from '@/components/pages/profile/Dropdown'
 
 export default function Home({ timelineInitial }) {
   const { user } = useContext(UserContext)

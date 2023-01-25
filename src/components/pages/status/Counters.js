@@ -3,7 +3,7 @@ export default function Counters({ count, text }) {
 
   return (
     <p className="text-black dark:text-white">
-      {count} <span className="font-normal text-slate-500">{text}</span>
+      {count} <span className="font-normal text-gray-500">{text}</span>
     </p>
   )
 }

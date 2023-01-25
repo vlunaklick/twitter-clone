@@ -89,7 +89,7 @@ export default function ProfileEdit({
           className="ml-2 font-bold"
           variant={'none'}
         >
-          <LeftArrow className={'w-8 fill-slate-900 dark:fill-slate-100'} />
+          <LeftArrow className={'w-8 fill-gray-900 dark:fill-gray-100'} />
         </Button>
         <h2 className="pl-3 font-semibold">Editar perfil</h2>
         <Button
@@ -101,7 +101,7 @@ export default function ProfileEdit({
         </Button>
       </Header>
 
-      <div className="relative flex h-[138px] w-full flex-col items-center justify-center border-y border-slate-200 object-cover dark:border-slate-900">
+      <div className="relative flex h-[138px] w-full flex-col items-center justify-center border-y border-gray-200 object-cover dark:border-gray-900">
         <button className="h-full w-full overflow-hidden">
           <input
             type={'file'}
@@ -122,7 +122,7 @@ export default function ProfileEdit({
             alt={userName + ' header'}
           />
         </button>
-        <button className="absolute left-4 -bottom-10 h-20 w-20 overflow-hidden rounded-full border-4 border-white dark:border-slate-900">
+        <button className="absolute left-4 -bottom-10 h-20 w-20 overflow-hidden rounded-full border-4 border-white dark:border-gray-900">
           <input
             type={'file'}
             id={'avatar'}
@@ -137,7 +137,7 @@ export default function ProfileEdit({
             <Camara width={30} height={30} className={'fill-white'} />
           </label>
           <img
-            className="aspect-square bg-slate-900 object-cover dark:bg-white"
+            className="aspect-square bg-gray-900 object-cover dark:bg-white"
             src={avatarURL}
             alt={name + ' avatar'}
           />
@@ -145,21 +145,21 @@ export default function ProfileEdit({
       </div>
 
       <form className="mt-8 flex w-full flex-col p-4" onSubmit={handleSubmit}>
-        <label className="text-xs font-medium text-slate-900 dark:text-slate-400">
+        <label className="text-xs font-medium text-gray-900 dark:text-gray-400">
           Nombre
         </label>
         <input
-          className="border-b border-slate-200 bg-white pb-1 text-sm outline-none transition-colors dark:border-slate-700 dark:bg-slate-900 focus:dark:border-sky-500"
+          className="border-b border-gray-200 bg-white pb-1 text-sm outline-none transition-colors dark:border-gray-700 dark:bg-gray-900 focus:dark:border-sky-500"
           type="text"
           name="name"
           value={newName}
           onChange={setNewName}
         />
-        <label className="mt-4 text-xs font-medium text-slate-900 dark:text-slate-400">
+        <label className="mt-4 text-xs font-medium text-gray-900 dark:text-gray-400">
           Biografía
         </label>
         <textarea
-          className="min-h-[50px] w-full resize-none border-b border-slate-200 bg-white pb-1 text-sm outline-none transition-colors dark:border-slate-700 dark:bg-slate-900 focus:dark:border-sky-500"
+          className="min-h-[50px] w-full resize-none border-b border-gray-200 bg-white pb-1 text-sm outline-none transition-colors dark:border-gray-700 dark:bg-gray-900 focus:dark:border-sky-500"
           name="biography"
           maxLength={100}
           value={newBiography}

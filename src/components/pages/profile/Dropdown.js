@@ -28,7 +28,7 @@ export default function Dropdown() {
       <Button onClick={toggle} variant="header_icon">
         <ThreeDots
           className={
-            'w-8 fill-gray-900 stroke-gray-900 dark:fill-gray-100 dark:stroke-gray-100'
+            'w-8 fill-gray-500 stroke-gray-500 dark:fill-gray-400 dark:stroke-gray-400'
           }
         />
       </Button>

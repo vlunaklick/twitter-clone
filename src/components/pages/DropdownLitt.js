@@ -23,13 +23,13 @@ export default function DropdownLitt({ littId }) {
       <Button onClick={toggle} variant="header_icon">
         <ThreeDots
           className={
-            'w-6 fill-gray-900 stroke-gray-900 dark:fill-gray-100 dark:stroke-gray-100'
+            'w-5 fill-gray-500 stroke-gray-500 dark:fill-gray-400 dark:stroke-gray-400'
           }
         />
       </Button>
 
       {isOpen && (
-        <div className="absolute right-3 top-4 mt-2 w-36 origin-top-right divide-y divide-gray-100 rounded-md border border-gray-200 bg-white shadow-lg outline-none dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-900">
+        <div className="absolute right-2 top-2 mt-2 w-36 origin-top-right divide-y divide-gray-100 rounded-md border border-gray-200 bg-white shadow-lg outline-none dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-900">
           <div className="py-1">
             <button
               onClick={deleteLitt}

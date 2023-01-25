@@ -18,6 +18,7 @@ import {
   arrayUnion,
   increment,
   getDoc,
+  deleteDoc,
 } from 'firebase/firestore'
 
 import {
@@ -81,6 +82,10 @@ export const onAuthStateChange = onChange => {
 export const refetchUser = async uid => {
   const user = await fetchUserByField('userId', uid)
   return user
+}
+
+export const logout = () => {
+  auth.signOut()
 }
 
 /* SUBSCRIPTIONS */
@@ -378,4 +383,11 @@ export const removeFollowingFromUser = async (user_id, following_id) => {
   await updateDoc(docRef, {
     following: arrayRemove(following_id),
   })
+}
+
+/* DELETE */
+
+export const deleteLittById = async litt_id => {
+  const docRef = doc(db, 'litts', litt_id)
+  await deleteDoc(docRef)
 }

@@ -15,5 +15,9 @@ export const useNavigateLink = href => {
     router.back()
   }
 
-  return { router, handleBack, handlePush, handleReplace }
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
+
+  return { router, handleBack, handlePush, handleReplace, refreshData }
 }

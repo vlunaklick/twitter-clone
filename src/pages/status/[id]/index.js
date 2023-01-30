@@ -1,7 +1,7 @@
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-import { UserContext } from '@/context/userContext'
+import { useUser } from '@/context/userContext'
 import useDateFormat from '@/hooks/useDateFormat'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 import {
@@ -37,24 +37,28 @@ export default function LittPage({
   sharesCount,
   img,
 }) {
-  const { user } = useContext(UserContext)
+  const { user } = useUser()
+
   const { handleBack } = useNavigateLink()
+
   const { formattedDate } = useDateFormat(createdAt)
+
   const {
-    state: likeState,
     handleLoadingState: handleLoadingLikeState,
     handleSuccessState: handleSuccessLikeState,
-    COMPOSE_STATES,
+    isButtonActive: isLikeButtonActive,
   } = useButtonStates()
 
   const {
-    state: shareState,
     handleLoadingState: handleLoadingShareState,
     handleSuccessState: handleSuccessShareState,
+    isButtonActive: isShareButtonActive,
   } = useButtonStates()
 
   const [liked, setLiked] = useState(false)
+
   const [shared, setShared] = useState(false)
+
   const [likedCount, setLikedCount] = useState(likesCount)
   const [sharedCount, setSharedCount] = useState(sharesCount)
 
@@ -72,6 +76,7 @@ export default function LittPage({
 
   const handleLiked = async () => {
     handleLoadingLikeState()
+
     if (liked) {
       setLiked(false)
       setLikedCount(likedCount - 1)
@@ -97,10 +102,6 @@ export default function LittPage({
     }
     handleSuccessShareState()
   }
-
-  const isLikeLoading = likeState === COMPOSE_STATES.LOADING
-
-  const isShareLoading = shareState === COMPOSE_STATES.LOADING
 
   return (
     <>
@@ -152,7 +153,7 @@ export default function LittPage({
                   'group-hover:bg-yellow-50 group-hover:fill-yellow-500 ' +
                   (shared ? 'fill-yellow-500' : '')
                 }
-                disabled={isShareLoading}
+                disabled={isShareButtonActive}
                 onClick={() => handleShared()}
               >
                 <Reuse width={20} heigth={20} />
@@ -169,7 +170,7 @@ export default function LittPage({
                   'group-hover:bg-red-50 group-hover:fill-red-500 ' +
                   (liked ? 'fill-red-500' : '')
                 }
-                disabled={isLikeLoading}
+                disabled={isLikeButtonActive}
                 onClick={() => handleLiked()}
               >
                 <Like width={25} heigth={25} />

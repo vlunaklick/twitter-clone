@@ -1,7 +1,5 @@
-import { useContext } from 'react'
-
 import { logout } from '@/firebase/client'
-import { UserContext } from '@/context/userContext'
+import { useUser } from '@/context/userContext'
 import { useDropdown } from '@/hooks/useDropdown'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 
@@ -9,15 +7,15 @@ import Button from '@/components/app/Button'
 import ThreeDots from '@/components/svg/ThreeDots'
 
 export default function Dropdown() {
-  const { user } = useContext(UserContext)
+  const { user } = useUser()
 
-  const { handleBack, handleReplace } = useNavigateLink(`/home`)
+  const { handleHome } = useNavigateLink()
 
   const { isOpen, toggle, dropdownRef } = useDropdown()
 
   const handleLogout = async () => {
     logout()
-    handleReplace()
+    handleHome()
   }
 
   return (

@@ -18,6 +18,7 @@ export default function App({ Component, pageProps }) {
           </AppLayout>
         </UserProvider>
       </ThemeProvider>
+
       <style jsx global>{`
         html {
           font-family: ${inter.style.fontFamily};

@@ -1,7 +1,5 @@
-import { useContext } from 'react'
-
 import { fetchUserByField, fetchFollowing } from '@/firebase/client'
-import { UserContext } from '@/context/userContext'
+import { useUser } from '@/context/userContext'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 
 import NavLayout from '@/components/app/NavLayout'
@@ -11,7 +9,7 @@ import LeftArrow from '@/components/svg/LeftArrow'
 import OtherUsers from '@/components/pages/profile/OtherUsers'
 
 export default function Following({ id, following }) {
-  const { user } = useContext(UserContext)
+  const { user } = useUser()
 
   const { handleBack } = useNavigateLink()
 
@@ -35,7 +33,7 @@ export default function Following({ id, following }) {
         </Header>
 
         {following?.map(userF => (
-          <OtherUsers key={userF.id} {...userF} main_user={user?.id || ''} />
+          <OtherUsers key={userF.id} {...userF} main_user={user} />
         ))}
       </NavLayout>
     </>

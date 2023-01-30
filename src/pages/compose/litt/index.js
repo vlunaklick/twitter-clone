@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import Head from 'next/head'
 
 import { saveImageAndGetURL, saveLittWithId } from '@/firebase/client'
-import { UserContext } from '@/context/userContext'
-import useUploadImage from '@/hooks/useUploadImage'
+import { useUser } from '@/context/userContext'
+import { useUploadImage } from '@/hooks/useUploadImage'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 import { useInput } from '@/hooks/useInput'
 import { useButtonStates } from '@/hooks/useButtonStates'
@@ -16,8 +16,8 @@ import Options from '@/components/pages/compose/Options'
 import ImagePreview from '@/components/pages/compose/ImagePreview'
 
 export default function ComposeTweet() {
-  const { user, USER_STATES } = useContext(UserContext)
-  const { router, handleBack } = useNavigateLink()
+  const { user, USER_STATES } = useUser()
+  const { handleBack, handleLogin } = useNavigateLink()
   const { status, handleLoadingState, COMPOSE_STATES } = useButtonStates()
   const {
     value: content,
@@ -38,9 +38,9 @@ export default function ComposeTweet() {
 
   useEffect(() => {
     if (user === USER_STATES.NOT_LOGGED) {
-      router.replace('/')
+      handleLogin()
     }
-  }, [user, router, USER_STATES])
+  }, [user, USER_STATES, handleLogin])
 
   const handleSubmit = async e => {
     e.preventDefault()

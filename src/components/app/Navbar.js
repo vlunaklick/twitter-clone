@@ -1,8 +1,8 @@
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import useThemes from '@/hooks/useTheme'
-import { UserContext } from '@/context/userContext'
+import { useUser } from '@/context/userContext'
 
 import Create from '../svg/Create'
 import House from '../svg/House'
@@ -15,7 +15,7 @@ import Button from './Button'
 export default function Navbar() {
   const [userProfile, setUserProfile] = useState('/')
   const [mounted, setMounted] = useState(false)
-  const { user } = useContext(UserContext)
+  const { user } = useUser()
 
   const { theme, toggleTheme } = useThemes()
 

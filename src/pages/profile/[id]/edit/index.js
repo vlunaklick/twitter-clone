@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { useContext, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-import { UserContext } from '@/context/userContext'
+import { useUser } from '@/context/userContext'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 import {
   fetchUserByField,
@@ -10,7 +10,7 @@ import {
   updateAllLittsByUserId,
 } from '@/firebase/client'
 import { useInput } from '@/hooks/useInput'
-import useUploadImage from '@/hooks/useUploadImage'
+import { useUploadImage } from '@/hooks/useUploadImage'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -25,8 +25,8 @@ export default function ProfileEdit({
   header,
   biography,
 }) {
-  const { user, USER_STATES, updateData } = useContext(UserContext)
-  const { router, handleBack } = useNavigateLink()
+  const { user, USER_STATES, updateData } = useUser()
+  const { handleBack, handleHome, handleReplace } = useNavigateLink()
   const { value: newName, onChange: setNewName } = useInput(name)
   const { value: newBiography, onChange: setNewBiography } = useInput(biography)
 
@@ -44,9 +44,9 @@ export default function ProfileEdit({
 
   useEffect(() => {
     if (user === USER_STATES.NOT_LOGGED || user?.id !== id) {
-      router.replace('/home')
+      handleHome()
     }
-  }, [user, router, USER_STATES])
+  }, [user, USER_STATES])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -73,7 +73,7 @@ export default function ProfileEdit({
       .then(() => {
         updateData(data)
         updateAllLittsByUserId(id, data).then(() => {
-          router.replace(`/profile/${userName}`)
+          handleReplace(`/profile/${userName}`)
         })
       })
       .catch(err => {

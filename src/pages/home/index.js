@@ -1,16 +1,14 @@
 import Head from 'next/head'
-import { useContext } from 'react'
 
 import { fetchAllLitts } from '@/firebase/client'
-import { UserContext } from '@/context/userContext'
+import { useUser } from '@/context/userContext'
 
 import Header from '@/components/app/Header'
 import NavLayout from '@/components/app/NavLayout'
 import Timeline from '@/components/pages/Timeline'
-import Dropdown from '@/components/pages/profile/Dropdown'
 
 export default function Home({ timelineInitial }) {
-  const { user } = useContext(UserContext)
+  const { user } = useUser()
 
   return (
     <>

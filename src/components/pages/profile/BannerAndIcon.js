@@ -8,7 +8,7 @@ export default function BannerAndIcon({
   name,
   userName,
   user,
-  handlePush,
+  handleEditProfile,
   areYouFollowing,
   handleFollow,
   isButtonDisabled,
@@ -29,7 +29,7 @@ export default function BannerAndIcon({
         alt={name + ' avatar'}
       />
       {user && user.userName === userName && (
-        <Button onClick={handlePush} variant="edit_profile">
+        <Button onClick={handleEditProfile} variant="edit_profile">
           Editar perfil
         </Button>
       )}

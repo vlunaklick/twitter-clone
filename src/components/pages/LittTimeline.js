@@ -31,7 +31,7 @@ export default function LittTimeline({
 }) {
   const { timeAgo } = useTimeAgo(createdAt)
   const { formattedDate } = useDateFormat(createdAt)
-  const { handlePush } = useNavigateLink(`/status/${id}`)
+  const { handlePush, handleLogin } = useNavigateLink()
 
   const [isLiked, setIsLiked] = useState(false)
   const [isShared, setIsShared] = useState(false)
@@ -43,7 +43,23 @@ export default function LittTimeline({
 
   const handleArticleClick = e => {
     if (e.target.nodeName === 'ARTICLE' || e.target.nodeName === 'P') {
-      handlePush()
+      handlePush(`/status/${id}`)
+    }
+  }
+
+  const handleShareClick = () => {
+    if (mainUser_id) {
+      handleShared(id, mainUser_id)
+    } else {
+      handleLogin()
+    }
+  }
+
+  const handleLikeClick = () => {
+    if (mainUser_id) {
+      handleLiked(id, mainUser_id)
+    } else {
+      handleLogin()
     }
   }
 
@@ -82,7 +98,7 @@ export default function LittTimeline({
                 'group-hover:bg-yellow-50 group-hover:fill-yellow-500 ' +
                 (isShared ? 'fill-yellow-500' : '')
               }
-              onClick={() => handleShared(id, mainUser_id)}
+              onClick={handleShareClick}
             >
               <Reuse width={14} heigth={14} />
             </Button>
@@ -98,7 +114,7 @@ export default function LittTimeline({
                 'group-hover:bg-red-50 group-hover:fill-red-500 ' +
                 (isLiked ? 'fill-red-500' : '')
               }
-              onClick={() => handleLiked(id, mainUser_id)}
+              onClick={handleLikeClick}
             >
               <Like width={14} heigth={14} />
             </Button>

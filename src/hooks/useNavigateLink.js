@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router'
 
-export const useNavigateLink = href => {
+export const useNavigateLink = () => {
   const router = useRouter()
 
-  const handlePush = e => {
+  const handlePush = href => {
     router.push(href)
   }
 
-  const handleReplace = e => {
+  const handleReplace = href => {
     router.replace(href)
   }
 
@@ -19,5 +19,21 @@ export const useNavigateLink = href => {
     router.replace(router.asPath)
   }
 
-  return { router, handleBack, handlePush, handleReplace, refreshData }
+  const handleLogin = () => {
+    router.replace('/')
+  }
+
+  const handleHome = () => {
+    router.push('/home')
+  }
+
+  return {
+    router,
+    handleBack,
+    handlePush,
+    handleReplace,
+    refreshData,
+    handleLogin,
+    handleHome,
+  }
 }

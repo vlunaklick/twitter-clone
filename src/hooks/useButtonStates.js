@@ -26,12 +26,15 @@ export const useButtonStates = () => {
     setStatus(COMPOSE_STATES.USER_NOT_KNOW)
   }
 
+  const isButtonActive = status === COMPOSE_STATES.LOADING
+
   return {
     status,
     handleLoadingState,
     handleSuccessState,
     handleErrorState,
     handleUserNotKnowState,
+    isButtonActive,
     COMPOSE_STATES,
   }
 }

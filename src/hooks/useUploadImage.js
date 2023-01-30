@@ -8,7 +8,7 @@ const DRAG_IMAGE_STATES = {
   COMPLETE: 3,
 }
 
-export default function useUploadImage(img) {
+export const useUploadImage = img => {
   const [drag, setDrag] = useState(DRAG_IMAGE_STATES.NONE)
   const [file, setFile] = useState(null)
   const [imgURL, setImgUrl] = useState(null)

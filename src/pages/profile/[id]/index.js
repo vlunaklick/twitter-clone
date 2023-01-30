@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import { useContext, useState, useEffect } from 'react'
-
 import {
   fetchUserByField,
   fetchLittsByField,
   fetchLikedLitts,
 } from '@/firebase/client'
-import { UserContext } from '@/context/userContext'
+import { useUser } from '@/context/userContext'
 import { useNavigateLink } from '@/hooks/useNavigateLink'
 import { useFollow } from '@/hooks/useFollow'
 import { useButtonStates } from '@/hooks/useButtonStates'
+import { useProfileLitts } from '@/hooks/useProfileLitts'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
@@ -18,7 +17,6 @@ import NavLayout from '@/components/app/NavLayout'
 import Timeline from '@/components/pages/Timeline'
 import Information from '@/components/pages/profile/Information'
 import BannerAndIcon from '@/components/pages/profile/BannerAndIcon'
-import { useProfileLitts } from '@/hooks/useProfileLitts'
 import Dropdown from '@/components/pages/profile/Dropdown'
 
 export default function UserPage({
@@ -33,31 +31,23 @@ export default function UserPage({
   litts,
   likedLitts,
 }) {
-  const { user } = useContext(UserContext)
+  const { user } = useUser()
 
-  const { followersArray, followingArray, handleFollow, handleUnfollow } =
-    useFollow(followers, following)
+  const {
+    followersArray,
+    followingArray,
+    handleFollow,
+    handleUnfollow,
+    youFollowing,
+  } = useFollow(followers, following, user)
 
   const { littsShown, showLikedLitts, showLitts, LITTS_OPTIONS } =
     useProfileLitts()
 
-  const { status, handleLoadingState, handleSuccessState, COMPOSE_STATES } =
+  const { handleLoadingState, handleSuccessState, isButtonActive } =
     useButtonStates()
 
-  const { handleBack, handlePush } = useNavigateLink(
-    `/profile/${userName}/edit`
-  )
-
-  const [youFollowing, setYouFollowing] = useState(false)
-
-  useEffect(() => {
-    if (user) {
-      const areYouFollowing = followersArray.some(
-        follower => follower === user.id
-      )
-      setYouFollowing(areYouFollowing)
-    }
-  }, [user, followersArray])
+  const { handleBack, handlePush } = useNavigateLink()
 
   const handleClick = async () => {
     handleLoadingState()
@@ -69,7 +59,9 @@ export default function UserPage({
     handleSuccessState()
   }
 
-  const isButtonDisabled = status === COMPOSE_STATES.LOADING
+  const handleEditProfile = () => {
+    handlePush(`/profile/${userName}/edit`)
+  }
 
   return (
     <>
@@ -88,10 +80,10 @@ export default function UserPage({
           name={name}
           userName={userName}
           user={user}
-          handlePush={handlePush}
+          handleEditProfile={handleEditProfile}
           handleFollow={handleClick}
           areYouFollowing={youFollowing}
-          isButtonDisabled={isButtonDisabled}
+          isButtonDisabled={isButtonActive}
         />
 
         <Information

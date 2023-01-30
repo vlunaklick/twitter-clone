@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import {
   addFollowerToUser,
@@ -7,9 +7,19 @@ import {
   removeFollowingFromUser,
 } from '@/firebase/client'
 
-export const useFollow = (initialFollowers, initialFollowing) => {
+export const useFollow = (initialFollowers, initialFollowing, user) => {
   const [followersArray, setFollowersArray] = useState(initialFollowers)
   const [followingArray, setFollowingArray] = useState(initialFollowing)
+  const [youFollowing, setYouFollowing] = useState(false)
+
+  useEffect(() => {
+    if (user) {
+      const areYouFollowing = followersArray.some(
+        follower => follower === user.id
+      )
+      setYouFollowing(areYouFollowing)
+    }
+  }, [user, followersArray])
 
   const handleFollow = async (user_id, follower_id) => {
     setFollowersArray([...followersArray, follower_id])
@@ -30,5 +40,6 @@ export const useFollow = (initialFollowers, initialFollowing) => {
     followingArray,
     handleFollow,
     handleUnfollow,
+    youFollowing,
   }
 }

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import { useNavigateLink } from '@/hooks/useNavigateLink'
@@ -6,7 +5,6 @@ import { useFollow } from '@/hooks/useFollow'
 import { useButtonStates } from '@/hooks/useButtonStates'
 
 import Avatar from '@/components/app/Avatar'
-import Button from '@/components/app/Button'
 import FollowButton from './FollowButton'
 
 export default function OtherUsers({
@@ -19,40 +17,32 @@ export default function OtherUsers({
   following,
   main_user,
 }) {
-  const { handlePush } = useNavigateLink(`/profile/${userName}`)
-  const { status, handleLoadingState, handleSuccessState, COMPOSE_STATES } =
+  const { handlePush } = useNavigateLink()
+
+  const { isButtonActive, handleLoadingState, handleSuccessState } =
     useButtonStates()
-  const { followersArray, followingArray, handleFollow, handleUnfollow } =
-    useFollow(followers, following)
+
+  const { youFollowing, handleFollow, handleUnfollow } = useFollow(
+    followers,
+    following,
+    main_user
+  )
 
   const handleArticleClick = e => {
     if (e.target.nodeName === 'ARTICLE' || e.target.nodeName === 'P') {
-      handlePush()
+      handlePush(`/profile/${userName}`)
     }
   }
-
-  const [youFollowing, setYouFollowing] = useState(false)
-
-  useEffect(() => {
-    if (main_user && main_user !== id) {
-      const areYouFollowing = followersArray.some(
-        follower => follower === main_user
-      )
-      setYouFollowing(areYouFollowing)
-    }
-  }, [main_user, followersArray])
 
   const handleClick = async () => {
     handleLoadingState()
     if (youFollowing) {
-      await handleUnfollow(id, main_user)
+      await handleUnfollow(id, main_user?.id)
     } else {
-      await handleFollow(id, main_user)
+      await handleFollow(id, main_user?.id)
     }
     handleSuccessState()
   }
-
-  const isButtonDisabled = status === COMPOSE_STATES.LOADING
 
   return (
     <article
@@ -71,11 +61,11 @@ export default function OtherUsers({
               @{userName}
             </small>
           </div>
-          {main_user && main_user !== id && (
+          {main_user && main_user.id !== id && (
             <FollowButton
               isFollowing={youFollowing}
               handleClick={handleClick}
-              disabled={isButtonDisabled}
+              disabled={isButtonActive}
             />
           )}
         </header>

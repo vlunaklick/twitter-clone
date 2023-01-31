@@ -1,24 +1,21 @@
-import { firestore } from '@/firebase/admin'
+import { fetchLittById } from '@/firebase'
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (req, res) => {
+export default async (req, res) => {
   const { query } = req
   const { id } = query
 
-  firestore
-    .collection('litts')
-    .doc(id)
-    .get()
-    .then(doc => {
-      const data = doc.data()
+  const litt = await fetchLittById(id)
 
-      res.json({
-        ...data,
-        id,
+  if (!litt) {
+    res
+      .status(404)
+      .json({
+        error: 'Litt not found',
       })
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).end()
-    })
+      .end()
+    return
+  }
+
+  res.status(200).json(litt)
 }

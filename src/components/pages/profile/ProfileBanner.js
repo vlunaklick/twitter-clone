@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import Button from '@/components/app/Button'
-import FollowButton from './FollowButton'
+import FollowButton from '../FollowButton'
 
-export default function BannerAndIcon({
+export default function ProfileBanner({
   header,
   avatar,
   name,

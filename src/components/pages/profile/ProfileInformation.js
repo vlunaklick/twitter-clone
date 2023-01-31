@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function Information({
+export default function ProfileInformation({
   name,
   userName,
   biography,

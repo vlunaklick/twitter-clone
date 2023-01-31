@@ -11,6 +11,7 @@ export default function Options({ handleUploadImage }) {
           accept="image/*"
           className="hidden"
         />
+
         <label htmlFor={'file'} className="flex items-center justify-center">
           <UploadImage
             className="w-8 cursor-pointer fill-sky-500"

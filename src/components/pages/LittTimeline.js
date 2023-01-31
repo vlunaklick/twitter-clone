@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import useTimeAgo from '@/hooks/useTimeAgo'
 import { useRouterNavigation } from '@/hooks/useRouterNavigation'
-import useDateFormat from '@/hooks/useDateFormat'
+import { useDateFormat } from '@/hooks/useDateFormat'
 
 import Avatar from '../app/Avatar'
 import Button from '../app/Button'

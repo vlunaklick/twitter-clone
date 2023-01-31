@@ -6,7 +6,7 @@ import NavLayout from '@/components/layouts/NavLayout'
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
-import OtherUsers from '@/components/pages/profile/OtherUsers'
+import UserCardShort from '@/components/pages/profile/UserCardShort'
 
 export default function Following({ id, following }) {
   const { user } = useUser()
@@ -33,7 +33,7 @@ export default function Following({ id, following }) {
         </Header>
 
         {following?.map(userF => (
-          <OtherUsers key={userF.id} {...userF} main_user={user} />
+          <UserCardShort key={userF.id} {...userF} main_user={user} />
         ))}
       </NavLayout>
     </>

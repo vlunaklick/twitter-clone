@@ -1,4 +1,4 @@
-export default function Counters({ count, text }) {
+export default function LittAmounts({ count, text }) {
   if (!count || count < 1) return null
 
   return (

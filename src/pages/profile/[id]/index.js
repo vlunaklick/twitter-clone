@@ -15,9 +15,9 @@ import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
 import NavLayout from '@/components/layouts/NavLayout'
 import Timeline from '@/components/pages/Timeline'
-import Information from '@/components/pages/profile/Information'
-import BannerAndIcon from '@/components/pages/profile/BannerAndIcon'
-import Dropdown from '@/components/pages/profile/Dropdown'
+import ProfileInformation from '@/components/pages/profile/ProfileInformation'
+import ProfileBanner from '@/components/pages/profile/ProfileBanner'
+import ProfileDropdown from '@/components/pages/profile/ProfileDropdown'
 
 export default function UserPage({
   id,
@@ -71,10 +71,10 @@ export default function UserPage({
             <LeftArrow className={'w-8 fill-gray-900 dark:fill-gray-100'} />
           </Button>
 
-          {user && <Dropdown />}
+          {user && <ProfileDropdown />}
         </Header>
 
-        <BannerAndIcon
+        <ProfileBanner
           header={header}
           avatar={avatar}
           name={name}
@@ -86,7 +86,7 @@ export default function UserPage({
           isButtonDisabled={isButtonActive}
         />
 
-        <Information
+        <ProfileInformation
           name={name}
           userName={userName}
           biography={biography}
@@ -118,11 +118,11 @@ export default function UserPage({
         </nav>
 
         {littsShown === LITTS_OPTIONS.LIKED_LITTS && (
-          <Timeline litts={likedLitts} mainUser_id={user?.id || ''} />
+          <Timeline litts={likedLitts} connectedUserId={user?.id || ''} />
         )}
 
         {littsShown === LITTS_OPTIONS.LITTS && (
-          <Timeline litts={litts} mainUser_id={user?.id || ''} />
+          <Timeline litts={litts} connectedUserId={user?.id || ''} />
         )}
       </NavLayout>
     </>

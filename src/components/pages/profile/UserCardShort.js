@@ -5,9 +5,9 @@ import { useFollow } from '@/hooks/useFollow'
 import { useButtonStates } from '@/hooks/useButtonStates'
 
 import Avatar from '@/components/app/Avatar'
-import FollowButton from './FollowButton'
+import FollowButton from '../FollowButton'
 
-export default function OtherUsers({
+export default function UserCardShort({
   id,
   userName,
   name,
@@ -57,10 +57,12 @@ export default function OtherUsers({
         <header className="flex w-full justify-between">
           <div className="flex flex-col">
             <strong className="text-xs min-[340px]:text-sm">{name}</strong>
+
             <small className="hidden text-xs text-gray-600 dark:text-gray-500 min-[340px]:block">
               @{userName}
             </small>
           </div>
+
           {main_user && main_user.id !== id && (
             <FollowButton
               isFollowing={youFollowing}

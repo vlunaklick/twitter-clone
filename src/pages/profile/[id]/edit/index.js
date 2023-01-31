@@ -25,7 +25,7 @@ export default function ProfileEdit({
   header,
   biography,
 }) {
-  const { user, USER_STATES, updateData } = useUser()
+  const { user, isUserNotLogged, updateData } = useUser()
   const { handleBack, handleHome, handleReplace } = useRouterNavigation()
   const { value: newName, onChange: setNewName } = useInput(name)
   const { value: newBiography, onChange: setNewBiography } = useInput(biography)
@@ -43,10 +43,10 @@ export default function ProfileEdit({
   } = useUploadImage(header)
 
   useEffect(() => {
-    if (user === USER_STATES.NOT_LOGGED || user?.id !== id) {
+    if (isUserNotLogged || user?.id !== id) {
       handleHome()
     }
-  }, [user, USER_STATES])
+  }, [user, isUserNotLogged, handleHome, id])
 
   const handleSubmit = async e => {
     e.preventDefault()

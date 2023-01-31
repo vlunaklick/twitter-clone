@@ -1,6 +1,7 @@
-const isDateTimeFormatSupported = typeof Intl !== 'undefined' && Intl.DateTimeFormat
+const isDateTimeFormatSupported =
+  typeof Intl !== 'undefined' && Intl.DateTimeFormat
 
-export const formatDate = (timestamp) => {
+export const formatDate = timestamp => {
   const date = new Date(timestamp)
   const language = 'es-AR'
 
@@ -9,7 +10,7 @@ export const formatDate = (timestamp) => {
       year: 'numeric',
       month: 'numeric',
       weekday: 'short',
-      day: 'numeric'
+      day: 'numeric',
     }
 
     return date.toLocaleDateString(language, options)
@@ -21,12 +22,12 @@ export const formatDate = (timestamp) => {
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-    second: 'numeric'
+    second: 'numeric',
   }
 
   return new Intl.DateTimeFormat(language, options).format(date)
 }
 
-export default function useDateFormat (timestamp) {
+export const useDateFormat = timestamp => {
   return { formattedDate: formatDate(timestamp) }
 }

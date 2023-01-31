@@ -6,7 +6,7 @@ import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 import Button from '@/components/app/Button'
 import ThreeDots from '@/components/svg/ThreeDots'
 
-export default function Dropdown() {
+export default function ProfileDropdown() {
   const { user } = useUser()
 
   const { handleHome } = useRouterNavigation()

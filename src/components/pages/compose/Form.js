@@ -13,6 +13,5 @@ export default function Form({
   imgURL,
   handleRemoveImage,
 }) {
-  const isRemoveImageDisabled = status === COMPOSE_STATES.LOADING
   return <></>
 }

@@ -1,16 +1,10 @@
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import { useUser } from '@/context/userContext'
-import useDateFormat from '@/hooks/useDateFormat'
+import { fetchLittById } from '@/firebase'
+import { useDateFormat } from '@/hooks/useDateFormat'
 import { useRouterNavigation } from '@/hooks/useRouterNavigation'
-import {
-  addSharedToLitt,
-  removeSharedFromLitt,
-  addLikeToLitt,
-  removeLikeFromLitt,
-  fetchLittById,
-} from '@/firebase'
+import { useLitt } from '@/hooks/useLitt'
 import { useButtonStates } from '@/hooks/useButtonStates'
 
 import Header from '@/components/app/Header'
@@ -21,7 +15,7 @@ import Reuse from '@/components/svg/Reuse'
 import Like from '@/components/svg/Like'
 import NavLayout from '@/components/layouts/NavLayout'
 import LittImage from '@/components/pages/LittImage'
-import Counters from '@/components/pages/status/Counters'
+import LittAmounts from '@/components/pages/status/LittAmounts'
 import DropdownLitt from '@/components/pages/DropdownLitt'
 
 export default function LittPage({
@@ -55,51 +49,30 @@ export default function LittPage({
     isButtonActive: isShareButtonActive,
   } = useButtonStates()
 
-  const [liked, setLiked] = useState(false)
-
-  const [shared, setShared] = useState(false)
-
-  const [likedCount, setLikedCount] = useState(likesCount)
-  const [sharedCount, setSharedCount] = useState(sharesCount)
-
-  useEffect(() => {
-    if (user && likes && likes.includes(user.id)) {
-      setLiked(true)
-    }
-  }, [likes, user])
-
-  useEffect(() => {
-    if (user && shares && shares.includes(user.id)) {
-      setShared(true)
-    }
-  }, [shares, user])
+  const {
+    isLiked,
+    isShared,
+    likedCount,
+    sharedCount,
+    handleLike,
+    handleShare,
+  } = useLitt({
+    user,
+    initialLikesCount: likesCount,
+    initialSharesCount: sharesCount,
+    likes,
+    shares,
+  })
 
   const handleLiked = async () => {
     handleLoadingLikeState()
-
-    if (liked) {
-      setLiked(false)
-      setLikedCount(likedCount - 1)
-      await removeLikeFromLitt(id, user.id)
-    } else {
-      setLiked(true)
-      setLikedCount(likedCount + 1)
-      await addLikeToLitt(id, user.id)
-    }
+    await handleLike(id, user?.id)
     handleSuccessLikeState()
   }
 
   const handleShared = async () => {
     handleLoadingShareState()
-    if (shared) {
-      setShared(false)
-      setSharedCount(sharedCount - 1)
-      await removeSharedFromLitt(id, user.id)
-    } else {
-      setShared(true)
-      setSharedCount(sharedCount + 1)
-      await addSharedToLitt(id, user.id)
-    }
+    await handleShare(id, user?.id)
     handleSuccessShareState()
   }
 
@@ -140,8 +113,8 @@ export default function LittPage({
 
           {(likedCount > 0 || sharedCount > 0) && (
             <section className="flex gap-3 border-b border-gray-200 py-2 text-xs font-medium text-gray-900 dark:border-gray-700">
-              <Counters count={sharedCount} text={'Relitt'} />
-              <Counters count={likedCount} text={'Me gustas'} />
+              <LittAmounts count={sharedCount} text={'Relitt'} />
+              <LittAmounts count={likedCount} text={'Me gustas'} />
             </section>
           )}
 
@@ -151,7 +124,7 @@ export default function LittPage({
                 variant="icon"
                 className={
                   'group-hover:bg-yellow-50 group-hover:fill-yellow-500 ' +
-                  (shared ? 'fill-yellow-500' : '')
+                  (isShared ? 'fill-yellow-500' : '')
                 }
                 disabled={isShareButtonActive}
                 onClick={() => handleShared()}
@@ -168,7 +141,7 @@ export default function LittPage({
                 variant="icon"
                 className={
                   'group-hover:bg-red-50 group-hover:fill-red-500 ' +
-                  (liked ? 'fill-red-500' : '')
+                  (isLiked ? 'fill-red-500' : '')
                 }
                 disabled={isLikeButtonActive}
                 onClick={() => handleLiked()}

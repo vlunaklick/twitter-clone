@@ -1,4 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
+import Head from 'next/head'
+
 import {
   fetchUserByField,
   fetchLittsByField,
@@ -65,6 +67,12 @@ export default function UserPage({
 
   return (
     <>
+      <Head>
+        <title>
+          {name} (@{userName}) / Littera
+        </title>
+      </Head>
+
       <NavLayout className="w-full">
         <Header>
           <Button onClick={handleBack} variant="header_icon">

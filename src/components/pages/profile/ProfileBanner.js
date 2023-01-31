@@ -38,7 +38,7 @@ export default function ProfileBanner({
           isFollowing={areYouFollowing}
           handleClick={handleFollow}
           disabled={isButtonDisabled}
-          className={'absolute right-4 -bottom-5'}
+          className={'absolute right-4 -bottom-10'}
         />
       )}
     </div>

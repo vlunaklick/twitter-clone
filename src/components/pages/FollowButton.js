@@ -11,8 +11,8 @@ export default function FollowButton({
       className={
         'group w-28 cursor-pointer rounded-[2rem] border py-2 px-1 text-xs font-medium outline-none transition-colors' +
         (isFollowing
-          ? ' w-32 border-gray-800 bg-gray-900 text-white hover:border-red-300 hover:bg-red-300 hover:text-red-900'
-          : ' border-black bg-black text-white hover:border-gray-900 hover:bg-gray-900') +
+          ? ' w-32 border-gray-200 bg-gray-50 text-black hover:border-red-300 hover:bg-red-300 hover:text-red-900 dark:border-gray-800 dark:bg-gray-900 dark:text-white'
+          : ' border-black bg-black text-white hover:border-gray-900 hover:bg-gray-900 dark:border-white dark:bg-white dark:text-black') +
         ' ' +
         className +
         ' ' +

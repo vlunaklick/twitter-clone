@@ -10,7 +10,7 @@ const VARIANTS = {
   img_cancel:
     'absolute right-1 top-1 h-6 w-6 rounded-full bg-gray-900 bg-opacity-30 text-xs text-white transition-colors hover:bg-gray-800 hover:bg-opacity-60 dark:bg-gray-400 dark:bg-opacity-30 hover:dark:bg-gray-200 hover:dark:bg-opacity-30',
   edit_profile:
-    'absolute right-4 -bottom-5 rounded-full border border-gray-800 bg-gray-800 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-gray-900 dark:border-gray-50 dark:bg-gray-50 dark:text-black hover:dark:border-gray-200 hover:dark:bg-gray-200',
+    'absolute right-4 -bottom-10 rounded-full border border-gray-800 bg-gray-800 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-gray-900 dark:border-gray-50 dark:bg-gray-50 dark:text-black hover:dark:border-gray-200 hover:dark:bg-gray-200',
   follow:
     'hover:bg-[#2r63eb group w-28 cursor-pointer rounded-[2rem] border py-2 px-1 text-xs  outline-none transition-colors hover:border-[#2r63eb]',
   none: '',

@@ -33,7 +33,7 @@ export default function LittPage({
 }) {
   const { user } = useUser()
 
-  const { handleBack } = useRouterNavigation()
+  const { handleBack, handleLogin } = useRouterNavigation()
 
   const { formattedDate } = useDateFormat(createdAt)
 
@@ -65,12 +65,18 @@ export default function LittPage({
   })
 
   const handleLiked = async () => {
+    if (user === undefined) return
+    if (user === null) return handleLogin()
+
     handleLoadingLikeState()
     await handleLike(id, user?.id)
     handleSuccessLikeState()
   }
 
   const handleShared = async () => {
+    if (user === undefined) return
+    if (user === null) return handleLogin()
+
     handleLoadingShareState()
     await handleShare(id, user?.id)
     handleSuccessShareState()

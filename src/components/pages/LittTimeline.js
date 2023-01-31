@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-import useTimeAgo from '@/hooks/useTimeAgo'
+import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { useRouterNavigation } from '@/hooks/useRouterNavigation'
+import { useLitt } from '@/hooks/useLitt'
 import { useDateFormat } from '@/hooks/useDateFormat'
+import { useButtonStates } from '@/hooks/useButtonStates'
 
 import Avatar from '../app/Avatar'
 import Button from '../app/Button'
@@ -25,21 +26,38 @@ export default function LittTimeline({
   shares,
   sharesCount,
   img,
-  connectedUserId,
-  handleShared,
-  handleLiked,
+  connectedUser,
 }) {
   const { timeAgo } = useTimeAgo(createdAt)
   const { formattedDate } = useDateFormat(createdAt)
   const { handlePush, handleLogin } = useRouterNavigation()
 
-  const [isLiked, setIsLiked] = useState(false)
-  const [isShared, setIsShared] = useState(false)
+  const {
+    handleLoadingState: handleLoadingLikeState,
+    handleSuccessState: handleSuccessLikeState,
+    isButtonActive: isLikeButtonActive,
+  } = useButtonStates()
 
-  useEffect(() => {
-    setIsLiked(likes.includes(connectedUserId))
-    setIsShared(shares.includes(connectedUserId))
-  }, [likes, shares, connectedUserId])
+  const {
+    handleLoadingState: handleLoadingShareState,
+    handleSuccessState: handleSuccessShareState,
+    isButtonActive: isShareButtonActive,
+  } = useButtonStates()
+
+  const {
+    isLiked,
+    isShared,
+    likedCount,
+    sharedCount,
+    handleLike,
+    handleShare,
+  } = useLitt({
+    user: connectedUser,
+    initialLikesCount: likesCount,
+    initialSharesCount: sharesCount,
+    likes,
+    shares,
+  })
 
   const handleArticleClick = e => {
     if (e.target.nodeName === 'ARTICLE' || e.target.nodeName === 'P') {
@@ -47,20 +65,22 @@ export default function LittTimeline({
     }
   }
 
-  const handleShareClick = () => {
-    if (connectedUserId) {
-      handleShared(id, connectedUserId)
-    } else {
-      handleLogin()
-    }
+  const handleLikeClick = async () => {
+    if (connectedUser === undefined) return
+    if (connectedUser === null) return handleLogin()
+
+    handleLoadingLikeState()
+    await handleLike(id, connectedUser?.id)
+    handleSuccessLikeState()
   }
 
-  const handleLikeClick = () => {
-    if (connectedUserId) {
-      handleLiked(id, connectedUserId)
-    } else {
-      handleLogin()
-    }
+  const handleShareClick = async () => {
+    if (connectedUser === undefined) return
+    if (connectedUser === null) return handleLogin()
+
+    handleLoadingShareState()
+    await handleShare(id, connectedUser?.id)
+    handleSuccessShareState()
   }
 
   return (
@@ -86,7 +106,7 @@ export default function LittTimeline({
           >
             {timeAgo}
           </time>
-          {user_id === connectedUserId && <DropdownLitt littId={id} />}
+          {user_id === connectedUser?.id && <DropdownLitt littId={id} />}
         </header>
         <p className="mt-1 text-sm leading-snug">{content}</p>
         <LittImage src={img} alt={content} />
@@ -98,12 +118,13 @@ export default function LittTimeline({
                 'group-hover:bg-yellow-50 group-hover:fill-yellow-500 ' +
                 (isShared ? 'fill-yellow-500' : '')
               }
+              disabled={isShareButtonActive}
               onClick={handleShareClick}
             >
               <Reuse width={14} heigth={14} />
             </Button>
             <span className="text-[9px] transition-colors group-hover:text-yellow-500">
-              {sharesCount > 0 ? sharesCount : ''}
+              {sharedCount > 0 ? sharedCount : ''}
             </span>
           </div>
 
@@ -114,12 +135,13 @@ export default function LittTimeline({
                 'group-hover:bg-red-50 group-hover:fill-red-500 ' +
                 (isLiked ? 'fill-red-500' : '')
               }
+              disabled={isLikeButtonActive}
               onClick={handleLikeClick}
             >
               <Like width={14} heigth={14} />
             </Button>
             <span className="text-[9px] transition-colors group-hover:text-red-500">
-              {likesCount > 0 ? likesCount : ''}
+              {likedCount > 0 ? likedCount : ''}
             </span>
           </div>
         </footer>

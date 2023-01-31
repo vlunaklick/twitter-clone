@@ -21,7 +21,7 @@ export default function Home({ timelineInitial }) {
           <h2 className="pl-3 font-semibold">Inicio</h2>
         </Header>
 
-        <Timeline litts={timelineInitial} connectedUserId={user?.id || ''} />
+        <Timeline litts={timelineInitial} connectedUser={user} />
       </NavLayout>
     </>
   )

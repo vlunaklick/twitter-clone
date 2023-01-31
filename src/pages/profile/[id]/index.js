@@ -118,11 +118,11 @@ export default function UserPage({
         </nav>
 
         {littsShown === LITTS_OPTIONS.LIKED_LITTS && (
-          <Timeline litts={likedLitts} connectedUserId={user?.id || ''} />
+          <Timeline litts={likedLitts} connectedUser={user} />
         )}
 
         {littsShown === LITTS_OPTIONS.LITTS && (
-          <Timeline litts={litts} connectedUserId={user?.id || ''} />
+          <Timeline litts={litts} connectedUser={user} />
         )}
       </NavLayout>
     </>

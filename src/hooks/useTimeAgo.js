@@ -4,14 +4,14 @@ const DATE_UNITS = [
   ['day', 86400],
   ['hour', 3600],
   ['minute', 60],
-  ['second', 1]
+  ['second', 1],
 ]
 
 const DATE_AR = {
   day: 'día',
   hour: 'hora',
   minute: 'minuto',
-  second: 'segundo'
+  second: 'segundo',
 }
 
 const getDateDiffs = timestamp => {
@@ -27,7 +27,7 @@ const getDateDiffs = timestamp => {
   }
 }
 
-export const formatTimeAgo = (timestamp) => {
+export const formatTimeAgo = timestamp => {
   const dateDiffs = getDateDiffs(timestamp)
 
   if (!isRelativeTimeFormatSupported) {
@@ -41,8 +41,8 @@ export const formatTimeAgo = (timestamp) => {
   return rtf.format(dateDiffs.value, dateDiffs.unit)
 }
 
-export default function useTimeAgo (createdAt) {
+export const useTimeAgo = createdAt => {
   return {
-    timeAgo: formatTimeAgo(createdAt)
+    timeAgo: formatTimeAgo(createdAt),
   }
 }

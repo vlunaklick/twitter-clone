@@ -1,13 +1,9 @@
-import { useTimeline } from '@/hooks/useTimeline'
-
 import LittTimeline from './LittTimeline'
 
-export default function Timeline({ litts, connectedUserId }) {
-  const { timeline, handleShared, handleLiked } = useTimeline(litts)
-
+export default function Timeline({ litts, connectedUser }) {
   return (
     <section>
-      {timeline?.map(
+      {litts?.map(
         ({
           id,
           userName,
@@ -36,9 +32,7 @@ export default function Timeline({ litts, connectedUserId }) {
             shares={shares}
             sharesCount={sharesCount}
             img={img}
-            handleShared={handleShared}
-            handleLiked={handleLiked}
-            connectedUserId={connectedUserId}
+            connectedUser={connectedUser}
           />
         )
       )}

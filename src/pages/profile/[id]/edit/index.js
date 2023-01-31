@@ -2,13 +2,13 @@
 import { useEffect } from 'react'
 
 import { useUser } from '@/context/userContext'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 import {
   fetchUserByField,
   saveImageAndGetURL,
   updateUserById,
   updateAllLittsByUserId,
-} from '@/firebase/client'
+} from '@/firebase'
 import { useInput } from '@/hooks/useInput'
 import { useUploadImage } from '@/hooks/useUploadImage'
 
@@ -26,7 +26,7 @@ export default function ProfileEdit({
   biography,
 }) {
   const { user, USER_STATES, updateData } = useUser()
-  const { handleBack, handleHome, handleReplace } = useNavigateLink()
+  const { handleBack, handleHome, handleReplace } = useRouterNavigation()
   const { value: newName, onChange: setNewName } = useInput(name)
   const { value: newBiography, onChange: setNewBiography } = useInput(biography)
 

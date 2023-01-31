@@ -1,7 +1,7 @@
-import { logout } from '@/firebase/client'
+import { logout } from '@/firebase'
 import { useUser } from '@/context/userContext'
 import { useDropdown } from '@/hooks/useDropdown'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 
 import Button from '@/components/app/Button'
 import ThreeDots from '@/components/svg/ThreeDots'
@@ -9,7 +9,7 @@ import ThreeDots from '@/components/svg/ThreeDots'
 export default function Dropdown() {
   const { user } = useUser()
 
-  const { handleHome } = useNavigateLink()
+  const { handleHome } = useRouterNavigation()
 
   const { isOpen, toggle, dropdownRef } = useDropdown()
 

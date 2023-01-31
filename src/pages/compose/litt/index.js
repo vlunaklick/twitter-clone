@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import Head from 'next/head'
 
-import { saveImageAndGetURL, saveLittWithId } from '@/firebase/client'
+import { saveImageAndGetURL, saveLittWithId } from '@/firebase'
 import { useUser } from '@/context/userContext'
 import { useUploadImage } from '@/hooks/useUploadImage'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 import { useInput } from '@/hooks/useInput'
 import { useButtonStates } from '@/hooks/useButtonStates'
 
@@ -16,9 +16,11 @@ import Options from '@/components/pages/compose/Options'
 import ImagePreview from '@/components/pages/compose/ImagePreview'
 
 export default function ComposeTweet() {
-  const { user, USER_STATES } = useUser()
-  const { handleBack, handleLogin } = useNavigateLink()
-  const { status, handleLoadingState, COMPOSE_STATES } = useButtonStates()
+  const { user, isUserNotLogged } = useUser()
+  const { handleBack, handleLogin } = useRouterNavigation()
+  const { handleLoadingState, isButtonActive: isPostingActive } =
+    useButtonStates()
+
   const {
     value: content,
     onChange: onContentChange,
@@ -37,10 +39,10 @@ export default function ComposeTweet() {
   } = useUploadImage()
 
   useEffect(() => {
-    if (user === USER_STATES.NOT_LOGGED) {
+    if (isUserNotLogged) {
       handleLogin()
     }
-  }, [user, USER_STATES, handleLogin])
+  }, [isUserNotLogged, handleLogin])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -70,16 +72,14 @@ export default function ComposeTweet() {
     }
   }
 
-  const isButtonDisabled =
-    content.length === 0 || status === COMPOSE_STATES.LOADING
-
-  const isRemoveImageDisabled = status === COMPOSE_STATES.LOADING
+  const isButtonDisabled = content.length === 0 || isPostingActive
 
   return (
     <>
       <Head>
         <title>Crear Litt / Littera</title>
       </Head>
+
       <Header>
         <Button onClick={handleBack} variant={'header_icon'}>
           <LeftArrow className={'w-8 fill-gray-900 dark:fill-gray-100'} />
@@ -114,7 +114,7 @@ export default function ComposeTweet() {
           <ImagePreview
             imgURL={imgURL}
             handleRemoveImage={handleRemoveImage}
-            isRemoveImageDisabled={isRemoveImageDisabled}
+            isRemoveImageDisabled={isPostingActive}
           />
         </form>
       </section>

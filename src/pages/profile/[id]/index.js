@@ -3,17 +3,17 @@ import {
   fetchUserByField,
   fetchLittsByField,
   fetchLikedLitts,
-} from '@/firebase/client'
+} from '@/firebase'
 import { useUser } from '@/context/userContext'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 import { useFollow } from '@/hooks/useFollow'
 import { useButtonStates } from '@/hooks/useButtonStates'
-import { useProfileLitts } from '@/hooks/useProfileLitts'
+import { useLittsShown } from '@/hooks/useLittsShown'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
-import NavLayout from '@/components/app/NavLayout'
+import NavLayout from '@/components/layouts/NavLayout'
 import Timeline from '@/components/pages/Timeline'
 import Information from '@/components/pages/profile/Information'
 import BannerAndIcon from '@/components/pages/profile/BannerAndIcon'
@@ -36,20 +36,20 @@ export default function UserPage({
   const {
     followersArray,
     followingArray,
+    youFollowing,
     handleFollow,
     handleUnfollow,
-    youFollowing,
   } = useFollow(followers, following, user)
 
   const { littsShown, showLikedLitts, showLitts, LITTS_OPTIONS } =
-    useProfileLitts()
+    useLittsShown()
 
   const { handleLoadingState, handleSuccessState, isButtonActive } =
     useButtonStates()
 
-  const { handleBack, handlePush } = useNavigateLink()
+  const { handleBack, handlePush } = useRouterNavigation()
 
-  const handleClick = async () => {
+  const handleFollowClick = async () => {
     handleLoadingState()
     if (youFollowing) {
       await handleUnfollow(id, user.id)
@@ -81,7 +81,7 @@ export default function UserPage({
           userName={userName}
           user={user}
           handleEditProfile={handleEditProfile}
-          handleFollow={handleClick}
+          handleFollow={handleFollowClick}
           areYouFollowing={youFollowing}
           isButtonDisabled={isButtonActive}
         />

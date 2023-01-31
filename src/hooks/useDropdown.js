@@ -1,5 +1,3 @@
-// make a dropdown hook with useState #000
-
 import { useState, useEffect, useRef } from 'react'
 
 export const useDropdown = () => {

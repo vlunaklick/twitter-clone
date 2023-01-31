@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 import useTimeAgo from '@/hooks/useTimeAgo'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 import useDateFormat from '@/hooks/useDateFormat'
 
 import Avatar from '../app/Avatar'
@@ -25,21 +25,21 @@ export default function LittTimeline({
   shares,
   sharesCount,
   img,
-  mainUser_id,
+  connectedUserId,
   handleShared,
   handleLiked,
 }) {
   const { timeAgo } = useTimeAgo(createdAt)
   const { formattedDate } = useDateFormat(createdAt)
-  const { handlePush, handleLogin } = useNavigateLink()
+  const { handlePush, handleLogin } = useRouterNavigation()
 
   const [isLiked, setIsLiked] = useState(false)
   const [isShared, setIsShared] = useState(false)
 
   useEffect(() => {
-    setIsLiked(likes.includes(mainUser_id))
-    setIsShared(shares.includes(mainUser_id))
-  }, [likes, shares, mainUser_id])
+    setIsLiked(likes.includes(connectedUserId))
+    setIsShared(shares.includes(connectedUserId))
+  }, [likes, shares, connectedUserId])
 
   const handleArticleClick = e => {
     if (e.target.nodeName === 'ARTICLE' || e.target.nodeName === 'P') {
@@ -48,16 +48,16 @@ export default function LittTimeline({
   }
 
   const handleShareClick = () => {
-    if (mainUser_id) {
-      handleShared(id, mainUser_id)
+    if (connectedUserId) {
+      handleShared(id, connectedUserId)
     } else {
       handleLogin()
     }
   }
 
   const handleLikeClick = () => {
-    if (mainUser_id) {
-      handleLiked(id, mainUser_id)
+    if (connectedUserId) {
+      handleLiked(id, connectedUserId)
     } else {
       handleLogin()
     }
@@ -86,7 +86,7 @@ export default function LittTimeline({
           >
             {timeAgo}
           </time>
-          {user_id === mainUser_id && <DropdownLitt littId={id} />}
+          {user_id === connectedUserId && <DropdownLitt littId={id} />}
         </header>
         <p className="mt-1 text-sm leading-snug">{content}</p>
         <LittImage src={img} alt={content} />

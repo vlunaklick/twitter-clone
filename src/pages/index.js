@@ -1,22 +1,22 @@
 import { useEffect } from 'react'
 
-import { loginWithGithub } from '@/firebase/client'
+import { loginWithGithub } from '@/firebase'
 import { useUser } from '@/context/userContext'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 
 import Button from '@/components/app/Button'
 import Hero from '@/components/pages/index/Hero'
 import Spinner from '@/components/svg/Spinner'
 
 export default function Home() {
-  const { user, USER_STATES } = useUser()
-  const { handleHome } = useNavigateLink()
+  const { isUserNotLogged, isUserNotKnown } = useUser()
+  const { handleHome } = useRouterNavigation()
 
   useEffect(() => {
-    if (user) {
+    if (!isUserNotLogged) {
       handleHome()
     }
-  }, [user, handleHome])
+  }, [isUserNotLogged, handleHome])
 
   const handleLogin = async () => {
     await loginWithGithub()
@@ -27,13 +27,13 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center gap-7 p-3">
         <Hero />
 
-        {user === USER_STATES.NOT_LOGGED && (
+        {isUserNotLogged && (
           <Button onClick={handleLogin} maxWidth={true}>
             Join us with GitHub
           </Button>
         )}
 
-        {user === USER_STATES.NOT_KNOWN && <Spinner />}
+        {isUserNotKnown && <Spinner />}
       </main>
     </>
   )

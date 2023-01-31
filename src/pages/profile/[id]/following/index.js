@@ -1,8 +1,8 @@
-import { fetchUserByField, fetchFollowing } from '@/firebase/client'
+import { fetchUserByField, fetchFollowing } from '@/firebase'
 import { useUser } from '@/context/userContext'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 
-import NavLayout from '@/components/app/NavLayout'
+import NavLayout from '@/components/layouts/NavLayout'
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
@@ -11,7 +11,7 @@ import OtherUsers from '@/components/pages/profile/OtherUsers'
 export default function Following({ id, following }) {
   const { user } = useUser()
 
-  const { handleBack } = useNavigateLink()
+  const { handleBack } = useRouterNavigation()
 
   return (
     <>

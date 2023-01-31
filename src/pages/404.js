@@ -1,12 +1,12 @@
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 
 import Header from '@/components/app/Header'
 import Button from '@/components/app/Button'
 import LeftArrow from '@/components/svg/LeftArrow'
-import NavLayout from '@/components/app/NavLayout'
+import NavLayout from '@/components/layouts/NavLayout'
 
 export default function Error404() {
-  const { handleBack } = useNavigateLink()
+  const { handleBack } = useRouterNavigation()
 
   return (
     <>

@@ -2,7 +2,7 @@ import { useTimeline } from '@/hooks/useTimeline'
 
 import LittTimeline from './LittTimeline'
 
-export default function Timeline({ litts, mainUser_id }) {
+export default function Timeline({ litts, connectedUserId }) {
   const { timeline, handleShared, handleLiked } = useTimeline(litts)
 
   return (
@@ -38,7 +38,7 @@ export default function Timeline({ litts, mainUser_id }) {
             img={img}
             handleShared={handleShared}
             handleLiked={handleLiked}
-            mainUser_id={mainUser_id}
+            connectedUserId={connectedUserId}
           />
         )
       )}

@@ -3,14 +3,14 @@ import Link from 'next/link'
 
 import { useUser } from '@/context/userContext'
 import useDateFormat from '@/hooks/useDateFormat'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 import {
   addSharedToLitt,
   removeSharedFromLitt,
   addLikeToLitt,
   removeLikeFromLitt,
   fetchLittById,
-} from '@/firebase/client'
+} from '@/firebase'
 import { useButtonStates } from '@/hooks/useButtonStates'
 
 import Header from '@/components/app/Header'
@@ -19,7 +19,7 @@ import LeftArrow from '@/components/svg/LeftArrow'
 import Avatar from '@/components/app/Avatar'
 import Reuse from '@/components/svg/Reuse'
 import Like from '@/components/svg/Like'
-import NavLayout from '@/components/app/NavLayout'
+import NavLayout from '@/components/layouts/NavLayout'
 import LittImage from '@/components/pages/LittImage'
 import Counters from '@/components/pages/status/Counters'
 import DropdownLitt from '@/components/pages/DropdownLitt'
@@ -39,7 +39,7 @@ export default function LittPage({
 }) {
   const { user } = useUser()
 
-  const { handleBack } = useNavigateLink()
+  const { handleBack } = useRouterNavigation()
 
   const { formattedDate } = useDateFormat(createdAt)
 

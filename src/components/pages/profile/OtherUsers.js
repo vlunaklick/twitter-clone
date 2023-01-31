@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 import { useFollow } from '@/hooks/useFollow'
 import { useButtonStates } from '@/hooks/useButtonStates'
 
@@ -17,7 +17,7 @@ export default function OtherUsers({
   following,
   main_user,
 }) {
-  const { handlePush } = useNavigateLink()
+  const { handlePush } = useRouterNavigation()
 
   const { isButtonActive, handleLoadingState, handleSuccessState } =
     useButtonStates()

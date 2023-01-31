@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 
-import { onAuthStateChange } from '@/firebase/client'
+import { onAuthStateChange, refetchUser } from '@/firebase'
 
 const USER_STATES = {
   NOT_LOGGED: null,
@@ -28,6 +28,10 @@ export const UserProvider = ({ children }) => {
     setUser(newUser)
   }
 
+  const isUserNotLogged = user === USER_STATES.NOT_LOGGED
+
+  const isUserNotKnown = user === USER_STATES.NOT_KNOWN
+
   return (
     <UserContext.Provider
       value={{
@@ -35,6 +39,8 @@ export const UserProvider = ({ children }) => {
         USER_STATES,
         updateData,
         revalidateUser,
+        isUserNotLogged,
+        isUserNotKnown,
       }}
     >
       {children}

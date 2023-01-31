@@ -5,7 +5,7 @@ import {
   removeFollowerFromUser,
   addFollowingToUser,
   removeFollowingFromUser,
-} from '@/firebase/client'
+} from '@/firebase'
 
 export const useFollow = (initialFollowers, initialFollowing, user) => {
   const [followersArray, setFollowersArray] = useState(initialFollowers)

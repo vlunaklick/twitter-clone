@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-export const useNavigateLink = () => {
+export const useRouterNavigation = () => {
   const router = useRouter()
 
   const handlePush = href => {

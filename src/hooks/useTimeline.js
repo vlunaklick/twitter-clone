@@ -5,7 +5,7 @@ import {
   removeSharedFromLitt,
   addLikeToLitt,
   removeLikeFromLitt,
-} from '@/firebase/client'
+} from '@/firebase'
 
 export const useTimeline = initialTimeline => {
   const [timeline, setTimeline] = useState(initialTimeline)

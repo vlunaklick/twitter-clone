@@ -6,7 +6,7 @@ const LITTS_OPTIONS = {
   SHARED_LITTS: 'sharedLitts',
 }
 
-export const useProfileLitts = () => {
+export const useLittsShown = () => {
   const [littsShown, setLittsShown] = useState(LITTS_OPTIONS.LITTS)
 
   useEffect(() => {
@@ -27,9 +27,9 @@ export const useProfileLitts = () => {
 
   return {
     littsShown,
+    LITTS_OPTIONS,
     showLikedLitts,
     showSharedLitts,
     showLitts,
-    LITTS_OPTIONS,
   }
 }

@@ -1,4 +1,4 @@
-import Navbar from './Navbar'
+import Navbar from '../app/Navbar'
 
 export default function NavLayout({ children }) {
   return (

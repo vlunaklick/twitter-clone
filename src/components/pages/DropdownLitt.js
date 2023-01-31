@@ -1,12 +1,12 @@
-import { deleteLittById } from '@/firebase/client'
-import { useNavigateLink } from '@/hooks/useNavigateLink'
+import { deleteLittById } from '@/firebase'
+import { useRouterNavigation } from '@/hooks/useRouterNavigation'
 import { useDropdown } from '@/hooks/useDropdown'
 
 import ThreeDots from '../svg/ThreeDots'
 import Button from '../app/Button'
 
 export default function DropdownLitt({ littId }) {
-  const { refreshData } = useNavigateLink()
+  const { refreshData } = useRouterNavigation()
 
   const { isOpen, toggle, dropdownRef } = useDropdown()
 
